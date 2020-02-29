@@ -11,23 +11,26 @@
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between"
       @click.stop="open = false"
     >
-      <div v-if="!open" class="ml-2">
-        <span class="overline theme--dark secondary--text">Listening to</span>
-        <h1 class="title">Chapter 2</h1>
-        <span class="subtitle-1 theme--dark secondary--text"
-          >of The Outsider</span
-        >
-      </div>
-      <!-- Book collapsed: play/pause -->
-      <div v-if="open" class="d-flex align-center">
-        <v-btn large dark text icon @click.stop="playing = !playing">
-          <v-icon v-if="playing">mdi-pause-circle</v-icon>
-          <v-icon v-else>mdi-play-circle</v-icon>
-        </v-btn>
-        <div class="subtitle-2">The Outsider</div>
-      </div>
+      <v-slide-y-reverse-transition hide-on-leave leave-absolute>
+        <!-- Book: what's playing -->
+        <div key="1" v-if="!open" class="ml-2">
+          <span class="overline theme--dark secondary--text">Listening to</span>
+          <h1 class="title">Chapter 2</h1>
+          <span class="subtitle-1 theme--dark secondary--text"
+            >of The Outsider</span
+          >
+        </div>
+        <!-- Book collapsed: play/pause -->
+        <div key="2" v-if="open" class="d-flex align-center">
+          <v-btn large dark text icon @click.stop="playing = !playing">
+            <v-icon v-if="playing">mdi-pause-circle</v-icon>
+            <v-icon v-else>mdi-play-circle</v-icon>
+          </v-btn>
+          <div class="subtitle-2">The Outsider</div>
+        </div>
+      </v-slide-y-reverse-transition>
 
-      <v-slide-y-transition hide-on-leave>
+      <v-slide-y-reverse-transition hide-on-leave>
         <!-- Book: tertiary actions -->
         <div key="1" v-if="!open" class="ml-auto">
           <v-btn dark text icon color="secondary">
@@ -40,12 +43,13 @@
             <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </div>
+        <!-- Book collapsed: secondary action -->
         <div key="2" v-if="open" class="ml-auto">
           <v-btn dark text icon color="secondary">
             <v-icon>mdi-rewind-30</v-icon>
           </v-btn>
         </div>
-      </v-slide-y-transition>
+      </v-slide-y-reverse-transition>
     </div>
     <v-layout
       v-if="!open"
@@ -79,10 +83,15 @@
         justify-space-around
         player-actions-primary
       >
-        <v-btn large dark text icon>
+        <v-btn large dark text icon @click.stop="">
           <v-icon>mdi-rewind-30</v-icon>
         </v-btn>
-        <button :class="playing? 'player-playpause playing' : 'player-playpause paused'" @click.stop="playing = !playing">
+        <button
+          :class="
+            playing ? 'player-playpause playing' : 'player-playpause paused'
+          "
+          @click.stop="playing = !playing"
+        >
           <!-- <input type="checkbox" value="None" id="playpause" name="check" /> -->
           <label tabindex="1"></label>
         </button>
