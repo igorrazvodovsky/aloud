@@ -1,4 +1,14 @@
 // Ref: https://github.com/nuxt-community/vuetify-module#customvariables
-//
-// The variables you want to modify
-// $font-size-root: 20px;
+
+$body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol";
+
+$ripple-animation-transition-in: opacity 0.1s ease-in-out;
+$ripple-animation-transition-out: opacity 0.3s ease-in-out;
+$ripple-animation-visible-opacity: 0;
+
+// If you need to extend Vuetify SASS lists
+// $material-light: ( cards: blue );
+
+@import '~vuetify/src/styles/styles.sass';

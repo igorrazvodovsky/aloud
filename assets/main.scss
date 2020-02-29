@@ -1,0 +1,97 @@
+.theme--light.v-application.player, .player {
+  background: rgba(var(--color-purple-50),1);
+  color: var(--color-pink-50);
+
+  &-container {
+    padding-bottom: 20vh;
+  }
+
+  &-actions-primary .v-btn:active {
+    animation: btn-click .3s forwards;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes btn-click {
+    from {
+      transform: scale(1);
+    }
+    75% {
+      transform: scale(0.95);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  &-playpause {
+    &:active {
+      animation: btn-click .3s forwards;
+    }
+    background: rgb(var(--color-orange-50));
+    border-radius: 50%;
+    width: 24vw;
+    height: 24vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      0 12.5px 10px rgba(0, 0, 0, 0.035),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      0 100px 80px rgba(0, 0, 0, 0.07)
+    ;
+    label {
+      display: block;
+      box-sizing: border-box;
+      width: 0;
+      height: 40px;
+      border-color: transparent transparent transparent white;
+      transition: all 200ms ease-in-out;
+      cursor: pointer;
+      border-style: double;
+      border-width: 0px 0 0px 36px;
+      &:focus{
+        outline: none;
+      }
+    }
+    &.paused {
+      label {
+        margin-left: 8px;
+        border-style: solid;
+        border-width: 24px 0 24px 36px;
+      }
+    }
+  }
+}
+
+// TODO: Replace with normal theme configuration
+.player {
+  .theme--dark.v-btn.v-btn--icon {
+    color: var(--color-pink-50);
+  }
+  .theme--dark.secondary--text {
+    color: rgba(var(--color-purple-10), 0.6) !important;
+    caret-color: rgba(var(--color-purple-10), 0.6) !important;
+  }
+}
+
+.v-slider--horizontal {
+  margin: 0 !important;
+}
+
+.theme--dark.v-system-bar {
+  background-color: var(--color-purple-90) !important;
+}
+
+.theme--light.v-card.books {
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 1rem 1rem 0 0 !important;
+  background-color: var(--color-bright-yellow-100);
+}

@@ -1,6 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  server: {
+    port: 8000, // default: 3000
+    host: '0.0.0.0', // default: localhost
+  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -25,6 +29,8 @@ export default {
   ** Global CSS
   */
   css: [
+    '@/assets/storytel.scss',
+    '@/assets/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -56,9 +62,12 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
+    treeShake: true,
+    icons: {
+      iconfont: 'md',
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,
