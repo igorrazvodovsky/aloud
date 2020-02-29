@@ -1,8 +1,21 @@
 // Ref: https://github.com/nuxt-community/vuetify-module#customvariables
-
+$border-radius-root: 2px;
+$btn-letter-spacing: 0;
 $body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
   Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
   "Segoe UI Symbol";
+
+$headings: (
+  'h1': (
+    'letter-spacing': normal
+  ),
+  'headline': (
+    'letter-spacing': normal
+  ),
+  'title': (
+    'letter-spacing': normal
+  ),
+);
 
 $ripple-animation-transition-in: opacity 0.1s ease-in-out;
 $ripple-animation-transition-out: opacity 0.3s ease-in-out;

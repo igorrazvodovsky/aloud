@@ -1,12 +1,12 @@
 <template>
   <v-app class="player">
-    <v-system-bar dark>
+    <!-- <v-system-bar dark>
       <v-spacer></v-spacer>
       <v-icon>mdi-wifi-strength-4</v-icon>
       <v-icon>mdi-signal-cellular-outline</v-icon>
       <v-icon>mdi-battery</v-icon>
       <span>12:30</span>
-    </v-system-bar>
+    </v-system-bar> -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between"
       @click.stop="open = false"
@@ -17,16 +17,16 @@
           <span class="overline theme--dark secondary--text">Listening to</span>
           <h1 class="title">Chapter 2</h1>
           <span class="subtitle-1 theme--dark secondary--text"
-            >of The Outsider</span
+            >of Northanger Abbey</span
           >
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="open" class="d-flex align-center">
-          <v-btn large dark text icon @click.stop="playing = !playing">
+          <v-btn dark text icon @click.stop="playing = !playing">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
-          <div class="subtitle-2">The Outsider</div>
+          <div class="subtitle-2">Northanger Abbey</div>
         </div>
       </v-slide-y-reverse-transition>
 
@@ -83,7 +83,7 @@
         justify-space-around
         player-actions-primary
       >
-        <v-btn large dark text icon @click.stop="">
+        <v-btn large dark text icon>
           <v-icon>mdi-rewind-30</v-icon>
         </v-btn>
         <button
@@ -118,14 +118,14 @@
       </v-flex>
     </v-layout>
     <v-card
-      class="books pl-4 pr-3"
-      :style="open ? 'top: 5.25rem' : 'top: 80vh'"
+      class="books"
+      :style="open ? 'top: 3.25rem' : 'top: 80vh'"
       @click.stop="open = true"
       :ripple="false"
     >
-      <v-row justify="space-between">
+      <v-row justify="space-between" class="pl-4 pr-2">
         <v-col cols="auto">
-          <h2 class="title">
+          <h2 class="title primary--text">
             Books
           </h2>
         </v-col>
@@ -135,11 +135,11 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-content>
-        <v-container>
+      <!-- <v-content> -->
+        <!-- <v-container> -->
           <nuxt />
-        </v-container>
-      </v-content>
+        <!-- </v-container> -->
+      <!-- </v-content> -->
     </v-card>
   </v-app>
 </template>
