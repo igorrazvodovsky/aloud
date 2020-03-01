@@ -29,6 +29,12 @@ body {
     padding-bottom: 20vh;
   }
 
+  // FIX
+  &-header {
+    height: 84px;
+    align-items: flex-start;
+  }
+
   &-progress {
     transform: translateY(-0.5rem);
   }
@@ -185,4 +191,25 @@ body {
   & > * {
     transform: rotate(0) !important;
   }
+}
+
+// FIX
+.theme--dark.v-list, .theme--dark.v-tabs > .v-tabs-bar, .theme--dark.v-tabs-items {
+  background: transparent !important;
+}
+
+.v-tab {
+  text-transform: none !important;
+}
+
+.theme--dark.v-tabs {
+  .v-tabs-slider-wrapper {
+    display: none !important;
+  }
+  .v-tab, .v-tab--active {
+    &:focus::before, &:hover::before, .v-ripple__container {
+      opacity: 0 !important;
+    }
+  }
+
 }

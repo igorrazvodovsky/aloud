@@ -1,17 +1,15 @@
 <template>
   <div>
     <div
-      class="mx-2 my-2 d-flex flex-no-wrap justify-space-between"
+      class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
       @click.stop="$emit('open-player')"
     >
       <v-slide-y-reverse-transition hide-on-leave leave-absolute>
         <!-- Book: what's playing -->
         <div key="1" v-if="!closed" class="ml-2">
           <span class="overline theme--dark secondary--text">Listening to</span>
-          <h1 class="title">Chapter 2</h1>
-          <span class="subtitle-1 theme--dark secondary--text"
-            >of Northanger Abbey</span
-          >
+          <h1 class="title">Northanger Abbey</h1>
+          <span class="subtitle-1 theme--dark secondary--text">Chapter 2</span>
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
@@ -29,7 +27,7 @@
           <v-btn dark text icon color="secondary">
             <v-icon>mdi-information-outline</v-icon>
           </v-btn>
-          <v-btn dark text icon color="secondary">
+          <v-btn dark text icon color="secondary" @click.stop="$emit('open-lists')">
             <v-icon>mdi-format-list-bulleted</v-icon>
           </v-btn>
           <v-btn dark text icon color="secondary">
@@ -44,7 +42,8 @@
         </div>
       </v-slide-y-reverse-transition>
     </div>
-    <v-layout v-if="!closed" column justify-center align-stretch player-container>
+
+    <v-layout column justify-center align-stretch player-container>
       <!-- Chapter progress -->
       <v-flex xs12>
 
@@ -120,12 +119,15 @@
 </template>
 
 <script>
-// import { Howl, Howler } from "howler";
 import VueHowler from 'vue-howler'
+import PlayerLists from '~/components/PlayerLists.vue'
 
 export default {
+  components: {
+    PlayerLists
+  },
   mixins: [VueHowler],
-  props: ["closed", "positionSec"],
+  props: ["closed"],
   data() {
     return {
       playing: false,
