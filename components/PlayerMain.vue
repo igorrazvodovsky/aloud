@@ -49,16 +49,16 @@
       <v-flex xs12>
         <v-slider
           dark
-          v-model="currentTime"
+          v-model="progress"
           min="0"
-          max="100"
+          :max="this.player ? this.player.duration() : 100"
           hide-details
           class="mt-6"
         ></v-slider>
         <div class="d-flex justify-space-between mx-4">
-          <div class="overline theme--dark secondary--text">04:15</div>
-          <v-spacer></v-spacer>
-          <div class="overline theme--dark secondary--text">-31:17</div>
+          <div class="overline theme--dark secondary--text">{{player ? progress : '00:00'}}</div>
+          <v-spacer />
+          <div class="overline theme--dark secondary--text">{{player ? duration : '00:00'}}</div>
         </div>
       </v-flex>
 
@@ -114,9 +114,10 @@ export default {
   props: ["closed"],
   data() {
     return {
-      currentTime: 50,
       playing: false,
       player: null,
+      seek: 0,
+      duration: 0,
     };
   },
   mounted() {
@@ -125,8 +126,20 @@ export default {
       html5: true,
       volume: 1.0,
       preload: true,
+      onplay: function() {
+          this.duration = formatTime(Math.round(this.player.duration()));
+      },
     });
     this.player.seek(50);
+  },
+  computed: {
+    /**
+     * The progress of the playback on a scale of 0 to 1
+     */
+    progress() {
+      if (this.duration === 0) return 0
+      return this.seek / this.duration
+    }
   },
   destroyed() {
     if (this.player) {
@@ -143,6 +156,12 @@ export default {
         this.player.play();
       }
     },
+    formatTime(secs) {
+    var minutes = Math.floor(secs / 60) || 0;
+    var seconds = (secs - minutes * 60) || 0;
+
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+  },
     killPlayer() {
       if (this.player) {
         this.player.pause();
