@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="hs full no-scrollbar px-0">
-      <v-card class="item" v-for="card in cards" :key="card.title" flat>
+      <v-card class="item" v-for="card in cards" :key="card.id" flat>
         <v-img :src="card.src" height="6rem" width="6rem"> </v-img>
       </v-card>
     </ul>
@@ -42,34 +42,28 @@ export default {
   data: () => ({
     cards: [
       {
-        title: "Favorite road trips",
+        id: 1,
         src: "https://www.storytel.com/images/200x200/0000627492.jpg",
-        flex: 6
       },
       {
-        title: "Best airlines",
+        id: 2,
         src: "https://www.storytel.com/images/200x200/0000026621.jpg",
-        flex: 6
       },
       {
-        title: "Favorite road trips",
+        id: 3,
         src: "https://www.storytel.com/images/200x200/0000029114.jpg",
-        flex: 6
       },
       {
-        title: "Best airlines",
+        id: 4,
         src: "https://www.storytel.com/images/200x200/0000003828.jpg",
-        flex: 6
       },
       {
-        title: "Favorite road trips",
+        id: 5,
         src: "https://www.storytel.com/images/200x200/0000003982.jpg",
-        flex: 6
       },
       {
-        title: "Best airlines",
+        id: 6,
         src: "https://www.storytel.com/images/200x200/0000054902.jpg",
-        flex: 6
       }
     ]
   })
