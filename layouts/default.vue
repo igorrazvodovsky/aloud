@@ -1,6 +1,6 @@
 <template>
   <v-app class="player">
-    <player-main :closed="browserOpen" v-on:open-player="browserOpen = false" />
+    <player-main preload positionSec="300" :sources="audioSources" :closed="browserOpen" v-on:open-player="browserOpen = false" />
     <browser v-on:open-browse="browserOpen = true" :open="browserOpen" />
   </v-app>
 </template>
@@ -16,6 +16,9 @@ export default {
   data() {
     return {
       browserOpen: false,
+      audioSources: [
+          "/northangerabbey_02_austen_64kb.mp3"
+        ]
     };
   },
 };

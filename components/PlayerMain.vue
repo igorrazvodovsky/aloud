@@ -15,7 +15,7 @@
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
-          <v-btn dark text icon @click.stop="handlePlayPause()">
+          <v-btn dark text icon @click.stop="togglePlayback">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
@@ -47,18 +47,30 @@
     <v-layout v-if="!closed" column justify-center align-stretch player-container>
       <!-- Chapter progress -->
       <v-flex xs12>
+
+        <!-- thumb-label -->
+
+        <!-- TODO: EVENTS -->
+        <!-- start: stop listening to progress -->
+        <!-- mouseup: set a new positions -->
         <v-slider
+          thumb-color="#ff5c28"
+          :thumb-label="this.rewinding ? 'always' : true"
           dark
-          v-model="progress"
+          v-model="seek"
           min="0"
-          :max="this.player ? this.player.duration() : 100"
+          :max="duration"
           hide-details
           class="mt-6"
-        ></v-slider>
-        <div class="d-flex justify-space-between mx-4">
-          <div class="overline theme--dark secondary--text">{{player ? progress : '00:00'}}</div>
+        >
+        <template v-slot:thumb-label>
+          <span class="font-weight-bold">{{rewindedFor < 0 ? ('-' + formatTime(Math.abs(rewindedFor))) : formatTime(rewindedFor)}}</span>
+        </template>
+        </v-slider>
+        <div class="d-flex justify-space-between mx-4 player-progress">
+          <div class="caption theme--dark secondary--text">{{ formatTime((progress * duration)) }}</div>
           <v-spacer />
-          <div class="overline theme--dark secondary--text">{{player ? duration : '00:00'}}</div>
+          <div class="caption theme--dark secondary--text">{{ formatTime(duration) }}</div>
         </div>
       </v-flex>
 
@@ -71,24 +83,24 @@
         player-actions-primary
         my-12
       >
-        <v-btn large dark text icon>
-          <v-icon>mdi-rewind-30</v-icon>
+        <v-btn large dark text icon @click.stop="hangleRewind" @mousedown="rewinding = true">
+          <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
           :class="
             playing ? 'player-playpause playing' : 'player-playpause paused'
           "
-          @click.stop="handlePlayPause()"
+          @click.stop="togglePlayback"
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn large dark text icon>
-          <v-icon>mdi-fast-forward-30</v-icon>
+        <v-btn large dark text icon @click.stop="hangleForward" @mousedown="rewinding = true">
+          <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
 
       <!-- Book secondary actions -->
-      <v-flex xs12 mx-auto>
+      <v-flex xs12 mx-auto my-8>
         <v-btn dark color="secondary" class="px-0" text>
           1.25×
         </v-btn>
@@ -108,65 +120,42 @@
 </template>
 
 <script>
-import { Howl, Howler } from "howler";
+// import { Howl, Howler } from "howler";
+import VueHowler from 'vue-howler'
 
 export default {
-  props: ["closed"],
+  mixins: [VueHowler],
+  props: ["closed", "positionSec"],
   data() {
     return {
       playing: false,
       player: null,
-      seek: 0,
-      duration: 0,
+      seek: 300,
+      rewinding: false,
+      rewindedFor: 0,
     };
   },
-  mounted() {
-    this.player = new Howl({
-      src: `/northangerabbey_02_austen_64kb.mp3`,
-      html5: true,
-      volume: 1.0,
-      preload: true,
-      onplay: function() {
-          this.duration = formatTime(Math.round(this.player.duration()));
-      },
-    });
-    this.player.seek(50);
-  },
-  computed: {
-    /**
-     * The progress of the playback on a scale of 0 to 1
-     */
-    progress() {
-      if (this.duration === 0) return 0
-      return this.seek / this.duration
-    }
-  },
-  destroyed() {
-    if (this.player) {
-      this.killPlayer();
-    }
-    // clearInterval(this.playerInterval);
-  },
   methods: {
-    handlePlayPause() {
-      this.playing = !this.playing;
-      if (!this.playing) {
-        this.player.pause();
-      } else {
-        this.player.play();
-      }
+    hangleRewind() {
+      clearTimeout(this.rewindTimeout);
+      this.setSeek(this.seek - 15);
+      this.rewindedFor = this.rewindedFor - 15;
+      this.rewindTimeout = setTimeout(function () { this.clearRewind() }.bind(this), 2000)
+    },
+    hangleForward() {
+      clearTimeout(this.rewindTimeout);
+      this.setSeek(this.seek + 15);
+      this.rewindedFor = this.rewindedFor + 15;
+      this.rewindTimeout = setTimeout(function () { this.clearRewind() }.bind(this), 2000)
+    },
+    clearRewind() {
+      this.rewindedFor = 0,
+      this.rewinding = false
     },
     formatTime(secs) {
-    var minutes = Math.floor(secs / 60) || 0;
-    var seconds = (secs - minutes * 60) || 0;
-
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  },
-    killPlayer() {
-      if (this.player) {
-        this.player.pause();
-        this.player = null;
-      }
+      var minutes = Math.floor(secs / 60) || 0;
+      var seconds = (secs - minutes * 60) || 0;
+      return (minutes < 9 ? '0' : '') + minutes + ':' + (seconds < 9 ? '0' : '') + Math.round(seconds);
     }
   }
 };

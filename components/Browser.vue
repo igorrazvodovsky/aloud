@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="books"
-    :style="open ? 'top: 3.25rem' : 'top: 85vh'"
+    :style="open ? 'top: 3.25rem' : 'top: 85%'"
     @click.stop="$emit('open-browse')"
     :ripple="false"
   >
