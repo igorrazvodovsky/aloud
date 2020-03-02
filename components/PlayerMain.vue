@@ -103,7 +103,7 @@
         >
           <v-icon>mdi-power-sleep</v-icon>
         </v-btn>
-        <v-btn dark color="secondary" class="mx-3" text icon>
+        <v-btn dark color="secondary" class="mx-3" text icon @click.stop="bookmark = true">
           <v-icon>mdi-bookmark</v-icon>
         </v-btn>
         <!-- TODO: Switch to reading -->
@@ -112,6 +112,17 @@
         </v-btn>
       </v-flex>
     </v-layout>
+
+    <v-snackbar timeout="600000" color="primary" v-model="bookmark">
+      Bookmarked!
+      <v-btn
+        color="secondary"
+        text
+        @click="bookmark = false"
+      >
+        Add note
+      </v-btn>
+    </v-snackbar>
 
     <div class="player-secondary-actions-container">
       <!-- Speed -->
@@ -222,6 +233,7 @@ export default {
       rewinding: false,
       rewindedFor: 0,
       dimmedActions: false,
+      bookmark: false,
       speedMenu: false,
       sleepMenu: false,
       speedCurrent: "1.0",

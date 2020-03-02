@@ -27,7 +27,7 @@
       <v-slide-y-reverse-transition hide-on-leave>
         <!-- Book: tertiary actions -->
         <div key="1" v-if="openMain" class="ml-auto">
-          <v-btn dark text icon color="secondary">
+          <v-btn disabled dark text icon color="secondary">
             <v-icon>mdi-information-outline</v-icon>
           </v-btn>
           <v-btn dark text icon color="secondary" @click.stop="tab = 1">
@@ -96,7 +96,7 @@ export default {
       { title: "Mark as finished" },
       { title: "Share" },
       { title: "Share to Instagram Story" },
-      { title: "Gift" }
+      { title: "Gift book" }
     ]
   }),
   computed: {
