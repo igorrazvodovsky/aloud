@@ -79,7 +79,7 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: "#27AE60"
+          success: "#6FCF97"
         }
       }
     }
@@ -91,7 +91,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   },
   router: {
