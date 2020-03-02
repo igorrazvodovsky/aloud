@@ -1,6 +1,5 @@
 <template>
   <v-app class="player">
-    <!-- <player-main preload positionSec="300" :sources="audioSources" :closed="browserOpen" v-on:open-player="browserOpen = false" /> -->
     <player v-on:open-player="browserOpen = false" :closed="browserOpen"/>
     <browser v-on:open-browse="browserOpen = true" :open="browserOpen" />
   </v-app>

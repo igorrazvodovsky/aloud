@@ -50,7 +50,7 @@
         <!-- Book collapsed: secondary action -->
         <div key="2" v-if="closed" class="ml-auto">
           <v-btn dark text icon color="secondary">
-            <v-icon>mdi-rewind-30</v-icon>
+            <v-icon>mdi-rewind-10</v-icon>
           </v-btn>
         </div>
         <v-btn key="3" v-if="openLists" dark text icon @click.stop="tab = 0">
@@ -60,14 +60,13 @@
     </div>
 
     <v-tabs v-model="tab" class="d-none">
-      <v-tab key="actions">A</v-tab>
-      <v-tab key="lists">B</v-tab>
+      <v-tab key="actions"></v-tab>
+      <v-tab key="lists"></v-tab>
     </v-tabs>
     <v-tabs-items dark v-model="tab">
       <v-tab-item key="actions">
         <player-main
           preload
-          positionSec="300"
           :sources="audioSources"
           :closed="closed"
           v-on:open-player="$emit('open-player')"
