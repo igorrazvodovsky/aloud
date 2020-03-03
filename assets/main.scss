@@ -173,16 +173,20 @@ body {
   background-color: var(--color-purple-90) !important;
 }
 
-.theme--light.v-card.books {
-  transition: all 0.2s ease-in-out;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 1rem 1rem 0 0 !important;
-  background-color: var(--color-bright-yellow-100);
-  &:focus:before {
-    opacity: 0 !important;
+.theme--light.v-card{
+  &.browse, &.search-results {
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 1rem 1rem 0 0 !important;
+    &:focus:before {
+      opacity: 0 !important;
+    }
+  }
+  &.browse {
+    background-color: var(--color-bright-yellow-100);
   }
 }
 
@@ -265,6 +269,34 @@ body {
     &:hover::before,
     .v-ripple__container {
       opacity: 0 !important;
+    }
+  }
+}
+
+// Search
+
+.search {
+  &-input {
+    &.v-text-field--rounded > .v-input__control > .v-input__slot {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+  &-results {
+    .v-avatar.series img {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: red;
+        transform: rotate(4deg);;
+      }
     }
   }
 }

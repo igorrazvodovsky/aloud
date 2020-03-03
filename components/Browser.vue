@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="books"
+    class="browse"
     :style="open ? 'top: 3.25rem' : 'top: 85%'"
     @click.stop="$emit('open-browse')"
     :ripple="false"
@@ -10,7 +10,7 @@
         <h2 class="title primary--text">Books</h2>
       </v-col>
       <v-col cols="auto">
-        <v-btn @click.stop text icon color="secondary">
+        <v-btn text icon color="secondary" to="/search" nuxt @click.stop>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-col>
