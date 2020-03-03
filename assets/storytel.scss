@@ -113,6 +113,6 @@
   --color-black: #000;
   --color-white: #fff;
   --core-baseline: 0.8rem;
-  --core-font-size: calc(var(--core-baseline)*2);
-  --core-letter-spacing: calc(var(--core-font-size)*0.0625);
+  --core-font-size: calc(var(--core-baseline) * 2);
+  --core-letter-spacing: calc(var(--core-font-size) * 0.0625);
 }

@@ -2,39 +2,39 @@
 $border-radius-root: 2px;
 $btn-letter-spacing: 1px;
 $btn-font-weight: 400;
-$body-font-family: "StorytelEuclidSemibold", "Euclid Circular B Trial", -apple-system, BlinkMacSystemFont, "Segoe UI",
-  Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-  "Segoe UI Symbol";
+$body-font-family: "StorytelEuclidSemibold", "Euclid Circular B Trial",
+  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 $headings: (
-  'h1': (
-    'letter-spacing': normal
+  "h1": (
+    "letter-spacing": normal
   ),
-  'headline': (
-    'letter-spacing': normal
+  "headline": (
+    "letter-spacing": normal
   ),
-  'title': (
-    'letter-spacing': normal
-  ),
+  "title": (
+    "letter-spacing": normal
+  )
 );
 
 $material-dark-elevation-colors: (
-  '0': #21000e,
-  '1': #21000e,
-  '2': #330015,
-  '3': #3d001a,
-  '4': #48001e,
-  '6': #6c334b,
-  '8': #2E2E2E,
-  '12': #333333,
-  '16': #363636,
-  '24': #373737
+  "0": #21000e,
+  "1": #21000e,
+  "2": #330015,
+  "3": #3d001a,
+  "4": #48001e,
+  "6": #6c334b,
+  "8": #2e2e2e,
+  "12": #333333,
+  "16": #363636,
+  "24": #373737
 );
 
 $material-dark: (
-    'background': #21000e,
-    'surface': #21000e
-  );
+  "background": #21000e,
+  "surface": #21000e
+);
 
 $ripple-animation-transition-in: opacity 0.1s ease-in-out;
 $ripple-animation-transition-out: opacity 0.3s ease-in-out;
@@ -42,8 +42,7 @@ $ripple-animation-visible-opacity: 0;
 
 $tabs-item-letter-spacing: normal;
 
-
 // If you need to extend Vuetify SASS lists
 // $material-light: ( cards: blue );
 
-@import '~vuetify/src/styles/styles.sass';
+@import "~vuetify/src/styles/styles.sass";

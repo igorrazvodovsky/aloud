@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-layout
-      :class="{ dimmed: dimmedActions }"
-      column
-      justify-center
-      align-stretch
-      player-container
-    >
+    <v-layout :class="{ dimmed: dimmedActions }" column justify-end align-stretch player-container>
       <!-- Chapter progress -->
       <v-flex xs12>
         <!-- thumb-label -->
@@ -25,41 +19,25 @@
           class="mt-6"
         >
           <template v-slot:thumb-label>
-            <span class="font-weight-bold">{{
+            <span class="font-weight-bold">
+              {{
               rewindedFor < 0
-                ? "-" + formatTime(Math.abs(rewindedFor))
-                : formatTime(rewindedFor)
-            }}</span>
+              ? "-" + formatTime(Math.abs(rewindedFor))
+              : formatTime(rewindedFor)
+              }}
+            </span>
           </template>
         </v-slider>
         <div class="d-flex justify-space-between mx-4 player-progress">
-          <div class="caption theme--dark secondary--text">
-            {{ formatTime(progress * duration) }}
-          </div>
+          <div class="caption theme--dark secondary--text">{{ formatTime(progress * duration) }}</div>
           <v-spacer />
-          <div class="caption theme--dark secondary--text">
-            {{ formatTime(duration) }}
-          </div>
+          <div class="caption theme--dark secondary--text">{{ formatTime(duration) }}</div>
         </div>
       </v-flex>
 
       <!-- Book primary actions -->
-      <v-flex
-        xs12
-        d-flex
-        align-center
-        justify-space-around
-        player-actions-primary
-        my-12
-      >
-        <v-btn
-          large
-          dark
-          text
-          icon
-          @click.stop="hangleRewind"
-          @mousedown="rewinding = true"
-        >
+      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
+        <v-btn large dark text icon @click.stop="hangleRewind" @mousedown="rewinding = true">
           <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
@@ -70,14 +48,7 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn
-          large
-          dark
-          text
-          icon
-          @click.stop="hangleForward"
-          @mousedown="rewinding = true"
-        >
+        <v-btn large dark text icon @click.stop="hangleForward" @mousedown="rewinding = true">
           <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
@@ -90,13 +61,11 @@
           class="px-0"
           text
           @click.stop="speedMenu = !speedMenu"
-        >
-          {{ speedCurrent }}×
-        </v-btn>
+        >{{ speedCurrent }}×</v-btn>
         <v-btn
           dark
-          color="secondary"
-          class="mx-3"
+          color="accent"
+          class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
           icon
           @click.stop="sleepMenu = !sleepMenu"
@@ -113,104 +82,94 @@
       </v-flex>
     </v-layout>
 
-    <v-snackbar timeout="600000" color="primary" v-model="bookmark">
+    <v-snackbar color="primary" v-model="bookmark">
       Bookmarked!
-      <v-btn
-        color="secondary"
-        text
-        @click="bookmark = false"
-      >
-        Add note
-      </v-btn>
+      <v-btn color="secondary" text @click="bookmark = false">Add note</v-btn>
     </v-snackbar>
 
     <div class="player-secondary-actions-container">
-      <!-- Speed -->
-      <div
-        v-if="speedMenu"
-        class="player-speed text-center"
-        :class="{ active: speedMenu }"
-      >
-        <div class="subtitle-1 mb-4">Speed</div>
-        <div class="mb-4">
-          <v-btn
-            v-for="(item, i) in speedOptions"
-            :key="i"
-            class="ma-2"
-            :outlined="item == speedCurrent ? false : true"
-            fab
-            small
-            depressed
-            :color="item == speedCurrent ? 'rgb(255, 204, 194)' : 'secondary'"
-            @click.stop="speedCurrent = item"
-          >
-            <span
-              :class="item == speedCurrent ? 'primary--text' : 'white--text'"
-              >{{ item }}</span
+      <v-slide-y-reverse-transition hide-on-leave>
+        <!-- Speed -->
+        <div
+          key="1"
+          v-if="speedMenu"
+          class="player-speed text-center"
+          :class="{ active: speedMenu }"
+        >
+          <div class="subtitle-1 mb-4">Speed</div>
+          <div class="mb-4">
+            <v-btn
+              v-for="(item, i) in speedOptions"
+              :key="i"
+              class="ma-2"
+              :outlined="item == speedCurrent ? false : true"
+              fab
+              small
+              depressed
+              :color="item == speedCurrent ? 'rgb(255, 204, 194)' : 'secondary'"
+              @click.stop="speedCurrent = item"
             >
+              <span :class="item == speedCurrent ? 'primary--text' : 'white--text'">{{ item }}</span>
+            </v-btn>
+          </div>
+          <v-btn rounded outlined dark color="secondary" @click.stop="speedMenu = !speedMenu">
+            <span class="white--text">Close</span>
           </v-btn>
         </div>
-        <v-btn
-          rounded
-          outlined
-          dark
-          color="secondary"
-          @click.stop="speedMenu = !speedMenu"
-        >
-          <span class="white--text">Close</span>
-        </v-btn>
-      </div>
 
-      <!-- Sleep -->
-      <div
-        v-if="sleepMenu"
-        class="player-sleep text-center"
-        :class="{ active: sleepMenu }"
-      >
-        <div class="subtitle-1 mb-4">Sleep in {{ sleepCurrent }} min</div>
-        <div class="mb-4">
+        <!-- Sleep -->
+        <div
+          key="2"
+          v-if="sleepMenu"
+          class="player-sleep text-center"
+          :class="{ active: sleepMenu }"
+        >
+          <div class="subtitle-1 mb-4">Sleep in 7:15</div>
+          <div class="mb-4">
+            <v-btn
+              v-for="(item, i) in sleepOptions"
+              :key="i"
+              class="ma-2"
+              depressed
+              outlined
+              fab
+              small
+              color="secondary"
+            >
+              <span class="white--text">{{ item }}</span>
+            </v-btn>
+            <v-btn rounded outlined dark small class="ma-2" color="secondary">
+              <span class="white--text">
+                <span class="text-capitalize">End</span>
+                <span class="text-lowercase">of chapter</span>
+              </span>
+            </v-btn>
+          </div>
           <v-btn
-            v-for="(item, i) in sleepOptions"
-            :key="i"
-            class="ma-2"
             depressed
-            :outlined="item == sleepCurrent ? false : true"
-            fab
-            small
-            :color="item == sleepCurrent ? 'rgb(255, 204, 194)' : 'secondary'"
+            rounded
+            dark
+            class="ma-2"
+            color="secondary"
+            @click.stop="sleepMenu = !sleepMenu"
           >
-            <span
-              :class="item == sleepCurrent ? 'primary--text' : 'white--text'"
-              >{{ item }}</span
-            >
+            <span class="white--text">Turn off</span>
           </v-btn>
-          <v-btn rounded outlined dark small class="ma-2" color="secondary">
-            <span class="white--text"
-              >E<span class="text-lowercase">nd of chapter</span></span
-            >
+          <!-- <v-btn class="ma-2" depressed outlined fab small color="secondary">
+            <v-icon class="white--text">mdi-refresh</v-icon>
+          </v-btn>-->
+          <v-btn
+            rounded
+            outlined
+            dark
+            class="ma-2"
+            color="secondary"
+            @click.stop="sleepMenu = !sleepMenu"
+          >
+            <span class="white--text">Close</span>
           </v-btn>
         </div>
-        <v-btn
-          depressed
-          rounded
-          dark
-          class="ma-2"
-          color="secondary"
-          @click.stop="sleepMenu = !sleepMenu"
-        >
-          <span class="white--text">Start</span>
-        </v-btn>
-        <v-btn
-          rounded
-          outlined
-          dark
-          class="ma-2"
-          color="secondary"
-          @click.stop="sleepMenu = !sleepMenu"
-        >
-          <span class="white--text">Close</span>
-        </v-btn>
-      </div>
+      </v-slide-y-reverse-transition>
     </div>
   </div>
 </template>

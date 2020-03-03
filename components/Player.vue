@@ -63,7 +63,7 @@
       <v-tab key="actions"></v-tab>
       <v-tab key="lists"></v-tab>
     </v-tabs>
-    <v-tabs-items dark v-model="tab">
+    <v-tabs-items vertical dark v-model="tab">
       <v-tab-item key="actions">
         <player-main
           preload

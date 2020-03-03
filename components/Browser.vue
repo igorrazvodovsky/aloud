@@ -7,12 +7,10 @@
   >
     <v-row justify="space-between" class="pl-4 pr-2">
       <v-col cols="auto">
-        <h2 class="title primary--text">
-          Books
-        </h2>
+        <h2 class="title primary--text">Books</h2>
       </v-col>
       <v-col cols="auto">
-        <v-btn @click.stop="" text icon color="secondary">
+        <v-btn @click.stop text icon color="secondary">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-col>
