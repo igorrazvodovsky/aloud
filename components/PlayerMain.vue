@@ -76,7 +76,7 @@
           <v-icon>mdi-bookmark</v-icon>
         </v-btn>
         <!-- TODO: Switch to reading -->
-        <v-btn dark color="success" class="mx-3" text icon>
+        <v-btn disabled dark color="success" class="mx-3" text icon>
           <v-icon>mdi-arrow-down-circle</v-icon>
         </v-btn>
       </v-flex>
