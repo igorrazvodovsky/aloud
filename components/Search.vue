@@ -5,7 +5,6 @@
       hide-details
       dark
       filled
-      dense
       placeholder="Books, authors, narrators"
       prepend-inner-icon="mdi-arrow-left"
       append-icon="mdi-magnify"

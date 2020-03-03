@@ -282,8 +282,8 @@ body {
 .search {
   &-input {
     &.v-text-field--rounded > .v-input__control > .v-input__slot {
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
   &-results {
