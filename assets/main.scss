@@ -38,7 +38,8 @@ body {
   color: var(--color-pink-50);
 
   &-container {
-    transition: all 200ms ease-in-out;
+    // transition: all 200ms ease-in-out;
+    transition: $primary-transition;
     &.dimmed {
       opacity: 0.2;
       transform: translateY(-50%);
@@ -64,8 +65,8 @@ body {
 
   &-speed,
   &-sleep {
-    opacity: 0;
-    transition: all 200ms ease-in-out;
+    // opacity: 0;
+    // transition: all 200ms ease-in-out;
     &-btn {
       &--on {
         .v-btn__content {

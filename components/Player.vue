@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- :class="{ dimmed: dimmedActions }" -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
       @click.stop="$emit('open-player')"
@@ -13,7 +14,7 @@
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
-          <v-btn dark text icon @click.stop="togglePlayback">
+          <v-btn dark text icon @click.stop="playing = !playing">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
@@ -26,11 +27,11 @@
 
       <v-slide-y-reverse-transition hide-on-leave>
         <!-- Book: tertiary actions -->
-        <div key="1" v-if="openMain" class="ml-auto">
+        <div key="1" v-if="!closed && !openLists" class="ml-auto">
           <v-btn disabled dark text icon color="secondary">
             <v-icon>mdi-information-outline</v-icon>
           </v-btn>
-          <v-btn dark text icon color="secondary" @click.stop="tab = 1">
+          <v-btn dark text icon color="secondary" @click.stop="openLists = !openLists">
             <v-icon>mdi-format-list-bulleted</v-icon>
           </v-btn>
 
@@ -41,7 +42,7 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(item, index) in actions" :key="index" @click>
+              <v-list-item v-for="(item, index) in actions" :key="index">
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -49,11 +50,11 @@
         </div>
         <!-- Book collapsed: secondary action -->
         <div key="2" v-if="closed" class="ml-auto">
-          <v-btn dark text icon color="secondary">
+          <v-btn dark text icon color="secondary" @click.stop>
             <v-icon>mdi-rewind-10</v-icon>
           </v-btn>
         </div>
-        <v-btn key="3" v-if="openLists" dark text icon @click.stop="tab = 0">
+        <v-btn key="3" v-if="tab == 1" dark text icon @click.stop="openLists = false">
           <v-icon>mdi-close-circle</v-icon>
         </v-btn>
       </v-slide-y-reverse-transition>
@@ -64,13 +65,14 @@
       <v-tab key="lists"></v-tab>
     </v-tabs>
     <v-tabs-items vertical dark v-model="tab">
-      <v-tab-item key="actions">
+      <v-tab-item v-show="loaded" key="actions">
+        <!--  -->
         <player-main
-          preload
+          :paused="playing"
           :sources="audioSources"
-          :closed="closed"
-          v-on:open-player="$emit('open-player')"
-          v-on:open-lists="tab = 1"
+          v-on:load="loaded = true"
+          v-on:pause="playing = false"
+          v-on:play="playing = true"
         />
       </v-tab-item>
       <v-tab-item key="lists">
@@ -89,8 +91,9 @@ export default {
   },
   props: ["closed"],
   data: () => ({
-    browserOpen: false,
-    tab: null,
+    loaded: false,
+    playing: false,
+    openLists: false,
     audioSources: ["/northangerabbey_02_austen_64kb.mp3"],
     actions: [
       { title: "Mark as finished" },
@@ -100,17 +103,14 @@ export default {
     ]
   }),
   computed: {
-    openLists: function() {
-      if (!this.closed && this.tab == 1) return true;
+    tab() {
+      if (this.closed) return 0
+      else if (this.openLists) return 1
+      else return 0
     },
-    openMain: function() {
-      if (!this.closed && this.tab == 0) return true;
-    }
-  },
-  watch: {
-    closed: function() {
-      if (this.closed) this.tab = 0;
-    }
+    // playing() {
+    //   return this.$store.state.playing
+    // }
   }
 };
 </script>

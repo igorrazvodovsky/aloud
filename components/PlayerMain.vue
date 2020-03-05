@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-layout :class="{ dimmed: dimmedActions }" column justify-end align-stretch player-container>
+    <v-layout
+      :class="{ dimmed: dimmedActions }"
+      column
+      justify-end
+      align-stretch
+      player-container
+    >
       <!-- Chapter progress -->
       <v-flex xs12>
         <!-- thumb-label -->
@@ -21,23 +27,41 @@
           <template v-slot:thumb-label>
             <span class="font-weight-bold">
               {{
-              rewindedFor < 0
-              ? "-" + formatTime(Math.abs(rewindedFor))
-              : formatTime(rewindedFor)
+                rewindedFor < 0
+                  ? "-" + formatTime(Math.abs(rewindedFor))
+                  : formatTime(rewindedFor)
               }}
             </span>
           </template>
         </v-slider>
         <div class="d-flex justify-space-between mx-4 player-progress">
-          <div class="caption theme--dark secondary--text">{{ formatTime(progress * duration) }}</div>
+          <div class="caption theme--dark secondary--text">
+            {{ formatTime(progress * duration) }}
+          </div>
           <v-spacer />
-          <div class="caption theme--dark secondary--text">{{ formatTime(duration) }}</div>
+          <div class="caption theme--dark secondary--text">
+            {{ formatTime(duration) }}
+          </div>
         </div>
       </v-flex>
 
       <!-- Book primary actions -->
-      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
-        <v-btn large dark text icon @click.stop="hangleRewind" @mousedown="rewinding = true">
+      <v-flex
+        xs12
+        d-flex
+        align-center
+        justify-space-around
+        player-actions-primary
+        my-12
+      >
+        <v-btn
+          large
+          dark
+          text
+          icon
+          @click.stop="hangleRewind"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
@@ -48,7 +72,14 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn large dark text icon @click.stop="hangleForward" @mousedown="rewinding = true">
+        <v-btn
+          large
+          dark
+          text
+          icon
+          @click.stop="hangleForward"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
@@ -61,7 +92,8 @@
           class="px-0"
           text
           @click.stop="speedMenu = !speedMenu"
-        >{{ speedCurrent }}×</v-btn>
+          >{{ speedCurrent }}×</v-btn
+        >
         <v-btn
           dark
           color="accent"
@@ -72,7 +104,14 @@
         >
           <v-icon>mdi-power-sleep</v-icon>
         </v-btn>
-        <v-btn dark color="secondary" class="mx-3" text icon @click.stop="bookmark = true">
+        <v-btn
+          dark
+          color="secondary"
+          class="mx-3"
+          text
+          icon
+          @click.stop="bookmark = true"
+        >
           <v-icon>mdi-bookmark</v-icon>
         </v-btn>
         <!-- TODO: Switch to reading -->
@@ -109,10 +148,19 @@
               :color="item == speedCurrent ? 'rgb(255, 204, 194)' : 'secondary'"
               @click.stop="speedCurrent = item"
             >
-              <span :class="item == speedCurrent ? 'primary--text' : 'white--text'">{{ item }}</span>
+              <span
+                :class="item == speedCurrent ? 'primary--text' : 'white--text'"
+                >{{ item }}</span
+              >
             </v-btn>
           </div>
-          <v-btn rounded outlined dark color="secondary" @click.stop="speedMenu = !speedMenu">
+          <v-btn
+            rounded
+            outlined
+            dark
+            color="secondary"
+            @click.stop="speedMenu = !speedMenu"
+          >
             <span class="white--text">Close</span>
           </v-btn>
         </div>
@@ -183,7 +231,7 @@ export default {
     PlayerLists
   },
   mixins: [VueHowler],
-  props: ["closed"],
+  props: ["paused"],
   data() {
     return {
       playing: false,
@@ -191,7 +239,6 @@ export default {
       seek: 300,
       rewinding: false,
       rewindedFor: 0,
-      dimmedActions: false,
       bookmark: false,
       speedMenu: false,
       sleepMenu: false,
@@ -201,12 +248,9 @@ export default {
       sleepOptions: ["15", "30", "45", "60"]
     };
   },
-  watch: {
-    speedMenu: function() {
-      this.dimmedActions = this.speedMenu;
-    },
-    sleepMenu: function() {
-      this.dimmedActions = this.sleepMenu;
+  computed: {
+    dimmedActions: function() {
+      return this.speedMenu || this.sleepMenu;
     }
   },
   methods: {
