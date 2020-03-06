@@ -18,7 +18,7 @@
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
-          <v-btn dark text icon @click.stop="playing = !playing">
+          <v-btn dark text icon @click.stop="handleTogglePlay">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
@@ -83,11 +83,10 @@
       <v-tab-item v-show="loaded" key="actions">
         <!--  -->
         <player-main
-          :paused="playing"
-          :sources="audioSources"
           v-on:load="loaded = true"
           v-on:pause="playing = false"
           v-on:play="playing = true"
+          ref="player"
         />
       </v-tab-item>
       <v-tab-item key="lists">
@@ -96,6 +95,7 @@
     </v-tabs-items>
   </div>
 </template>
+
 <script>
 import PlayerMain from "~/components/PlayerMain.vue";
 import PlayerLists from "~/components/PlayerLists.vue";
@@ -109,7 +109,6 @@ export default {
     loaded: false,
     playing: false,
     openLists: false,
-    audioSources: ["/northangerabbey_02_austen_64kb.mp3"],
     actions: [
       { title: "Mark as finished" },
       { title: "Share" },
@@ -126,6 +125,11 @@ export default {
     // playing() {
     //   return this.$store.state.playing
     // }
+  },
+  methods: {
+    handleTogglePlay() {
+      this.$refs.player.togglePlayback();
+    }
   }
 };
 </script>

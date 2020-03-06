@@ -6,8 +6,5 @@ export const state = () => ({
 export const mutations = {
   updatePage(state, pageName) {
     state.page = pageName
-  },
-  // togglePlay(state) {
-  //   state.playing = !state.playing
-  // }
+  }
 }
