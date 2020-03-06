@@ -10,7 +10,11 @@
         <div key="1" v-if="!closed" class="ml-2">
           <span class="overline theme--dark secondary--text">Listening to</span>
           <h1 class="title">Northanger Abbey</h1>
-          <span class="subtitle-1 theme--dark secondary--text">{{tab == 0 ? 'Chapter 2' : ''}}</span>
+          <span class="subtitle-1 theme--dark secondary--text">
+            {{
+            tab == 0 ? "Chapter 2" : ""
+            }}
+          </span>
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
@@ -60,6 +64,17 @@
       </v-slide-y-reverse-transition>
     </div>
 
+    <!-- <v-progress-linear indeterminate color="orange darken-2" v-if="!loaded"></v-progress-linear> -->
+
+    <v-progress-circular
+      v-if="!loaded"
+      :width="16"
+      :size="80"
+      class="player-loader d-block"
+      color="accent"
+      indeterminate
+    ></v-progress-circular>
+
     <v-tabs v-model="tab" class="d-none">
       <v-tab key="actions"></v-tab>
       <v-tab key="lists"></v-tab>
@@ -104,10 +119,10 @@ export default {
   }),
   computed: {
     tab() {
-      if (this.closed) return 0
-      else if (this.openLists) return 1
-      else return 0
-    },
+      if (this.closed) return 0;
+      else if (this.openLists) return 1;
+      else return 0;
+    }
     // playing() {
     //   return this.$store.state.playing
     // }

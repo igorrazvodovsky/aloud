@@ -2,7 +2,7 @@
   <v-card
     class="browse"
     :style="open ? 'top: 3.25rem' : 'top: 85%'"
-    @click.stop="$emit('open-browse')"
+    @click.stop="$emit('open-browser')"
     :ripple="false"
   >
     <v-row justify="space-between" class="pl-4 pr-2">

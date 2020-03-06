@@ -37,6 +37,12 @@ body {
   background: rgba(var(--color-purple-50), 1);
   color: var(--color-pink-50);
 
+  &-loader {
+    // FIX
+    position: absolute;
+    margin: 140px auto;
+  }
+
   &-container {
     // transition: all 200ms ease-in-out;
     transition: $primary-transition;
@@ -174,8 +180,9 @@ body {
   background-color: var(--color-purple-90) !important;
 }
 
-.theme--light.v-card{
-  &.browse, &.search-results {
+.theme--light.v-card {
+  &.browse,
+  &.search-results {
     transition: all 0.2s ease-in-out;
     border-radius: 1rem 1rem 0 0 !important;
     height: 100%;
