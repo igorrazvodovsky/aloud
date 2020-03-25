@@ -10,6 +10,7 @@
         <!-- mouseup: set a new positions -->
         <!-- thumb-color="#ff5c28" -->
         <v-slider
+          color="secondary"
           :thumb-label="this.rewinding ? 'always' : true"
           v-model="seek"
           min="0"
@@ -55,8 +56,7 @@
       <!-- Book secondary actions -->
       <v-flex xs12 mx-auto my-8>
         <v-btn
-          class="px-0 font-weight-bold"
-          color="secondary"
+          class="px-0 font-weight-bold color-medium-emphasis"
           text
           rounded
           @click.stop="speedMenu = !speedMenu"
@@ -71,10 +71,6 @@
         </v-btn>
         <v-btn class="mx-3" text icon @click.stop="bookmark = true">
           <v-icon>mdi-bookmark</v-icon>
-        </v-btn>
-        <!-- TODO: Switch to reading -->
-        <v-btn disabled color="success" class="mx-3" text icon>
-          <v-icon>mdi-arrow-down-circle</v-icon>
         </v-btn>
       </v-flex>
     </v-layout>
@@ -106,7 +102,7 @@
               :color="item == speedCurrent ? 'secondary' : ''"
               @click.stop="speedCurrent = item"
             >
-              <span :class="item == speedCurrent ? 'white--text' : ''">{{ item }}</span>
+              <span :class="item == speedCurrent ? 'white--text' : null">{{ item }}</span>
             </v-btn>
           </div>
           <v-btn rounded text @click.stop="speedMenu = !speedMenu">Close</v-btn>
@@ -130,10 +126,7 @@
               fab
               small
             >{{ item }}</v-btn>
-            <v-btn rounded outlined small class="ma-2">
-              <span class="text-capitalize">End</span>
-              <span class="text-lowercase">of chapter</span>
-            </v-btn>
+            <v-btn rounded outlined small class="ma-2">End of chapter</v-btn>
           </div>
           <v-btn text rounded class="ma-2" @click.stop="sleepMenu = !sleepMenu">Turn off</v-btn>
           <!-- <v-btn class="ma-2" depressed outlined fab small color="secondary">

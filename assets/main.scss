@@ -47,12 +47,6 @@ body {
 
 .theme--light.v-application.player,
 .player {
-  &-loader {
-    // FIX
-    position: absolute;
-    margin: 140px auto;
-  }
-
   &-container {
     // transition: all 200ms ease-in-out;
     transition: $primary-transition;
@@ -266,7 +260,8 @@ body {
   text-transform: none !important;
 }
 
-.theme--dark.v-tabs {
+.theme--light.v-tabs {
+  border-bottom: 1px solid white;
   .v-tabs-slider-wrapper {
     display: none !important;
   }
@@ -318,4 +313,26 @@ body {
     transform: translate(0px, -16px) rotate(30deg) scale(1.5);
     opacity: 0;
   }
+}
+
+.v-progress-circular.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 640px !important;
+  width: auto !important;
+  svg {
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.3;
+  }
+}
+
+.v-btn--outlined {
+  border: thin solid rgba(black, 0.2) !important;
+  background-clip: padding-box;
+}
+
+.color-medium-emphasis {
+  color: rgba(0, 0, 0, 0.54);
 }

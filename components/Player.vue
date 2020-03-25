@@ -1,5 +1,7 @@
 <template>
   <div>
+    <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
+
     <!-- :class="{ dimmed: dimmedActions }" -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
@@ -64,32 +66,20 @@
       </v-slide-y-reverse-transition>
     </div>
 
-    <v-progress-circular
-      v-if="!loaded"
-      :width="16"
-      :size="80"
-      class="player-loader d-block"
-      indeterminate
-    ></v-progress-circular>
-
-    <v-tabs v-model="tab" class="d-none">
-      <v-tab key="actions"></v-tab>
-      <v-tab key="lists"></v-tab>
-    </v-tabs>
-    <v-tabs-items vertical v-model="tab">
-      <v-tab-item v-show="loaded" key="actions">
-        <!--  -->
-        <player-main
-          v-on:load="loaded = true"
-          v-on:pause="playing = false"
-          v-on:play="playing = true"
-          ref="player"
-        />
-      </v-tab-item>
-      <v-tab-item key="lists">
-        <player-lists v-on:close-lists="tab = 0" />
-      </v-tab-item>
-    </v-tabs-items>
+    <!-- <v-tabs-items vertical v-model="tab">
+    <v-tab-item v-show="loaded" key="actions">-->
+    <!--  -->
+    <v-slide-y-reverse-transition hide-on-leave>
+      <player-main
+        v-if="tab == 0"
+        v-show="loaded"
+        v-on:load="loaded = true"
+        v-on:pause="playing = false"
+        v-on:play="playing = true"
+        ref="player"
+      />
+      <player-lists v-if="tab == 1" v-on:close-lists="tab = 0" />
+    </v-slide-y-reverse-transition>
   </div>
 </template>
 
