@@ -1,3 +1,16 @@
+:root {
+  --color-bg: #f4f3ef;
+  --animation-all-300-ease-in-out: all 300ms ease-in-out;
+  --animation-all-1000-ease-in-out: all 1000ms ease-in-out;
+  --animation-slide-in: a-slide-in 0.5s forwards;
+  --animation-slide-out: a-slide-out 0.5s forwards;
+  --breakpoint-phone-only: 599px;
+  --breakpoint-tablet-portrait-up: 600px;
+  --breakpoint-tablet-landscape-up: 900px;
+  --breakpoint-desktop-up: 1200px;
+  --breakpoint-large-desktop-up: 1800px;
+}
+
 // DEMO
 .v-application {
   background: black !important;
@@ -9,7 +22,7 @@
   max-height: 640px;
   min-height: 100%;
   margin: 0 auto;
-  background: rgba(var(--color-purple-50), 1);
+  background-color: var(--color-bg);
   overflow: hidden;
   @media screen and (min-width: 800px) and (min-height: 640px) {
     margin-top: 4rem;
@@ -34,9 +47,6 @@ body {
 
 .theme--light.v-application.player,
 .player {
-  background: rgba(var(--color-purple-50), 1);
-  color: var(--color-pink-50);
-
   &-loader {
     // FIX
     position: absolute;
@@ -125,7 +135,7 @@ body {
     &:active {
       animation: btn-click 0.3s forwards;
     }
-    background: rgb(var(--color-orange-50));
+    background-color: rgba(black, 0.9);
     border-radius: 50%;
     width: 6rem;
     height: 6rem;
@@ -142,7 +152,7 @@ body {
       box-sizing: border-box;
       width: 0;
       height: 40px;
-      border-color: transparent transparent transparent white;
+      border-color: transparent transparent transparent var(--color-bg);
       transition: all 200ms ease-in-out;
       cursor: pointer;
       border-style: double;
@@ -161,23 +171,8 @@ body {
   }
 }
 
-// TODO: Replace with normal theme configuration
-.player {
-  .theme--dark.v-btn.v-btn--icon {
-    color: var(--color-pink-50);
-  }
-  .theme--dark.secondary--text {
-    color: rgba(var(--color-purple-10), 0.6) !important;
-    caret-color: rgba(var(--color-purple-10), 0.6) !important;
-  }
-}
-
 .v-slider--horizontal {
   margin: 0 !important;
-}
-
-.theme--dark.v-system-bar {
-  background-color: var(--color-purple-90) !important;
 }
 
 .theme--light.v-card {
@@ -195,7 +190,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--color-bright-yellow-100);
+    background-color: white;
   }
   &.search-results {
     min-height: 600px;
@@ -243,7 +238,7 @@ body {
 .explore {
   background-color: white;
   &-promo {
-    background-color: var(--color-pink-20) !important;
+    background-color: red !important;
   }
 }
 
@@ -261,9 +256,9 @@ body {
 }
 
 // FIX
-.v-window-item > .theme--dark.v-list,
-.theme--dark.v-tabs > .v-tabs-bar,
-.theme--dark.v-tabs-items {
+.v-window-item > .theme--light.v-list,
+.theme--light.v-tabs > .v-tabs-bar,
+.theme--light.v-tabs-items {
   background: transparent !important;
 }
 
@@ -297,7 +292,7 @@ body {
   &-results {
     .v-avatar.series {
       transform: rotate(12deg);
-      background-color: var(--color-warm-grey-60) !important;
+      background-color: rgba(black, 0.2) !important;
       overflow: visible;
       & img {
         transform: rotate(-12deg);

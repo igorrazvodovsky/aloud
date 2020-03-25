@@ -8,9 +8,9 @@
       <v-slide-y-reverse-transition hide-on-leave leave-absolute>
         <!-- Book: what's playing -->
         <div key="1" v-if="!closed" class="ml-2">
-          <span class="overline theme--dark secondary--text">Listening to</span>
+          <span class="overline secondary--text">Listening to</span>
           <h1 class="title">Northanger Abbey</h1>
-          <span class="subtitle-1 theme--dark secondary--text">
+          <span class="subtitle-1 secondary--text">
             {{
             tab == 0 ? "Chapter 2" : ""
             }}
@@ -18,7 +18,7 @@
         </div>
         <!-- Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
-          <v-btn dark text icon @click.stop="handleTogglePlay">
+          <v-btn text icon @click.stop="handleTogglePlay">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
@@ -32,16 +32,16 @@
       <v-slide-y-reverse-transition hide-on-leave>
         <!-- Book: tertiary actions -->
         <div key="1" v-if="!closed && !openLists" class="ml-auto">
-          <v-btn disabled dark text icon color="secondary">
+          <!-- <v-btn disabled text icon color="secondary">
             <v-icon>mdi-information-outline</v-icon>
-          </v-btn>
-          <v-btn dark text icon color="secondary" @click.stop="openLists = !openLists">
+          </v-btn>-->
+          <v-btn text icon @click.stop="openLists = !openLists">
             <v-icon>mdi-format-list-bulleted</v-icon>
           </v-btn>
 
-          <v-menu left>
+          <!-- <v-menu left>
             <template v-slot:activator="{ on }">
-              <v-btn dark text icon color="secondary" v-on="on">
+              <v-btn text icon color="secondary" v-on="on">
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
             </template>
@@ -50,28 +50,25 @@
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
-          </v-menu>
+          </v-menu>-->
         </div>
         <!-- Book collapsed: secondary action -->
         <div key="2" v-if="closed" class="ml-auto">
-          <v-btn dark text icon color="secondary" @click.stop>
+          <v-btn text icon @click.stop>
             <v-icon>mdi-rewind-10</v-icon>
           </v-btn>
         </div>
-        <v-btn key="3" v-if="tab == 1" dark text icon @click.stop="openLists = false">
+        <v-btn key="3" v-if="tab == 1" text icon @click.stop="openLists = false">
           <v-icon>mdi-close-circle</v-icon>
         </v-btn>
       </v-slide-y-reverse-transition>
     </div>
-
-    <!-- <v-progress-linear indeterminate color="orange darken-2" v-if="!loaded"></v-progress-linear> -->
 
     <v-progress-circular
       v-if="!loaded"
       :width="16"
       :size="80"
       class="player-loader d-block"
-      color="accent"
       indeterminate
     ></v-progress-circular>
 
@@ -79,7 +76,7 @@
       <v-tab key="actions"></v-tab>
       <v-tab key="lists"></v-tab>
     </v-tabs>
-    <v-tabs-items vertical dark v-model="tab">
+    <v-tabs-items vertical v-model="tab">
       <v-tab-item v-show="loaded" key="actions">
         <!--  -->
         <player-main

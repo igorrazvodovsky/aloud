@@ -1,5 +1,5 @@
 <template>
-  <v-list dense dark>
+  <v-list dense>
     <v-list-item-group v-model="current">
       <template v-for="(item, index) in items">
         <v-list-item :key="index">

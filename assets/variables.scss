@@ -18,24 +18,6 @@ $headings: (
   )
 );
 
-$material-dark-elevation-colors: (
-  "0": #21000e,
-  "1": #21000e,
-  "2": #330015,
-  "3": #3d001a,
-  "4": #48001e,
-  "6": #6c334b,
-  "8": #2e2e2e,
-  "12": #333333,
-  "16": #363636,
-  "24": #373737
-);
-
-$material-dark: (
-  "background": #21000e,
-  "surface": #21000e
-);
-
 $ripple-animation-transition-in: opacity 0.1s ease-in-out;
 $ripple-animation-transition-out: opacity 0.3s ease-in-out;
 $ripple-animation-visible-opacity: 0;
@@ -46,3 +28,4 @@ $tabs-item-letter-spacing: normal;
 // $material-light: ( cards: blue );
 
 @import "~vuetify/src/styles/styles.sass";
+

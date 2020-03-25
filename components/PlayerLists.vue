@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-tabs v-model="tab" dark>
+    <v-tabs v-model="tab">
       <v-tab key="toc">Table of contents</v-tab>
       <v-tab key="bookmarks">Bookmarks</v-tab>
     </v-tabs>
 
-    <v-tabs-items dark v-model="tab">
+    <v-tabs-items v-model="tab">
       <v-tab-item key="toc">
         <player-toc />
       </v-tab-item>
