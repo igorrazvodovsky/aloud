@@ -1,12 +1,10 @@
 <template>
-  <div>
+  <div class="player-container" :class="{ dimmed: dimmed }">
     <v-progress-circular
       v-if="!loaded"
       indeterminate
       class="loading"
     ></v-progress-circular>
-
-    <!-- :class="{ dimmed: dimmedActions }" -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
       @click.stop="$emit('open-player')"
@@ -84,6 +82,7 @@
         @load="loaded = true"
         @pause="playing = false"
         @play="playing = true"
+        @dim="dimmed = !dimmed"
         ref="player"
       />
       <player-lists v-if="tab == 1" @close-lists="tab = 0" />
@@ -106,6 +105,7 @@ export default {
     playing: false,
     openLists: false,
     isMobile: false,
+    dimmed: false,
     actions: [
       { title: "Mark as finished" },
       { title: "Share" },

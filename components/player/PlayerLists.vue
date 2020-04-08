@@ -4,7 +4,6 @@
       <v-tab key="toc">Table of contents</v-tab>
       <v-tab key="bookmarks">Bookmarks</v-tab>
     </v-tabs>
-
     <v-tabs-items v-model="tab">
       <v-tab-item key="toc">
         <player-toc />

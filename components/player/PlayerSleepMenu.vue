@@ -1,5 +1,8 @@
+// TODO: Calc button size from the screen width // to make everything fit in one
+row
+
 <template>
-  <div class="player-sleep text-center" :class="{ active: sleepMenu }">
+  <div class="player-sleep text-center" :class="{ active: open }">
     <div class="subtitle-1 mb-4">Sleep in 7:15</div>
     <div class="mb-4">
       <v-btn
@@ -14,7 +17,7 @@
       >
       <v-btn rounded outlined small class="ma-2">End of chapter</v-btn>
     </div>
-    <v-btn text rounded class="ma-2" @click.stop="sleepMenu = !sleepMenu"
+    <v-btn text rounded class="ma-2" @click.stop="$emit('close')"
       >Turn off</v-btn
     >
     <!-- <v-btn class="ma-2" depressed outlined fab small color="secondary">

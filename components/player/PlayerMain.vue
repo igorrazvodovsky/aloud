@@ -1,48 +1,14 @@
 <template>
-  <div>
-    <v-layout
-      :class="{ dimmed: dimmedActions }"
-      column
-      justify-end
-      align-stretch
-      player-container
-    >
+  <div class="player-actions-container">
+    <v-layout column justify-end align-stretch player-actions-container-primary>
       <!-- Chapter progress -->
-      <v-flex xs12>
-        <!-- thumb-label -->
-
-        <!-- TODO: EVENTS -->
-        <!-- start: stop listening to progress -->
-        <!-- mouseup: set a new positions -->
-        <!-- thumb-color="#ff5c28" -->
-        <v-slider
-          color="secondary"
-          :thumb-label="this.rewinding ? 'always' : true"
-          v-model="seek"
-          min="0"
-          :max="duration"
-          hide-details
-          class="mt-6"
-        >
-          <template v-slot:thumb-label>
-            <span class="font-weight-bold">
-              {{
-                rewindingBackwards
-                  ? "-" + formatTime(Math.abs(rewindedFor))
-                  : formatTime(rewindedFor)
-              }}
-            </span>
-          </template>
-        </v-slider>
-        <div class="d-flex justify-space-between mx-4 player-progress">
-          <div class="caption secondary--text">
-            {{ formatTime(progress * duration) }}
-          </div>
-          <v-spacer />
-          <div class="caption secondary--text">{{ formatTime(duration) }}</div>
-        </div>
-      </v-flex>
-
+      <player-progress-slider
+        :rewinding="rewinding"
+        :seek="seek"
+        :duration="duration"
+        :rewindedFor="rewindedFor"
+        v-if="duration > 0"
+      />
       <!-- Book primary actions -->
       <v-flex
         xs12
@@ -86,14 +52,14 @@
           class="px-0 font-weight-bold color-medium-emphasis"
           text
           rounded
-          @click.stop="speedMenu = !speedMenu"
+          @click.stop="handleSpeedMenu"
           >{{ rate }}×</v-btn
         >
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
           icon
-          @click.stop="sleepMenu = !sleepMenu"
+          @click.stop="handleSleepMenu"
         >
           <v-icon>mdi-power-sleep</v-icon>
         </v-btn>
@@ -102,29 +68,29 @@
         </v-btn>
       </v-flex>
     </v-layout>
-
+    <!-- TODO: Move somewhere. TranslateX moves it with the rest of the stuff -->
     <v-snackbar v-model="bookmark">
       Bookmarked!
       <v-btn text @click="bookmark = false">Add note</v-btn>
     </v-snackbar>
 
-    <div class="player-secondary-actions-container">
-      <v-slide-y-reverse-transition hide-on-leave>
-        <player-playback-speed-menu
-          key="1"
-          v-if="speedMenu"
-          :open="speedMenu"
-          :current-speed="rate"
-          @close="speedMenu = !speedMenu"
-          @set-speed="setRate"
-        />
-        <player-sleep-menu
-          key="2"
-          v-if="sleepMenu"
-          :open="sleepMenu"
-          @close="sleepMenu = !sleepMenu"
-        />
-      </v-slide-y-reverse-transition>
+    <div class="player-actions-container-secondary">
+      <!-- <v-slide-y-reverse-transition hide-on-leave> -->
+      <player-playback-speed-menu
+        key="1"
+        v-if="speedMenu"
+        :open="speedMenu"
+        :current-speed="rate"
+        @close="handleSpeedMenu"
+        @set-speed="setRate"
+      />
+      <player-sleep-menu
+        key="2"
+        v-if="sleepMenu"
+        :open="sleepMenu"
+        @close="handleSleepMenu"
+      />
+      <!-- </v-slide-y-reverse-transition> -->
     </div>
   </div>
 </template>
@@ -134,6 +100,7 @@ import { Howl } from "howler";
 import PlayerLists from "~/components/player/PlayerLists.vue";
 import PlayerPlaybackSpeedMenu from "~/components/player/PlayerPlaybackSpeedMenu.vue";
 import PlayerSleepMenu from "~/components/player/PlayerSleepMenu.vue";
+import PlayerProgressSlider from "~/components/player/PlayerProgressSlider.vue";
 import clamp from "math-clamp";
 import values from "object-values";
 import assign from "object-assign";
@@ -142,7 +109,8 @@ export default {
   components: {
     PlayerLists,
     PlayerPlaybackSpeedMenu,
-    PlayerSleepMenu
+    PlayerSleepMenu,
+    PlayerProgressSlider
   },
 
   props: ["paused"],
@@ -159,6 +127,8 @@ export default {
       seek: 300,
       duration: 0,
       sources: ["/northangerabbey_02_austen_64kb.mp3"],
+      sleepMenu: false,
+      speedMenu: false,
       /**
        * Functions that poll the Howl instance
        * to update various data
@@ -222,23 +192,11 @@ export default {
       rewinding: false,
       rewindedFor: 0,
       bookmark: false,
-      speedMenu: false,
-      sleepMenu: false
+      speedMenu: null,
+      sleepMenu: null
     };
   },
 
-  computed: {
-    rewindingBackwards() {
-      return this.rewindedFor < 0;
-    },
-    progress() {
-      if (this.duration === 0) return 0;
-      return this.seek / this.duration;
-    },
-    dimmedActions() {
-      return this.speedMenu || this.sleepMenu;
-    }
-  },
   created() {
     this._initialize();
   },
@@ -428,16 +386,13 @@ export default {
     clearRewind() {
       (this.rewindedFor = 0), (this.rewinding = false);
     },
-    formatTime(secs) {
-      var minutes = Math.floor(secs / 60) || 0;
-      var seconds = secs - minutes * 60 || 0;
-      return (
-        (minutes < 9 ? "0" : "") +
-        minutes +
-        ":" +
-        (seconds < 9 ? "0" : "") +
-        Math.round(seconds)
-      );
+    handleSpeedMenu() {
+      this.$emit("dim");
+      this.speedMenu = !this.speedMenu;
+    },
+    handleSleepMenu() {
+      this.$emit("dim");
+      this.sleepMenu = !this.sleepMenu;
     }
   }
 };

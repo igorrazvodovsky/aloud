@@ -1,3 +1,5 @@
+$header-height: 100px;
+
 :root {
   --color-bg: #f4f3ef;
   --animation-all-300-ease-in-out: all 300ms ease-in-out;
@@ -17,19 +19,24 @@ body {
   overflow: hidden;
 }
 
-.active {
-  opacity: 1 !important;
-  transform: translateY(-75%);
-}
-
-.theme--light.v-application.player,
 .player {
   &-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     transition: $primary-transition;
     &.dimmed {
-      opacity: 0.2;
-      transform: translateY(-50%);
-      position: relative;
+      // TODO: Check the positionibng on different screen sizes
+      transform: translateY(calc(-25% - #{$header-height}));
+      .player-actions-container-primary {
+        opacity: 0.25;
+      }
+    }
+  }
+  &-actions-container {
+    height: 100%;
+    &-primary {
+      height: 100%;
     }
   }
 
@@ -41,6 +48,7 @@ body {
 
   &-speed,
   &-sleep {
+    padding: 0 1rem;
     &-btn {
       &--on {
         .v-btn__content {

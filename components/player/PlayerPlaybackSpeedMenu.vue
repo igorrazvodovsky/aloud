@@ -1,6 +1,6 @@
 <template>
   <div class="player-speed text-center" :class="{ active: open }">
-    <div class="subtitle-1 mb-4">Speed</div>
+    <div class="subtitle-1 mb-4">Playback speed</div>
     <div class="mb-4">
       <v-btn
         v-for="(item, i) in speedOptions"
