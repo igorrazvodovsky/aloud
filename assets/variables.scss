@@ -2,10 +2,10 @@
 $border-radius-root: 2px;
 $btn-letter-spacing: 0;
 $btn-font-weight: 400;
-$serif-font-family: "Domaine Text Test", "New York", "Georgia", serif;
-$body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-  Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-  "Segoe UI Symbol";
+$serif-font-family: "Source Serif Pro", "New York", "Georgia", serif;
+$body-font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol";
 
 $headings: (
   "h1": (
@@ -17,6 +17,11 @@ $headings: (
   "title": (
     "letter-spacing": normal
   )
+);
+
+$material-light: () !default;
+$material-light: (
+  "background": var(--color-bg)
 );
 
 $ripple-animation-transition-in: opacity 0.1s ease-in-out;

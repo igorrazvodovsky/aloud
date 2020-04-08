@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import PlayerToc from "~/components/PlayerToc.vue";
-import PlayerBookmarks from "~/components/PlayerBookmarks.vue";
+import PlayerToc from "~/components/player/PlayerToc.vue";
+import PlayerBookmarks from "~/components/player/PlayerBookmarks.vue";
 export default {
   components: {
     PlayerToc,

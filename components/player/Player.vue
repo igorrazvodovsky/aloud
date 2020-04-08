@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
+    <v-progress-circular
+      v-if="!loaded"
+      indeterminate
+      class="loading"
+    ></v-progress-circular>
 
     <!-- :class="{ dimmed: dimmedActions }" -->
     <div
@@ -11,21 +15,19 @@
         <!-- Book: what's playing -->
         <div key="1" v-if="!closed" class="ml-2">
           <span class="overline secondary--text">Listening to</span>
-          <h1 class="title">Northanger Abbey</h1>
+          <h1 class="title">{{ book.title }}</h1>
           <span class="subtitle-1 secondary--text">
-            {{
-            tab == 0 ? "Chapter 2" : ""
-            }}
+            {{ tab == 0 ? "Chapter 2" : "" }}
           </span>
         </div>
-        <!-- Book collapsed: play/pause -->
+        <!-- MOBILE: Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
           <v-btn text icon @click.stop="handleTogglePlay">
             <v-icon v-if="playing">mdi-pause-circle</v-icon>
             <v-icon v-else>mdi-play-circle</v-icon>
           </v-btn>
           <div class="subtitle-2">
-            Northanger Abbey
+            {{ book.title }}
             <span>•</span> Ch. 2
           </div>
         </div>
@@ -60,7 +62,13 @@
             <v-icon>mdi-rewind-10</v-icon>
           </v-btn>
         </div>
-        <v-btn key="3" v-if="tab == 1" text icon @click.stop="openLists = false">
+        <v-btn
+          key="3"
+          v-if="tab == 1"
+          text
+          icon
+          @click.stop="openLists = false"
+        >
           <v-icon>mdi-close-circle</v-icon>
         </v-btn>
       </v-slide-y-reverse-transition>
@@ -73,20 +81,21 @@
       <player-main
         v-if="tab == 0"
         v-show="loaded"
-        v-on:load="loaded = true"
-        v-on:pause="playing = false"
-        v-on:play="playing = true"
+        @load="loaded = true"
+        @pause="playing = false"
+        @play="playing = true"
         ref="player"
       />
-      <player-lists v-if="tab == 1" v-on:close-lists="tab = 0" />
+      <player-lists v-if="tab == 1" @close-lists="tab = 0" />
     </v-slide-y-reverse-transition>
   </div>
 </template>
 
 <script>
-import PlayerMain from "~/components/PlayerMain.vue";
-import PlayerLists from "~/components/PlayerLists.vue";
+import PlayerMain from "~/components/player/PlayerMain.vue";
+import PlayerLists from "~/components/player/PlayerLists.vue";
 export default {
+  middleware: "librivox",
   components: {
     PlayerMain,
     PlayerLists
@@ -96,6 +105,7 @@ export default {
     loaded: false,
     playing: false,
     openLists: false,
+    isMobile: false,
     actions: [
       { title: "Mark as finished" },
       { title: "Share" },
@@ -108,14 +118,26 @@ export default {
       if (this.closed) return 0;
       else if (this.openLists) return 1;
       else return 0;
+    },
+    book() {
+      return this.$store.state.book;
     }
-    // playing() {
-    //   return this.$store.state.playing
-    // }
+  },
+  beforeDestroy() {
+    if (typeof window !== "undefined") {
+      window.removeEventListener("resize", this.onResize, { passive: true });
+    }
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener("resize", this.onResize, { passive: true });
   },
   methods: {
     handleTogglePlay() {
       this.$refs.player.togglePlayback();
+    },
+    onResize() {
+      this.isMobile = window.innerWidth < 600;
     }
   }
 };

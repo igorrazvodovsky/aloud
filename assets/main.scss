@@ -11,29 +11,6 @@
   --breakpoint-large-desktop-up: 1800px;
 }
 
-// DEMO
-.v-application {
-  background: black !important;
-  min-height: 100vh;
-}
-.v-application--wrap {
-  position: relative;
-  max-width: 360px;
-  max-height: 640px;
-  min-height: 100%;
-  margin: 0 auto;
-  background-color: var(--color-bg);
-  overflow: hidden;
-  @media screen and (min-width: 800px) and (min-height: 640px) {
-    margin-top: 4rem;
-    border-radius: 1rem;
-  }
-}
-
-.disabled {
-  opacity: 0.3;
-}
-
 // MAIN
 
 body {
@@ -48,22 +25,11 @@ body {
 .theme--light.v-application.player,
 .player {
   &-container {
-    // transition: all 200ms ease-in-out;
     transition: $primary-transition;
     &.dimmed {
       opacity: 0.2;
       transform: translateY(-50%);
       position: relative;
-      // &::before {
-      //   content: '';
-      //   position: absolute;
-      //   background: -webkit-linear-gradient(to bottom, rgba(var(--color-purple-80), 1) 30%,rgba(var(--color-purple-80), 0));
-      //   background: linear-gradient(to bottom, rgba(var(--color-purple-80), 1) 30%,rgba(var(--color-purple-80), 0));
-      //   top: 0;
-      //   bottom: 0;
-      //   right: 0;
-      //   left: 0;
-      // }
     }
   }
 
@@ -75,8 +41,6 @@ body {
 
   &-speed,
   &-sleep {
-    // opacity: 0;
-    // transition: all 200ms ease-in-out;
     &-btn {
       &--on {
         .v-btn__content {
@@ -131,8 +95,8 @@ body {
     }
     background-color: rgba(black, 0.9);
     border-radius: 50%;
-    width: 6rem;
-    height: 6rem;
+    width: 25vmin;
+    height: 25vmin;
     display: flex;
     flex-direction: column;
     align-items: center;

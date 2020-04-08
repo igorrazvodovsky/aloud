@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-layout :class="{ dimmed: dimmedActions }" column justify-end align-stretch player-container>
+    <v-layout
+      :class="{ dimmed: dimmedActions }"
+      column
+      justify-end
+      align-stretch
+      player-container
+    >
       <!-- Chapter progress -->
       <v-flex xs12>
         <!-- thumb-label -->
@@ -21,23 +27,38 @@
           <template v-slot:thumb-label>
             <span class="font-weight-bold">
               {{
-              rewindedFor < 0
-              ? "-" + formatTime(Math.abs(rewindedFor))
-              : formatTime(rewindedFor)
+                rewindingBackwards
+                  ? "-" + formatTime(Math.abs(rewindedFor))
+                  : formatTime(rewindedFor)
               }}
             </span>
           </template>
         </v-slider>
         <div class="d-flex justify-space-between mx-4 player-progress">
-          <div class="caption secondary--text">{{ formatTime(progress * duration) }}</div>
+          <div class="caption secondary--text">
+            {{ formatTime(progress * duration) }}
+          </div>
           <v-spacer />
           <div class="caption secondary--text">{{ formatTime(duration) }}</div>
         </div>
       </v-flex>
 
       <!-- Book primary actions -->
-      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
-        <v-btn large text icon @click.stop="handleRewind" @mousedown="rewinding = true">
+      <v-flex
+        xs12
+        d-flex
+        align-center
+        justify-space-around
+        player-actions-primary
+        my-12
+      >
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleRewind"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
@@ -48,7 +69,13 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn large text icon @click.stop="handleForward" @mousedown="rewinding = true">
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleForward"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
@@ -60,7 +87,8 @@
           text
           rounded
           @click.stop="speedMenu = !speedMenu"
-        >{{ speedCurrent }}×</v-btn>
+          >{{ rate }}×</v-btn
+        >
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
@@ -82,58 +110,20 @@
 
     <div class="player-secondary-actions-container">
       <v-slide-y-reverse-transition hide-on-leave>
-        <!-- Speed -->
-        <div
+        <player-playback-speed-menu
           key="1"
           v-if="speedMenu"
-          class="player-speed text-center"
-          :class="{ active: speedMenu }"
-        >
-          <div class="subtitle-1 mb-4">Speed</div>
-          <div class="mb-4">
-            <v-btn
-              v-for="(item, i) in speedOptions"
-              :key="i"
-              class="ma-2"
-              :outlined="item == speedCurrent ? false : true"
-              fab
-              small
-              depressed
-              :color="item == speedCurrent ? 'secondary' : ''"
-              @click.stop="speedCurrent = item"
-            >
-              <span :class="item == speedCurrent ? 'white--text' : null">{{ item }}</span>
-            </v-btn>
-          </div>
-          <v-btn rounded text @click.stop="speedMenu = !speedMenu">Close</v-btn>
-        </div>
-
-        <!-- Sleep -->
-        <div
+          :open="speedMenu"
+          :current-speed="rate"
+          @close="speedMenu = !speedMenu"
+          @set-speed="setRate"
+        />
+        <player-sleep-menu
           key="2"
           v-if="sleepMenu"
-          class="player-sleep text-center"
-          :class="{ active: sleepMenu }"
-        >
-          <div class="subtitle-1 mb-4">Sleep in 7:15</div>
-          <div class="mb-4">
-            <v-btn
-              v-for="(item, i) in sleepOptions"
-              :key="i"
-              class="ma-2"
-              depressed
-              outlined
-              fab
-              small
-            >{{ item }}</v-btn>
-            <v-btn rounded outlined small class="ma-2">End of chapter</v-btn>
-          </div>
-          <v-btn text rounded class="ma-2" @click.stop="sleepMenu = !sleepMenu">Turn off</v-btn>
-          <!-- <v-btn class="ma-2" depressed outlined fab small color="secondary">
-            <v-icon class="white--text">mdi-refresh</v-icon>
-          </v-btn>-->
-          <v-btn rounded text class="ma-2" @click.stop="sleepMenu = !sleepMenu">Close</v-btn>
-        </div>
+          :open="sleepMenu"
+          @close="sleepMenu = !sleepMenu"
+        />
       </v-slide-y-reverse-transition>
     </div>
   </div>
@@ -141,14 +131,18 @@
 
 <script>
 import { Howl } from "howler";
-import PlayerLists from "~/components/PlayerLists.vue";
+import PlayerLists from "~/components/player/PlayerLists.vue";
+import PlayerPlaybackSpeedMenu from "~/components/player/PlayerPlaybackSpeedMenu.vue";
+import PlayerSleepMenu from "~/components/player/PlayerSleepMenu.vue";
 import clamp from "math-clamp";
 import values from "object-values";
 import assign from "object-assign";
 
 export default {
   components: {
-    PlayerLists
+    PlayerLists,
+    PlayerPlaybackSpeedMenu,
+    PlayerSleepMenu
   },
 
   props: ["paused"],
@@ -229,15 +223,14 @@ export default {
       rewindedFor: 0,
       bookmark: false,
       speedMenu: false,
-      sleepMenu: false,
-      speedCurrent: "1.0",
-      speedOptions: ["0.75", "1.0", "1.25", "1.5", "1.75", "2.0"],
-      sleepCurrent: "15",
-      sleepOptions: ["15", "30", "45", "60"]
+      sleepMenu: false
     };
   },
 
   computed: {
+    rewindingBackwards() {
+      return this.rewindedFor < 0;
+    },
     progress() {
       if (this.duration === 0) return 0;
       return this.seek / this.duration;
