@@ -152,6 +152,8 @@ body {
     }
   }
   &.browse {
+    overflow-y: scroll;
+    overflow-x: none;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -160,51 +162,6 @@ body {
   }
   &.search-results {
     min-height: 600px;
-  }
-}
-
-// Horizontal scroll
-
-.hs {
-  --gutter: 1rem;
-  display: grid;
-  grid-gap: calc(var(--gutter) / 2);
-  grid-template-columns: 0.5rem;
-  grid-template-rows: minmax(6rem, 1fr);
-  grid-auto-flow: column;
-  // TODO: check if works
-  // grid-auto-columns: calc(50% - var(--gutter) * 2);
-
-  overflow-x: scroll;
-  scroll-snap-type: x proximity;
-  padding-bottom: calc(0.75 * var(--gutter));
-  margin-bottom: calc(-0.25 * var(--gutter));
-}
-
-.hs:before,
-.hs:after {
-  content: "";
-  width: 0.5rem;
-}
-
-.hs > li,
-.item {
-  scroll-snap-align: center;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.explore {
-  background-color: white;
-  &-promo {
-    background-color: red !important;
   }
 }
 
@@ -307,4 +264,18 @@ body {
 
 .color-medium-emphasis {
   color: rgba(0, 0, 0, 0.54);
+}
+
+// Book card
+
+.book-card {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  &-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
 }

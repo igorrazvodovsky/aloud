@@ -1,67 +1,81 @@
 <template>
-  <div>
-    <ul class="hs full no-scrollbar px-0">
-      <v-card class="item" v-for="card in cards" :key="card.id" flat>
-        <v-img :src="card.src" height="6rem" width="6rem"></v-img>
-      </v-card>
-    </ul>
-    <div class="subtitle-2 mx-4 mt-4">My Bookshelf →</div>
-    <!-- EXPLORE -->
-    <div class="explore my-4 pt-2 pb-12">
-      <h2 class="display-1 mx-4 my-4 font-weight-bold">Explore</h2>
-      <v-card flat class="explore-promo mx-4 mb-4">
-        <div class="d-flex flex-no-wrap justify-space-between">
-          <div>
-            <v-card-title class="headline">Experience the macabre, biting satire</v-card-title>
-            <v-card-subtitle></v-card-subtitle>
-          </div>
-
-          <v-avatar class="ma-3" size="125" tile>
-            <v-img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSPUw8ew_mpIjINXsRKsVwKsj8RDmMcVBvAZQPTMP66-8cMyh3r"
-            ></v-img>
-          </v-avatar>
-        </div>
-      </v-card>
-      <h3 class="title mx-4 my-4">New releases</h3>
-      <ul class="hs full no-scrollbar px-0">
-        <v-card class="item" v-for="card in cards" :key="card.title" flat>
-          <v-img :src="card.src" height="6rem" width="6rem"></v-img>
-        </v-card>
-      </ul>
-    </div>
+  <div class="mx-3">
+    <v-card
+      v-for="book in books"
+      :key="book.id"
+      outlined
+      tile
+      class="mb-3"
+      :disabled="book.title == currentBook.title"
+    >
+      <v-card-text>
+        <div>{{book.author}}</div>
+        <p class="headline text--primary mb-0">{{book.title}}</p>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
-    cards: [
+    books: [
       {
         id: 1,
-        src: "https://www.storytel.com/images/200x200/0000627492.jpg"
+        title: "Anna Karenina",
+        author: "Leo Tolstoy"
       },
       {
         id: 2,
-        src: "https://www.storytel.com/images/200x200/0000026621.jpg"
+        title: "Don Quixote",
+        author: "Miguel de Cervantes"
       },
       {
         id: 3,
-        src: "https://www.storytel.com/images/200x200/0000029114.jpg"
+        title: "Moby Dick",
+        author: "Herman Melville"
       },
       {
         id: 4,
-        src: "https://www.storytel.com/images/200x200/0000003828.jpg"
+        title: "Genji Monogatari",
+        author: "Murasaki Shikibu"
       },
       {
         id: 5,
-        src: "https://www.storytel.com/images/200x200/0000003982.jpg"
+        title: "Idiot",
+        author: "Fyodor Dostoyevsky"
       },
       {
         id: 6,
-        src: "https://www.storytel.com/images/200x200/0000054902.jpg"
+        title: "Pride and Prejudice",
+        author: "Jane Austen"
+      },
+      {
+        id: 7,
+        title: "The Iliad",
+        author: "Homer"
+      },
+      {
+        id: 8,
+        title: "Alice’s Adventures in Wonderland",
+        author: "Lewis Carroll"
+      },
+      {
+        id: 9,
+        title: "The Arabian Nights",
+        author: "Husain Haddawy & Muhsin Mahdi"
+      },
+      {
+        id: 10,
+        title: "The Count of Monte Cristo",
+        author: "Alexandre Dumas"
       }
     ]
-  })
+  }),
+  computed: {
+    currentBook() {
+      return this.$store.state.book;
+    }
+  }
 };
 </script>

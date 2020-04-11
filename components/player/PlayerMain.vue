@@ -10,21 +10,8 @@
         v-if="duration > 0"
       />
       <!-- Book primary actions -->
-      <v-flex
-        xs12
-        d-flex
-        align-center
-        justify-space-around
-        player-actions-primary
-        my-12
-      >
-        <v-btn
-          large
-          text
-          icon
-          @click.stop="handleRewind"
-          @mousedown="rewinding = true"
-        >
+      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
+        <v-btn large text icon @click.stop="handleRewind" @mousedown="rewinding = true">
           <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
@@ -35,13 +22,7 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn
-          large
-          text
-          icon
-          @click.stop="handleForward"
-          @mousedown="rewinding = true"
-        >
+        <v-btn large text icon @click.stop="handleForward" @mousedown="rewinding = true">
           <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
@@ -53,8 +34,7 @@
           text
           rounded
           @click.stop="handleSpeedMenu"
-          >{{ rate }}×</v-btn
-        >
+        >{{ rate }}×</v-btn>
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
@@ -68,7 +48,8 @@
         </v-btn>
       </v-flex>
     </v-layout>
-    <!-- TODO: Move somewhere. TranslateX moves it with the rest of the stuff -->
+
+    <!-- TODO: Move somewhere or add a compensating style. TranslateX moves it with the rest of the stuff -->
     <v-snackbar v-model="bookmark">
       Bookmarked!
       <v-btn text @click="bookmark = false">Add note</v-btn>
@@ -84,12 +65,7 @@
         @close="handleSpeedMenu"
         @set-speed="setRate"
       />
-      <player-sleep-menu
-        key="2"
-        v-if="sleepMenu"
-        :open="sleepMenu"
-        @close="handleSleepMenu"
-      />
+      <player-sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="handleSleepMenu" />
       <!-- </v-slide-y-reverse-transition> -->
     </div>
   </div>
@@ -122,7 +98,6 @@ export default {
        */
       _howl: null,
       playing: false,
-      volume: 1.0,
       rate: 1.0,
       seek: 300,
       duration: 0,
@@ -306,7 +281,6 @@ export default {
 
       if (resetSettings) {
         this.muted = false;
-        this.volume = 1.0;
         this.rate = 1.0;
       }
     },

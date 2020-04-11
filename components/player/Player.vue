@@ -1,10 +1,6 @@
 <template>
   <div class="player-container" :class="{ dimmed: dimmed }">
-    <v-progress-circular
-      v-if="!loaded"
-      indeterminate
-      class="loading"
-    ></v-progress-circular>
+    <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
       @click.stop="$emit('open-player')"
@@ -14,9 +10,7 @@
         <div key="1" v-if="!closed" class="ml-2">
           <span class="overline secondary--text">Listening to</span>
           <h1 class="title">{{ book.title }}</h1>
-          <span class="subtitle-1 secondary--text">
-            {{ tab == 0 ? "Chapter 2" : "" }}
-          </span>
+          <span class="subtitle-1 secondary--text">{{ tab == 0 ? "Chapter 2" : "" }}</span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
@@ -60,13 +54,7 @@
             <v-icon>mdi-rewind-10</v-icon>
           </v-btn>
         </div>
-        <v-btn
-          key="3"
-          v-if="tab == 1"
-          text
-          icon
-          @click.stop="openLists = false"
-        >
+        <v-btn key="3" v-if="tab == 1" text icon @click.stop="openLists = false">
           <v-icon>mdi-close-circle</v-icon>
         </v-btn>
       </v-slide-y-reverse-transition>

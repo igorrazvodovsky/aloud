@@ -2,24 +2,14 @@
   <v-app class="player">
     <!-- Player or search -->
     <v-slide-x-reverse-transition leave-absolute hide-on-leave>
-      <player
-        key="1"
-        v-if="player"
-        @open-player="browser = false"
-        :closed="browser"
-      />
+      <player key="1" v-if="player" @open-player="browser = false" :closed="browser" />
       <search key="2" v-if="page == 'search'" />
     </v-slide-x-reverse-transition>
     <!-- Browser or search results -->
-    <!-- <v-slide-y-reverse-transition>
-      <browser
-        key="1"
-        v-if="browse"
-        @open-browser="browser = true"
-        :open="browser"
-      />
+    <v-slide-y-reverse-transition>
+      <browser key="1" v-if="browse" @open-browser="browser = true" :open="browser" />
       <search-results key="2" v-if="page == 'search'" />
-    </v-slide-y-reverse-transition> -->
+    </v-slide-y-reverse-transition>
   </v-app>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
   <v-card
     class="browse"
-    :style="open ? 'top: 3.25rem' : 'top: 85%'"
+    :style="open ? 'top: 3.25rem' : 'top: 90%'"
     @click.stop="$emit('open-browser')"
     :ripple="false"
   >
-    <v-row justify="space-between" class="pl-4 pr-2">
+    <v-row justify="space-between" class="pl-3 pr-2 my-3" no-gutters>
       <v-col cols="auto">
         <h2 class="title">Books</h2>
       </v-col>

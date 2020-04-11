@@ -1,7 +1,8 @@
 export const state = () => ({
   page: 'index',
   playing: false,
-  book: null
+  bookTitle: "Anna Karenina",
+  book: null,
 })
 
 export const mutations = {
