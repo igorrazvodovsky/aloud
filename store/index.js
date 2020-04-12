@@ -1,8 +1,23 @@
+import axios from 'axios'
+
+// TODO: Saving the entire state or only the part of it?
+// TODO: Plugin or something else?
+// BUG: Will cause a problem when I change the store structure without clearing the localStorage
+const saveStateLocally = store => {
+  if (process.client) {
+    store.subscribe((mutation, state) => {
+      localStorage.setItem('store', JSON.stringify(state));
+    })
+  }
+}
+
+export const plugins = [saveStateLocally]
+
 export const state = () => ({
   page: 'index',
   playing: false,
-  bookTitle: "Anna Karenina",
-  book: null,
+  // TODO: Default book
+  book: { title: 'Test' },
 })
 
 export const mutations = {
@@ -11,12 +26,18 @@ export const mutations = {
   },
   setBook(state, book) {
     state.book = book;
+  },
+  initialiseStore(state) {
+    if (localStorage.getItem('store') && process.client) {
+      Object.assign(state, JSON.parse(localStorage.getItem('store')))
+    }
   }
 }
 
 export const actions = {
-  // TIL: 'Commit' destructured from the 'context' object which exposes the same set of methods/properties on the store instance
-  setBook({ commit }, book) {
-    commit('setBook', book);
+  async setBook({ commit }, bookTitle) {
+    const book = await axios.get('api/feed/audiobooks/?title=' + bookTitle);
+    commit('setBook', book.data.books[0]);
   }
 };
+

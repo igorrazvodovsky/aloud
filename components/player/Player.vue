@@ -82,7 +82,6 @@
 import PlayerMain from "~/components/player/PlayerMain.vue";
 import PlayerLists from "~/components/player/PlayerLists.vue";
 export default {
-  middleware: "librivox",
   components: {
     PlayerMain,
     PlayerLists

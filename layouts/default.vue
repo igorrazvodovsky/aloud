@@ -1,5 +1,6 @@
 <template>
-  <v-app class="player">
+  <!-- TODO: Add book loading progress?-->
+  <v-app class="player" v-if="book">
     <!-- Player or search -->
     <v-slide-x-reverse-transition leave-absolute hide-on-leave>
       <player key="1" v-if="player" @open-player="browser = false" :closed="browser" />
@@ -22,7 +23,6 @@ import { mapState } from "vuex";
 import axios from "axios";
 
 export default {
-  middleware: "librivox",
   components: {
     Browser,
     Player,
@@ -45,6 +45,12 @@ export default {
     book() {
       return this.$store.state.book;
     }
+  },
+  mounted() {
+    this.$store.commit("initialiseStore");
+    // TODO: A better way to load a default
+    // TODO: How to store the list of books?
+    if (this.$store.book) this.$store.dispatch("setBook", "Anna Karenina");
   }
 };
 </script>

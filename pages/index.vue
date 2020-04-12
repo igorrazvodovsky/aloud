@@ -7,6 +7,7 @@
       tile
       class="mb-3"
       :disabled="book.title == currentBook.title"
+      @click.stop="$store.dispatch('setBook', book.title)"
     >
       <v-card-text>
         <div>{{book.author}}</div>
@@ -32,7 +33,7 @@ export default {
       },
       {
         id: 3,
-        title: "Moby Dick",
+        title: "Moby Dick, or the Whale",
         author: "Herman Melville"
       },
       {
