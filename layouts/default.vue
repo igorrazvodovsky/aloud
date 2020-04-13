@@ -1,3 +1,5 @@
+// Main view & a bottom sheet
+
 <template>
   <!-- TODO: Add book loading progress?-->
   <v-app class="player" v-if="book">
@@ -43,14 +45,15 @@ export default {
       return this.page == "index" || this.page == "browse";
     },
     book() {
-      return this.$store.state.book;
+      return this.$store.state.book.metadata;
     }
   },
   mounted() {
     this.$store.commit("initialiseStore");
     // TODO: A better way to load a default
     // TODO: How to store the list of books?
-    if (this.$store.book) this.$store.dispatch("setBook", "Anna Karenina");
+    if (this.$store.book)
+      this.$store.dispatch("setBook", "art_of_war_librivox");
   }
 };
 </script>

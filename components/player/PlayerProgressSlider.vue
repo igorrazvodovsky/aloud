@@ -1,7 +1,6 @@
 <template>
   <v-flex xs12>
     <!-- thumb-label -->
-
     <!-- TODO: EVENTS -->
     <!-- start: stop listening to progress -->
     <!-- mouseup: set a new positions -->

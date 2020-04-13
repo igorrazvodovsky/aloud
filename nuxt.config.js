@@ -61,7 +61,12 @@ export default {
   axios: {
   },
   proxy: {
-    '/api/': 'https://librivox.org',
+    '/api': {
+      target: 'http://archive.org',
+      pathRewrite: {
+        '^/api': '/'
+      }
+    }
   },
   /*
   ** vuetify module configuration

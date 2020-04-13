@@ -7,7 +7,7 @@
       tile
       class="mb-3"
       :disabled="book.title == currentBook.title"
-      @click.stop="$store.dispatch('setBook', book.title)"
+      @click.stop="$store.dispatch('setBook', book.archiveOrgId)"
     >
       <v-card-text>
         <div>{{book.author}}</div>
@@ -23,59 +23,69 @@ export default {
     books: [
       {
         id: 1,
-        title: "Anna Karenina",
-        author: "Leo Tolstoy"
+        archiveOrgId: "alices_adventures_1003",
+        title: "Alice's Adventures in Wonderland",
+        author: "Lewis Carroll"
       },
       {
         id: 2,
-        title: "Don Quixote",
-        author: "Miguel de Cervantes"
+        archiveOrgId: "adventures_holmes",
+        title: "The Adventures of Sherlock Holmes",
+        author: "Sir Arthur Conan Doyle"
       },
       {
         id: 3,
+        archiveOrgId: "art_of_war_librivox",
+        title: "The Art of War",
+        author: "Sun Tzu"
+      },
+      {
+        id: 4,
+        archiveOrgId: "moby_dick_librivox",
         title: "Moby Dick, or the Whale",
         author: "Herman Melville"
       },
       {
-        id: 4,
-        title: "Genji Monogatari",
-        author: "Murasaki Shikibu"
-      },
-      {
         id: 5,
-        title: "Idiot",
-        author: "Fyodor Dostoyevsky"
-      },
-      {
-        id: 6,
+        archiveOrgId: "pride_and_prejudice_librivox",
         title: "Pride and Prejudice",
         author: "Jane Austen"
       },
       {
+        id: 6,
+        archiveOrgId: "count_monte_cristo_0711_librivox",
+        title: "The Count of Monte Cristo",
+        author: "Alexandre Dumas"
+      },
+      {
         id: 7,
-        title: "The Iliad",
+        archiveOrgId: "odyssey_butler_librivox",
+        title: "The Odyssey",
         author: "Homer"
       },
       {
         id: 8,
-        title: "Alice’s Adventures in Wonderland",
-        author: "Lewis Carroll"
+        archiveOrgId: "emma_solo_librivox",
+        title: "Emma",
+        author: "Jane Austen"
       },
       {
         id: 9,
-        title: "The Arabian Nights",
-        author: "Husain Haddawy & Muhsin Mahdi"
+        archiveOrgId: "treasure_island_ap_librivox",
+        title: "Treasure Island",
+        author: "Robert Louis Stevenson"
       },
       {
         id: 10,
-        title: "The Count of Monte Cristo",
-        author: "Alexandre Dumas"
+        archiveOrgId: "great_expectations_mfs_0812_librivox",
+        title: "Great Expectations",
+        author: "Charles Dickens"
       }
     ]
   }),
   computed: {
     currentBook() {
-      return this.$store.state.book;
+      return this.$store.state.book.metadata;
     }
   }
 };

@@ -80,6 +80,7 @@ import PlayerProgressSlider from "~/components/player/PlayerProgressSlider.vue";
 import clamp from "math-clamp";
 import values from "object-values";
 import assign from "object-assign";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -171,7 +172,30 @@ export default {
       sleepMenu: null
     };
   },
+  computed: {
+    ...mapState(["book"]),
+    bookTracks() {
+      // 1. Filter for mp3s
+      // 2. Sort them by "title"
+      return Array.from(this.book[this.book.metadata.identifier])
+        .filter(function(el) {
+          // TODO: Changing the audio quality?
+          return el.source == "original" && el.format.includes("MP3");
+        })
+        .sort((a, b) =>
+          // TODO: Not sure if works. Additional tests needed
+          // TODO: Check also for "track" & maybe even prioratize it
+          a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
+          b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
+            ? 1
+            : -1
+        );
+      // sort((a, b) => a.track.localeCompare(b.track))
+    },
+    bookTrackURLs() {
 
+    }
+  },
   created() {
     this._initialize();
   },

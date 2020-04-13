@@ -1,3 +1,7 @@
+// PLAYER CONTAINER VIEW
+// 1. Header
+// 2. Player controls / Lists (TOC & Bookmarks)
+
 <template>
   <div class="player-container" :class="{ dimmed: dimmed }">
     <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
@@ -34,7 +38,6 @@
           <v-btn text icon @click.stop="openLists = !openLists">
             <v-icon>mdi-format-list-bulleted</v-icon>
           </v-btn>
-
           <!-- <v-menu left>
             <template v-slot:activator="{ on }">
               <v-btn text icon color="secondary" v-on="on">
@@ -107,7 +110,7 @@ export default {
       else return 0;
     },
     book() {
-      return this.$store.state.book;
+      return this.$store.state.book.metadata;
     }
   },
   beforeDestroy() {

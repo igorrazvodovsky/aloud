@@ -17,7 +17,7 @@ export const state = () => ({
   page: 'index',
   playing: false,
   // TODO: Default book
-  book: { title: 'Test' },
+  book: { metadata: { title: 'Test' } },
 })
 
 export const mutations = {
@@ -35,9 +35,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async setBook({ commit }, bookTitle) {
-    const book = await axios.get('api/feed/audiobooks/?title=' + bookTitle);
-    commit('setBook', book.data.books[0]);
+  async setBook({ commit }, bookId) {
+    const book = await axios.get('api/metadata/' + bookId);
+    commit('setBook', book.data);
   }
 };
 
