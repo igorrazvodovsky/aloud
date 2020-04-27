@@ -10,8 +10,21 @@
         v-if="duration > 0"
       />
       <!-- Book primary actions -->
-      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
-        <v-btn large text icon @click.stop="handleRewind" @mousedown="rewinding = true">
+      <v-flex
+        xs12
+        d-flex
+        align-center
+        justify-space-around
+        player-actions-primary
+        my-12
+      >
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleRewind"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-rewind-10</v-icon>
         </v-btn>
         <button
@@ -22,7 +35,13 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn large text icon @click.stop="handleForward" @mousedown="rewinding = true">
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleForward"
+          @mousedown="rewinding = true"
+        >
           <v-icon>mdi-fast-forward-10</v-icon>
         </v-btn>
       </v-flex>
@@ -34,7 +53,8 @@
           text
           rounded
           @click.stop="handleSpeedMenu"
-        >{{ rate }}×</v-btn>
+          >{{ rate }}×</v-btn
+        >
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
@@ -65,7 +85,12 @@
         @close="handleSpeedMenu"
         @set-speed="setRate"
       />
-      <player-sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="handleSleepMenu" />
+      <player-sleep-menu
+        key="2"
+        v-if="sleepMenu"
+        :open="sleepMenu"
+        @close="handleSleepMenu"
+      />
       <!-- </v-slide-y-reverse-transition> -->
     </div>
   </div>
@@ -90,7 +115,7 @@ export default {
     PlayerProgressSlider
   },
 
-  props: ["paused"],
+  props: ["paused", "bookTracks"],
 
   data() {
     return {
@@ -102,7 +127,6 @@ export default {
       rate: 1.0,
       seek: 300,
       duration: 0,
-      sources: ["/northangerabbey_02_austen_64kb.mp3"],
       sleepMenu: false,
       speedMenu: false,
       /**
@@ -127,7 +151,7 @@ export default {
           name: "load",
           hook: () => {
             this.duration = this.$data._howl.duration();
-            // TODO
+            // TODO:
             this.setSeek(300);
           }
         },
@@ -174,27 +198,24 @@ export default {
   },
   computed: {
     ...mapState(["book"]),
-    bookTracks() {
-      // 1. Filter for mp3s
-      // 2. Sort them by "title"
-      return Array.from(this.book[this.book.metadata.identifier])
-        .filter(function(el) {
-          // TODO: Changing the audio quality?
-          return el.source == "original" && el.format.includes("MP3");
-        })
-        .sort((a, b) =>
-          // TODO: Not sure if works. Additional tests needed
-          // TODO: Check also for "track" & maybe even prioratize it
-          a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
-          b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
-            ? 1
-            : -1
-        );
-      // sort((a, b) => a.track.localeCompare(b.track))
-    },
-    bookTrackURLs() {
-
+    sources() {
+      return [
+        "api/download/" +
+          this.book.metadata.identifier +
+          "/" +
+          this.bookTracks[0].name
+      ];
     }
+    // sources() {
+    //   src = new Array();
+    //   src.push(
+    //     "api/download/" +
+    //       this.book.metadata.identifier +
+    //       "/" +
+    //       this.bookTracks[0].name
+    //   );
+    //   return src;
+    // }
   },
   created() {
     this._initialize();
@@ -219,7 +240,6 @@ export default {
       }
     },
     paused(paused) {
-      console.log(paused);
       this.togglePlayback();
     },
     sources(sources) {
@@ -234,7 +254,7 @@ export default {
     _initialize() {
       this.$data._howl = new Howl({
         src: this.sources,
-        html5: this.html5,
+        html5: true,
         preload: true,
         rate: this.rate,
         format: this.formats,
@@ -275,7 +295,7 @@ export default {
     _cleanup(resetSettings = true) {
       // Stop all playback
       if (this.$data._howl) {
-        this.stop();
+        this.pause();
       }
 
       // Stop all polls

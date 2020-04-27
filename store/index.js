@@ -17,7 +17,7 @@ export const state = () => ({
   page: 'index',
   playing: false,
   // TODO: Default book
-  book: { metadata: { title: 'Test' } },
+  book: { metadata: { title: '' } },
 })
 
 export const mutations = {

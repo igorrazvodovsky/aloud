@@ -19,9 +19,6 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>' }
-    ],
-    link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap' },
     ]
   },
   /*
@@ -32,7 +29,7 @@ export default {
   ** Global CSS
   */
   css: [
-    '@/assets/main.scss'
+    '@/styles/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -52,7 +49,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    'nuxt-svg-loader'
   ],
   /*
   ** Axios module configuration
@@ -77,21 +75,21 @@ export default {
     icons: {
       iconfont: 'md',
     },
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/styles/variables.scss'],
     theme: {
       options: {
         customProperties: true,
       },
       themes: {
-        // light: {
-        //   primary: "#48001e",
-        //   accent: "#ff5c28",
-        //   secondary: colors.amber.darken3,
-        //   info: colors.teal.lighten1,
-        //   warning: colors.amber.base,
-        //   error: colors.deepOrange.accent4,
-        //   success: "#6FCF97"
-        // }
+        light: {
+          primary: colors.green.base,
+          // accent: colors.grey.darken3,
+          secondary: colors.grey.darken1,
+          // info: colors.teal.lighten1,
+          // warning: colors.amber.base,
+          // error: colors.deepOrange.accent4,
+          // success: "#6FCF97"
+        }
       }
     }
   },

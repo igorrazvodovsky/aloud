@@ -1,0 +1,56 @@
+.player-desktop {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &__title {
+    margin: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    & > div:last-child {
+      text-align: right;
+    }
+  }
+  &__actions {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .btn--vertical {
+      text-align: center;
+      width: 200px;
+      transform: translateX(4rem) rotate(90deg);
+      &:first-of-type {
+        transform: translateX(-4rem) rotate(-90deg);
+      }
+      .v-btn {
+        letter-spacing: 0.2em;
+      }
+    }
+  }
+  &__progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin: -1rem 2rem 0 2rem;
+    & > div:last-child {
+      text-align: right;
+    }
+  }
+  // TODO:
+  .v-slider {
+    transform: translateY(-14px);
+    &__track-container {
+      height: 12px;
+    }
+    &__thumb {
+      opacity: 0;
+    }
+    &__track-background {
+      opacity: 0;
+    }
+  }
+  .v-input__slider:hover .v-slider__thumb {
+    opacity: 1;
+  }
+}

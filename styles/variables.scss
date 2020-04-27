@@ -1,0 +1,43 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+$border-radius-root: 2px;
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$serif-font-family: "Source Serif Pro", "New York", "Georgia", serif;
+$body-font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol";
+
+$headings: (
+  "h1": (
+    "letter-spacing": normal
+  ),
+  "headline": (
+    "letter-spacing": normal
+  ),
+  "title": (
+    "letter-spacing": normal
+  ),
+  "display-3": (
+    "weight": 200
+  ),
+  "overline": (
+    "letter-spacing": 0.2em,
+    "size": 14px
+  )
+);
+
+$material-light: () !default;
+$material-light: (
+  "background": var(--color-bg)
+);
+
+$ripple-animation-transition-in: opacity 0.1s ease-in-out;
+$ripple-animation-transition-out: opacity 0.3s ease-in-out;
+$ripple-animation-visible-opacity: 0;
+
+$tabs-item-letter-spacing: normal;
+
+// If you need to extend Vuetify SASS lists
+// $material-light: ( cards: blue );
+
+@import "~vuetify/src/styles/styles.sass";
