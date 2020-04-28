@@ -253,6 +253,9 @@ body {
   align-items: center;
   height: 100vh !important;
   width: auto !important;
+  position: absolute;
+  left: 0;
+  right: 0;
   svg {
     width: 2rem;
     height: 2rem;
@@ -304,5 +307,32 @@ button {
 button:disabled {
   svg {
     fill: var(--v-secondary-lighten2);
+  }
+}
+
+.dialog {
+  &__close {
+    display: block !important;
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .bookshelf {
+    display: flex;
+    height: calc(100% - 120px);
+    .v-card {
+      margin: 0.5rem;
+    }
+    .v-card__text {
+      min-width: 6rem;
+      display: flex;
+      flex-direction: row-reverse;
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
   }
 }

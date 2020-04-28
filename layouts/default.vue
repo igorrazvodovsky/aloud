@@ -24,10 +24,10 @@
     </v-slide-x-reverse-transition>
 
     <!-- Browser or search results -->
-    <!-- <v-slide-y-reverse-transition>
+    <v-slide-y-reverse-transition>
       <browser key="1" v-if="browse" @open-browser="browser = true" :open="browser" />
       <search-results key="2" v-if="page == 'search'" />
-    </v-slide-y-reverse-transition>-->
+    </v-slide-y-reverse-transition>
   </v-app>
 </template>
 
@@ -36,7 +36,7 @@ import PlayerMobileView from "~/components/player/PlayerMobileView.vue";
 import PlayerDesktopView from "~/components/player/PlayerDesktopView.vue";
 import Search from "~/components/search/Search.vue";
 import SearchResults from "~/components/search/SearchResults.vue";
-import Browser from "~/components/Browser.vue";
+import Browser from "~/components/browse/Browser.vue";
 import { mapState } from "vuex";
 import axios from "axios";
 

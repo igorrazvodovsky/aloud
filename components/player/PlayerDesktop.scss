@@ -1,5 +1,5 @@
 .player-desktop {
-  height: 100%;
+  height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
   &__title {

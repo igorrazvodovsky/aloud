@@ -10,22 +10,9 @@
         v-if="duration > 0"
       />
       <!-- Book primary actions -->
-      <v-flex
-        xs12
-        d-flex
-        align-center
-        justify-space-around
-        player-actions-primary
-        my-12
-      >
-        <v-btn
-          large
-          text
-          icon
-          @click.stop="handleRewind"
-          @mousedown="rewinding = true"
-        >
-          <v-icon>mdi-rewind-10</v-icon>
+      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
+        <v-btn large text icon @click.stop="handleRewind" @mousedown="rewinding = true">
+          <icon-rewind />
         </v-btn>
         <button
           :class="
@@ -35,36 +22,30 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn
-          large
-          text
-          icon
-          @click.stop="handleForward"
-          @mousedown="rewinding = true"
-        >
-          <v-icon>mdi-fast-forward-10</v-icon>
+        <v-btn large text icon @click.stop="handleForward" @mousedown="rewinding = true">
+          <icon-forward />
         </v-btn>
       </v-flex>
 
       <!-- Book secondary actions -->
       <v-flex xs12 mx-auto my-8>
         <v-btn
-          class="px-0 font-weight-bold color-medium-emphasis"
+          class="px-0 color-medium-emphasis body-1"
           text
           rounded
           @click.stop="handleSpeedMenu"
-          >{{ rate }}×</v-btn
-        >
+        >{{ rate }}×</v-btn>
+
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
           text
           icon
           @click.stop="handleSleepMenu"
         >
-          <v-icon>mdi-power-sleep</v-icon>
+          <icon-sleep />
         </v-btn>
-        <v-btn class="mx-3" text icon @click.stop="bookmark = true">
-          <v-icon>mdi-bookmark</v-icon>
+        <v-btn disabled class="mx-3" text icon @click.stop="bookmark = true">
+          <icon-bookmark />
         </v-btn>
       </v-flex>
     </v-layout>
@@ -85,12 +66,7 @@
         @close="handleSpeedMenu"
         @set-speed="setRate"
       />
-      <player-sleep-menu
-        key="2"
-        v-if="sleepMenu"
-        :open="sleepMenu"
-        @close="handleSleepMenu"
-      />
+      <player-sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="handleSleepMenu" />
       <!-- </v-slide-y-reverse-transition> -->
     </div>
   </div>
@@ -105,6 +81,10 @@ import PlayerProgressSlider from "~/components/player/PlayerProgressSlider.vue";
 import clamp from "math-clamp";
 import values from "object-values";
 import assign from "object-assign";
+import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
+import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
+import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";
+import IconSleep from "@/assets/Weather_iconoteka_moon__waning_crescent__red_crescent_r_s.svg";
 import { mapState } from "vuex";
 
 export default {
@@ -112,7 +92,11 @@ export default {
     PlayerLists,
     PlayerPlaybackSpeedMenu,
     PlayerSleepMenu,
-    PlayerProgressSlider
+    PlayerProgressSlider,
+    IconRewind,
+    IconForward,
+    IconBookmark,
+    IconSleep
   },
 
   props: ["paused", "bookTracks"],

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-3">
+  <div class="bookshelf mx-3">
     <v-card
       v-for="book in books"
       :key="book.id"
@@ -10,8 +10,8 @@
       @click.stop="$store.dispatch('setBook', book.archiveOrgId)"
     >
       <v-card-text>
-        <div>{{book.author}}</div>
-        <p class="headline text--primary mb-0">{{book.title}}</p>
+        <div class="overline">{{book.author}}</div>
+        <p class="display-1 serif text--primary mb-0">{{book.title}}</p>
       </v-card-text>
     </v-card>
   </div>

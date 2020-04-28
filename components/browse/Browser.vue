@@ -1,18 +1,18 @@
 <template>
   <v-card
     class="browse"
-    :style="open ? 'top: 3.25rem' : 'top: 90%'"
+    :style="open ? 'top: 3.25rem' : 'top: calc(100% - 3.5rem + 1px)'"
     @click.stop="$emit('open-browser')"
     :ripple="false"
   >
-    <v-row justify="space-between" class="pl-3 pr-2 my-3" no-gutters>
+    <v-row justify="space-between" class="pl-4 pr-2 my-3" no-gutters>
       <v-col cols="auto">
-        <h2 class="title">Books</h2>
+        <h2 class="headline serif">Bookshelf</h2>
       </v-col>
       <v-col cols="auto">
-        <v-btn text icon to="/search" nuxt @click.stop>
+        <!-- <v-btn text icon to="/search" nuxt @click.stop>
           <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+        </v-btn>-->
       </v-col>
     </v-row>
     <!-- <v-content> -->
