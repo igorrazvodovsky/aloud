@@ -11,13 +11,13 @@
       <player-desktop-view
         key="1"
         v-if="player && !isMobile"
-        @open-player="browser = false"
+        @open-player="toggleBrowser"
         :closed="browser"
       />
       <player-mobile-view
         key="1"
         v-if="player && isMobile"
-        @open-player="browser = false"
+        @open-player="toggleBrowser"
         :closed="browser"
       />
       <search key="2" v-if="page == 'search'" />
@@ -25,19 +25,19 @@
 
     <!-- Browser or search results -->
     <v-slide-y-reverse-transition>
-      <browser key="1" v-if="browse" @open-browser="browser = true" :open="browser" />
+      <browser key="1" v-if="browse" @open-browser="toggleBrowser" :open="browser" />
       <search-results key="2" v-if="page == 'search'" />
     </v-slide-y-reverse-transition>
   </v-app>
 </template>
 
 <script>
-import PlayerMobileView from "~/components/player/PlayerMobileView.vue";
-import PlayerDesktopView from "~/components/player/PlayerDesktopView.vue";
-import Search from "~/components/search/Search.vue";
-import SearchResults from "~/components/search/SearchResults.vue";
-import Browser from "~/components/browse/Browser.vue";
-import { mapState } from "vuex";
+import PlayerMobileView from "~/components/player/player-mobile-view.vue";
+import PlayerDesktopView from "~/components/player/player-desktop-view.vue";
+import Search from "~/components/search/search.vue";
+import SearchResults from "~/components/search/search-results.vue";
+import Browser from "~/components/browse/browser.vue";
+import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 
 export default {
@@ -51,16 +51,16 @@ export default {
 
   data() {
     return {
-      browser: false,
       isMobile: false
     };
   },
 
   computed: {
-    ...mapState(["page", "book"]),
+    ...mapState(["page", "book", "browser"]),
     player() {
       return this.page == "index" || this.page == "browse";
     },
+    // TODO: Better name
     browse() {
       return this.page == "index" || this.page == "browse";
     }
@@ -76,6 +76,7 @@ export default {
       this.$store.dispatch("setBook", "art_of_war_librivox");
   },
   methods: {
+    ...mapMutations(["toggleBrowser"]),
     onResize() {
       this.isMobile = window.innerWidth < 600;
     }

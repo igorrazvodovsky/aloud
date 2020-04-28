@@ -55,9 +55,9 @@
   </div>
 </template>
 <script>
-import { PlayerBase } from "~/components/player/PlayerBase";
-import PlayerDesktopTocDialog from "~/components/player/PlayerDesktopTocDialog";
-import "~/components/player/PlayerDesktop.scss";
+import { PlayerBase } from "~/components/player/player-base";
+import PlayerDesktopTocDialog from "~/components/player/player-desktop-toc-dialog";
+import "~/components/player/player-desktop.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";

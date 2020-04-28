@@ -75,7 +75,7 @@
 
 <script>
 import PlayerMain from "~/components/player/PlayerMain.vue";
-import PlayerLists from "~/components/player/PlayerLists.vue";
+import PlayerLists from "~/components/player/player-mobile-lists.vue";
 import IconList from "@/assets/UI_iconoteka_list__playlist_queue_r_a.svg";
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
 import IconBack from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
@@ -98,13 +98,7 @@ export default {
     playing: false,
     openLists: false,
     dimmed: false,
-    sources: [],
-    actions: [
-      { title: "Mark as finished" },
-      { title: "Share" },
-      { title: "Share to Instagram Story" },
-      { title: "Gift book" }
-    ]
+    sources: []
   }),
   computed: {
     ...mapState(["book"]),
@@ -123,15 +117,6 @@ export default {
     }
   },
   methods: {
-    // async fetchSource() {
-    //   const src = await this.$axios.$get(
-    //     "api/download/" +
-    //       this.book.metadata.identifier +
-    //       "/" +
-    //       this.bookTracks[0].name
-    //   );
-    //   this.sources.push(src);
-    // },
     handleTogglePlay() {
       this.$refs.player.togglePlayback();
     }

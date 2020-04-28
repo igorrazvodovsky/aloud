@@ -1,5 +1,5 @@
 <template>
-  <v-list dense>
+  <v-list>
     <v-list-item-group>
       <template v-for="(item, index) in items">
         <v-list-item :three-line="item.note ? true : false" :key="index">

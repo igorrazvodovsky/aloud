@@ -7,7 +7,7 @@
       tile
       class="mb-3"
       :disabled="book.title == currentBook.title"
-      @click.stop="$store.dispatch('setBook', book.archiveOrgId)"
+      @click.stop="changeBook(book.archiveOrgId)"
     >
       <v-card-text>
         <div class="overline">{{book.author}}</div>
@@ -86,6 +86,12 @@ export default {
   computed: {
     currentBook() {
       return this.$store.state.book.metadata;
+    }
+  },
+  methods: {
+    changeBook(bookId) {
+      this.$store.dispatch("setBook", bookId);
+      this.$store.commit("toggleBrowser");
     }
   }
 };

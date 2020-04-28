@@ -74,10 +74,10 @@
 
 <script>
 import { Howl } from "howler";
-import PlayerLists from "~/components/player/PlayerLists.vue";
-import PlayerPlaybackSpeedMenu from "~/components/player/PlayerPlaybackSpeedMenu.vue";
-import PlayerSleepMenu from "~/components/player/PlayerSleepMenu.vue";
-import PlayerProgressSlider from "~/components/player/PlayerProgressSlider.vue";
+import PlayerLists from "~/components/player/player-mobile-lists.vue";
+import PlayerPlaybackSpeedMenu from "~/components/player/player-mobile-menu-speed.vue";
+import PlayerSleepMenu from "~/components/player/player-mobile-menu-sleep.vue";
+import PlayerProgressSlider from "~/components/player/player-mobile-progress-slider.vue";
 import clamp from "math-clamp";
 import values from "object-values";
 import assign from "object-assign";

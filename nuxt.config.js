@@ -82,7 +82,7 @@ export default {
       },
       themes: {
         light: {
-          primary: colors.green.base,
+          primary: colors.grey.darken4,
           // accent: colors.grey.darken3,
           secondary: colors.grey.darken1,
           // info: colors.teal.lighten1,

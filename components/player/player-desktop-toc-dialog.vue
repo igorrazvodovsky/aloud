@@ -22,7 +22,7 @@
 </template>
 <script>
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
-import PlayerToc from "~/components/player/PlayerToc.vue";
+import PlayerToc from "~/components/player/player-toc.vue";
 export default {
   components: {
     IconClose,
