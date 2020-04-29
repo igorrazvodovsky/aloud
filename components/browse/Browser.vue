@@ -2,10 +2,14 @@
   <v-card
     class="browse"
     :style="open ? 'top: 3.25rem' : 'top: calc(100% - 3.5rem + 1px)'"
-    @click.stop="$emit('open-browser')"
     :ripple="false"
   >
-    <v-row justify="space-between" class="pl-4 pr-2 my-3" no-gutters>
+    <v-row
+      justify="space-between"
+      class="pl-4 pr-2 my-3"
+      no-gutters
+      @click.stop="$emit('open-browser')"
+    >
       <v-col cols="auto">
         <h2 class="headline serif">Bookshelf</h2>
       </v-col>

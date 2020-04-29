@@ -31,7 +31,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  bookTracks: state => {
+  chapters: state => {
     return (
       Array.from(state.book[state.book.metadata.identifier])
         // 1. Filter for mp3s

@@ -18,6 +18,7 @@
     align-items: center;
     justify-content: space-between;
     .btn--vertical {
+      // TODO: Alt. with text-orientation, writing-mode etc?
       text-align: center;
       width: 200px;
       transform: translateX(4rem) rotate(90deg);

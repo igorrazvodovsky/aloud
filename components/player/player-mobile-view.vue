@@ -66,7 +66,7 @@
         @play="playing = true"
         @dim="dimmed = !dimmed"
         ref="player"
-        :book-tracks="bookTracks"
+        :chapters="chapters"
       />
     </keep-alive>
     <player-lists v-if="tab == 1" @close-lists="tab = 0" />
@@ -107,8 +107,8 @@ export default {
       else if (this.openLists) return 1;
       else return 0;
     },
-    bookTracks() {
-      return this.$store.getters.bookTracks;
+    chapters() {
+      return this.$store.getters.chapters;
     }
   },
   beforeDestroy() {

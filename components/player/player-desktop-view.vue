@@ -27,7 +27,7 @@
     </div>
     <div class="player-desktop__title">
       <div>
-        <div class="overline mb-2">Now listening</div>
+        <div class="overline mb-2 secondary--text">Now listening</div>
         <h1 class="display-3 serif mb-2">{{ book.metadata.title }}</h1>
         <h2 class="display-1 serif secondary--text">{{ book.metadata.creator }}</h2>
       </div>
@@ -39,7 +39,7 @@
           <icon-forward />
         </v-btn>
         <v-btn text rounded>
-          <span class="body-1">1.0×</span>
+          <span class="body-1 text--secondary">1.0×</span>
         </v-btn>
         <v-btn title="Set timer" large icon>
           <icon-sleep />

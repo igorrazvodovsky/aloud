@@ -30,7 +30,7 @@
       <!-- Book secondary actions -->
       <v-flex xs12 mx-auto my-8>
         <v-btn
-          class="px-0 color-medium-emphasis body-1"
+          class="px-0 text--secondary body-1"
           text
           rounded
           @click.stop="handleSpeedMenu"
@@ -99,7 +99,7 @@ export default {
     IconSleep
   },
 
-  props: ["paused", "bookTracks"],
+  props: ["paused", "chapters"],
 
   data() {
     return {
@@ -182,24 +182,15 @@ export default {
   },
   computed: {
     ...mapState(["book"]),
+    // TODO: API provides several servers. Switch servers/urls if the server is down
     sources() {
       return [
         "api/download/" +
           this.book.metadata.identifier +
           "/" +
-          this.bookTracks[0].name
+          this.chapters[0].name
       ];
     }
-    // sources() {
-    //   src = new Array();
-    //   src.push(
-    //     "api/download/" +
-    //       this.book.metadata.identifier +
-    //       "/" +
-    //       this.bookTracks[0].name
-    //   );
-    //   return src;
-    // }
   },
   created() {
     this._initialize();
