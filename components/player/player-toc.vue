@@ -9,8 +9,8 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text>
-              <span v-if="index > 0">{{chapterPositions[index]}},</span>
-              {{item.length}}
+              <span v-if="index > 0">{{chapterPositions[index]}}</span>
+              <!-- {{item.length}} -->
             </v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
@@ -27,22 +27,26 @@ export default {
       return this.$store.getters.chapters;
     },
     chapterPositions() {
-      // Calc the time of the chapter beginning
-      return (
-        this.chapters
-          .map(c =>
-            this.chapters
-              .slice(0, this.chapters.indexOf(c))
-              .map(chapter =>
-                chapter.length
-                  .split(":")
-                  .reduce((acc, time) => 60 * acc + +time)
-              )
-              .reduce((a, b) => a + b, 0)
-          )
-          // TODO: Doesn't work for long books (>24h)
-          .map(s => new Date(s * 1000).toISOString().substr(11, 8))
-      );
+      // Calc the time of the beginning of each chapter
+      return this.chapters
+        .map(c =>
+          this.chapters
+            .slice(0, this.chapters.indexOf(c))
+            .map(chapter =>
+              chapter.length.split(":").reduce((acc, time) => 60 * acc + +time)
+            )
+            .reduce((a, b) => a + b, 0)
+        )
+        .map(s => this.formatSec(s));
+    }
+  },
+  methods: {
+    formatSec(timeInSeconds) {
+      let sec_num = parseInt(timeInSeconds, 10);
+      let hours = Math.floor(sec_num / 3600);
+      let minutes = Math.floor((sec_num - hours * 3600) / 60);
+      if (hours > 0) return hours + " hr " + minutes + " min";
+      else return minutes + " min";
     }
   }
 };

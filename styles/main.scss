@@ -33,11 +33,12 @@ body {
     flex-direction: column;
     height: 100%;
     transition: $primary-transition;
-    &.dimmed {
+    &.disabled {
       // TODO: Check the positionibng on different screen sizes
       transform: translateY(calc(-25% - #{$header-height}));
       .player-actions-container-primary {
         opacity: 0.25;
+        filter: blur(4px) grayscale(100%);
       }
     }
   }
@@ -45,6 +46,7 @@ body {
     height: 100%;
     &-primary {
       height: 100%;
+      will-change: transform, filter, opacity;
     }
   }
 
@@ -173,8 +175,8 @@ body {
     }
     // TODO: Something better
     & .row:first-of-type {
-        cursor: pointer
-      } 
+      cursor: pointer;
+    }
   }
   &.search-results {
     min-height: 600px;
@@ -354,5 +356,5 @@ button:disabled {
 
 // Vuetify default style sets only 'color'
 .theme--light.v-btn.v-btn--icon {
-    fill: var(--color-medium-emphasis);
+  fill: var(--color-medium-emphasis);
 }

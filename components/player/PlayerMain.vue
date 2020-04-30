@@ -380,11 +380,11 @@ export default {
       (this.rewindedFor = 0), (this.rewinding = false);
     },
     handleSpeedMenu() {
-      this.$emit("dim");
+      this.$emit("disable");
       this.speedMenu = !this.speedMenu;
     },
     handleSleepMenu() {
-      this.$emit("dim");
+      this.$emit("disable");
       this.sleepMenu = !this.sleepMenu;
     }
   }

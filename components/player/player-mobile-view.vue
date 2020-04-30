@@ -4,7 +4,7 @@
 <!-- 3. Lists (TOC & Bookmarks) -->
 
 <template>
-  <div class="player-container" :class="{ dimmed: dimmed }">
+  <div class="player-container" :class="{ disabled: disabled }">
     <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
@@ -64,7 +64,7 @@
         @load="loaded = true"
         @pause="playing = false"
         @play="playing = true"
-        @dim="dimmed = !dimmed"
+        @disable="disabled = !disabled"
         ref="player"
         :chapters="chapters"
       />
@@ -97,7 +97,7 @@ export default {
     loaded: false,
     playing: false,
     openLists: false,
-    dimmed: false,
+    disabled: false,
     sources: []
   }),
   computed: {
