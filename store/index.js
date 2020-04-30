@@ -60,8 +60,12 @@ export const getters = {
             ...keepAttrs
           }) => keepAttrs
         )
-        // 4. Add a property to store a Howler object
-        .map(obj => ({ ...obj, howl: null }))
+        // 4. Add a full URL to a file
+        .map(obj => ({
+          ...obj, url: "api/download/" +
+            state.book.metadata.identifier +
+            "/" + obj.name
+        }))
     );
   }
 }

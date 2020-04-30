@@ -17,9 +17,6 @@ row
       >{{ item }}</v-btn>
       <v-btn rounded outlined small class="ma-2">End of chapter</v-btn>
     </div>
-    <!-- <v-btn class="ma-2" depressed outlined fab small color="secondary">
-            <v-icon class="white--text">mdi-refresh</v-icon>
-    </v-btn>-->
     <v-btn icon @click.stop="$emit('close')">
       <icon-close />
     </v-btn>
