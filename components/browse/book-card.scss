@@ -1,0 +1,11 @@
+.book-card {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  &-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}

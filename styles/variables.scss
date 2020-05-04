@@ -1,3 +1,7 @@
+$mobile-header-height: 100px;
+
+// VUETIFY
+
 // Ref: https://github.com/nuxt-community/vuetify-module#customvariables
 $border-radius-root: 2px;
 $btn-letter-spacing: 0;
@@ -17,8 +21,11 @@ $headings: (
   "title": (
     "letter-spacing": normal
   ),
-  "display-3": (
-    "weight": 200
+  "h4": (
+    "font-weight": 200
+  ),
+  "h6": (
+    "weight": 300
   ),
   "overline": (
     "letter-spacing": 0.2em,
@@ -36,6 +43,9 @@ $ripple-animation-transition-out: opacity 0.3s ease-in-out;
 $ripple-animation-visible-opacity: 0;
 
 $tabs-item-letter-spacing: normal;
+$tabs-bar-background-color: transparent;
+
+$list-item-action-text-font-size: 1rem;
 
 // Default Vuetify transitions
 // $transition: () !default;
@@ -50,10 +60,14 @@ $tabs-item-letter-spacing: normal;
 //   ),
 //   $transition
 // );
-$primary-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1) !default;   //fast-in-fast-out
-$secondary-transition: 0.2s cubic-bezier(0.4, 0, 0.6, 1) !default;    //ease-in-out
+$primary-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1) !default; //fast-in-fast-out
+$secondary-transition: 0.2s cubic-bezier(0.4, 0, 0.6, 1) !default; //ease-in-out
 
 // If you need to extend Vuetify SASS lists
-// $material-light: ( cards: blue );
+$material-light: (
+  background: var(--color-bg),
+  cards: transparent,
+  sheet: white
+);
 
 @import "~vuetify/src/styles/styles.sass";

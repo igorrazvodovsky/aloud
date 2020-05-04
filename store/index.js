@@ -41,12 +41,12 @@ export const getters = {
         })
         // 2. Sort them by "title"
         // TODO: Not sure if works. Additional tests needed. Should also check for "track" & prioratize it
-        .sort((a, b) =>
-          a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
-            b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
-            ? 1
-            : -1
-        )
+        // .sort((a, b) =>
+        //   a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
+        //     b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
+        //     ? 1
+        //     : -1
+        // )
         // // 3. Remove unnecesary properties
         .map(
           ({

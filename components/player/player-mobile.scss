@@ -1,0 +1,64 @@
+.player {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: $primary-transition;
+    &.disabled {
+      // TODO: Check the positionibng on different screen sizes
+      transform: translateY(calc(-25% - #{$mobile-header-height}));
+      .player-actions-container-primary {
+        opacity: 0.25;
+        filter: blur(4px) grayscale(100%);
+      }
+    }
+  }
+  &-actions-container {
+    height: 100%;
+    &-primary {
+      height: 100%;
+      will-change: transform, filter, opacity;
+    }
+  }
+
+  &-header {
+    height: 84px;
+    align-items: flex-start;
+  }
+
+  &-speed,
+  &-sleep {
+    padding: 0 1rem;
+    &-btn {
+      &--on {
+        .v-btn__content {
+          &::before,
+          &::after {
+            font-size: 10px;
+            font-weight: 900 !important;
+            content: "Z";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+          &::before {
+            animation: 4s linear infinite sleep;
+          }
+          &::after {
+            animation: 4s ease-out infinite sleep;
+          }
+        }
+      }
+    }
+  }
+
+  // &-progress {
+  //   transform: translateY(-0.5rem);
+  // }
+
+  // &-actions-primary .v-btn:active {
+  //   animation: btn-click 0.3s forwards;
+  //   animation-timing-function: ease-in-out;
+  // }
+}

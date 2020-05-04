@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import "~/components/search/search.scss";
 export default {
   methods: {
     handleBack() {

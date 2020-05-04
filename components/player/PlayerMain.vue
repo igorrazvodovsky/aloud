@@ -86,7 +86,8 @@ import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";
 import IconSleep from "@/assets/Weather_iconoteka_moon__waning_crescent__red_crescent_r_s.svg";
 import { mapState } from "vuex";
-
+import "~/components/player/player-mobile.scss";
+import "~/components/player/player.scss";
 export default {
   components: {
     PlayerLists,

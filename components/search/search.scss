@@ -1,0 +1,22 @@
+.search {
+  &-input {
+    &.v-text-field--rounded > .v-input__control > .v-input__slot {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  &-results {
+    .v-avatar.series {
+      transform: rotate(12deg);
+      background-color: rgba(black, 0.2) !important;
+      overflow: visible;
+      & img {
+        transform: rotate(-12deg);
+      }
+    }
+  }
+}
+
+.v-card.search-results {
+  min-height: 600px;
+}

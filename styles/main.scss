@@ -1,23 +1,11 @@
 @import "source-sans-pro";
 @import "source-serif-pro";
-
-$header-height: 100px;
+@import "animations";
 
 :root {
   --color-bg: #f4f3ef;
   --color-medium-emphasis: rgba(0, 0, 0, 0.54);
-  --animation-all-300-ease-in-out: all 300ms ease-in-out;
-  --animation-all-1000-ease-in-out: all 1000ms ease-in-out;
-  --animation-slide-in: a-slide-in 0.5s forwards;
-  --animation-slide-out: a-slide-out 0.5s forwards;
-  --breakpoint-phone-only: 599px;
-  --breakpoint-tablet-portrait-up: 600px;
-  --breakpoint-tablet-landscape-up: 900px;
-  --breakpoint-desktop-up: 1200px;
-  --breakpoint-large-desktop-up: 1800px;
 }
-
-// MAIN
 
 body {
   overflow: hidden;
@@ -27,131 +15,8 @@ body {
   }
 }
 
-.player {
-  &-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: $primary-transition;
-    &.disabled {
-      // TODO: Check the positionibng on different screen sizes
-      transform: translateY(calc(-25% - #{$header-height}));
-      .player-actions-container-primary {
-        opacity: 0.25;
-        filter: blur(4px) grayscale(100%);
-      }
-    }
-  }
-  &-actions-container {
-    height: 100%;
-    &-primary {
-      height: 100%;
-      will-change: transform, filter, opacity;
-    }
-  }
-
-  // FIX
-  &-header {
-    height: 84px;
-    align-items: flex-start;
-  }
-
-  &-speed,
-  &-sleep {
-    padding: 0 1rem;
-    &-btn {
-      &--on {
-        .v-btn__content {
-          &::before,
-          &::after {
-            font-size: 10px;
-            font-weight: 900 !important;
-            content: "Z";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
-          &::before {
-            animation: 4s linear infinite sleep;
-          }
-          &::after {
-            animation: 4s ease-out infinite sleep;
-          }
-        }
-      }
-    }
-  }
-
-  &-progress {
-    transform: translateY(-0.5rem);
-  }
-
-  &-actions-primary .v-btn:active {
-    animation: btn-click 0.3s forwards;
-    animation-timing-function: ease-in-out;
-  }
-
-  @keyframes btn-click {
-    from {
-      transform: scale(1);
-    }
-    75% {
-      transform: scale(0.95);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-
-  &-playpause {
-    &:focus {
-      outline: none;
-    }
-    &:active {
-      animation: btn-click 0.3s forwards;
-    }
-    background-color: rgba(black, 0.9);
-    border-radius: 50%;
-    width: 25vmin;
-    height: 25vmin;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05),
-      0 100px 80px rgba(0, 0, 0, 0.07);
-    label {
-      display: block;
-      box-sizing: border-box;
-      width: 0;
-      height: 40px;
-      border-color: transparent transparent transparent var(--color-bg);
-      transition: all 200ms ease-in-out;
-      cursor: pointer;
-      border-style: double;
-      border-width: 0px 0 0px 36px;
-      &:focus {
-        outline: none;
-      }
-    }
-    &.paused {
-      label {
-        margin-left: 10px;
-        border-style: solid;
-        border-width: 24px 0 24px 36px;
-      }
-    }
-  }
-}
-
-.v-slider--horizontal {
-  margin: 0 !important;
-}
-
-.theme--light.v-card {
+// Bottom sheets
+.v-card {
   &.browse,
   &.search-results {
     transition: all 0.2s ease-in-out;
@@ -168,7 +33,6 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: white;
     &::-webkit-scrollbar {
       width: 0px;
       background: transparent;
@@ -178,87 +42,10 @@ body {
       cursor: pointer;
     }
   }
-  &.search-results {
-    min-height: 600px;
-  }
 }
-
-.v-slider--horizontal .v-slider__thumb-label {
-  height: 1.25rem !important;
-  width: auto !important;
-  background-color: rgba(black, 0.6) !important;
-  border-color: rgba(black, 0.6) !important;
-  transform: translateY(-75%) translateX(-50%) rotate(0) !important;
-  border-radius: 2px;
-  padding: 0 0.25rem;
-  & > * {
-    transform: rotate(0) !important;
-  }
-}
-
-// FIX
-.v-window-item > .theme--light.v-list,
-.theme--light.v-tabs > .v-tabs-bar,
-.theme--light.v-tabs-items {
-  background: transparent !important;
-}
-
-.v-tab {
-  text-transform: none !important;
-}
-
-.theme--light.v-tabs {
-  border-bottom: 1px solid white;
-  .v-tabs-slider-wrapper {
-    display: none !important;
-  }
-  .v-tab,
-  .v-tab--active {
-    &:focus::before,
-    &:hover::before,
-    .v-ripple__container {
-      opacity: 0 !important;
-    }
-  }
-}
-
-// Search
-
-.search {
-  &-input {
-    &.v-text-field--rounded > .v-input__control > .v-input__slot {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-  }
-  &-results {
-    .v-avatar.series {
-      transform: rotate(12deg);
-      background-color: rgba(black, 0.2) !important;
-      overflow: visible;
-      & img {
-        transform: rotate(-12deg);
-      }
-    }
-  }
-}
-
-// Animations
-
-@keyframes sleep {
-  0% {
-    transform: translate(0px, 0px) rotate(5deg);
-    opacity: 0.5;
-  }
-  30% {
-    transform: translate(-2px, -6px) rotate(15deg) scale(1.1);
-  }
-  60% {
-    transform: translate(-4px, -10px) rotate(25deg) scale(1.3);
-  }
-  100% {
-    transform: translate(0px, -16px) rotate(30deg) scale(1.5);
-    opacity: 0;
+.theme--light.v-card {
+  &.browse {
+    background-color: white;
   }
 }
 
@@ -278,24 +65,7 @@ body {
   }
 }
 
-.v-btn--outlined {
-  border: thin solid rgba(black, 0.2) !important;
-  background-clip: padding-box;
-}
-
-// Book card
-
-.book-card {
-  position: relative;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  &-border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-  }
-}
+// Typography
 
 .v-application {
   .display-1.serif,
@@ -307,6 +77,8 @@ body {
     font-family: $serif-font-family !important;
   }
 }
+
+// Icon buttons
 
 button {
   svg {
@@ -321,6 +93,7 @@ button:disabled {
   }
 }
 
+// Dialog close button
 .dialog {
   &__close {
     display: block !important;
@@ -328,6 +101,9 @@ button:disabled {
   }
 }
 
+// BROWSE
+
+// Flipping books on desktop
 @media (min-width: 900px) {
   .bookshelf {
     display: flex;
@@ -354,7 +130,44 @@ button:disabled {
   }
 }
 
+//
+// VUETIFY CUSTOMIZATIONS
+//
+
 // Vuetify default style sets only 'color'
 .theme--light.v-btn.v-btn--icon {
   fill: var(--color-medium-emphasis);
+}
+
+.v-btn--outlined {
+  border: thin solid rgba(black, 0.2) !important;
+  background-clip: padding-box;
+}
+
+// Making slider span the whole screen
+.v-slider--horizontal {
+  margin: 0 !important;
+}
+
+.v-tab {
+  text-transform: none !important;
+}
+
+.theme--light.v-tabs {
+  border-bottom: 1px solid white;
+  .v-tabs-slider-wrapper {
+    display: none !important;
+  }
+  .v-tab,
+  .v-tab--active {
+    &:focus::before,
+    &:hover::before,
+    .v-ripple__container {
+      opacity: 0 !important;
+    }
+  }
+}
+
+.v-dialog .theme--light.v-card {
+  background: white;
 }

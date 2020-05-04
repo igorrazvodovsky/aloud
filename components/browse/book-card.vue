@@ -241,6 +241,7 @@
   </div>
 </template>
 <script>
+import "~/components/browse/book-card.scss";
 export default {
   props: ["book", "current"]
 };

@@ -9,7 +9,7 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text>
-              <span v-if="index > 0">{{chapterPositions[index]}}</span>
+              <span v-if="index > 0">{{ chapterPositions[index] | fancyTimeFormat }}</span>
               <!-- {{item.length}} -->
             </v-list-item-action-text>
           </v-list-item-action>
@@ -28,25 +28,14 @@ export default {
     },
     chapterPositions() {
       // Calc the time of the beginning of each chapter
-      return this.chapters
-        .map(c =>
-          this.chapters
-            .slice(0, this.chapters.indexOf(c))
-            .map(chapter =>
-              chapter.length.split(":").reduce((acc, time) => 60 * acc + +time)
-            )
-            .reduce((a, b) => a + b, 0)
-        )
-        .map(s => this.formatSec(s));
-    }
-  },
-  methods: {
-    formatSec(timeInSeconds) {
-      let sec_num = parseInt(timeInSeconds, 10);
-      let hours = Math.floor(sec_num / 3600);
-      let minutes = Math.floor((sec_num - hours * 3600) / 60);
-      if (hours > 0) return hours + " hr " + minutes + " min";
-      else return minutes + " min";
+      return this.chapters.map(c =>
+        this.chapters
+          .slice(0, this.chapters.indexOf(c))
+          .map(chapter =>
+            chapter.length.split(":").reduce((acc, time) => 60 * acc + +time)
+          )
+          .reduce((a, b) => a + b, 0)
+      );
     }
   }
 };
