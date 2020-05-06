@@ -10,8 +10,21 @@
         v-if="duration > 0"
       />
       <!-- Book primary actions -->
-      <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
-        <v-btn large text icon @click.stop="handleRewind" @mousedown="rewinding = true">
+      <v-flex
+        xs12
+        d-flex
+        align-center
+        justify-space-around
+        player-actions-primary
+        my-12
+      >
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleRewind"
+          @mousedown="rewinding = true"
+        >
           <icon-rewind />
         </v-btn>
         <button
@@ -22,7 +35,13 @@
         >
           <label tabindex="1"></label>
         </button>
-        <v-btn large text icon @click.stop="handleForward" @mousedown="rewinding = true">
+        <v-btn
+          large
+          text
+          icon
+          @click.stop="handleForward"
+          @mousedown="rewinding = true"
+        >
           <icon-forward />
         </v-btn>
       </v-flex>
@@ -34,7 +53,8 @@
           text
           rounded
           @click.stop="handleSpeedMenu"
-        >{{ rate }}×</v-btn>
+          >{{ rate }}×</v-btn
+        >
 
         <v-btn
           class="mx-3 player-sleep-btn player-sleep-btn--on"
@@ -58,15 +78,19 @@
 
     <div class="player-actions-container-secondary">
       <!-- <v-slide-y-reverse-transition hide-on-leave> -->
-      <player-playback-speed-menu
+      <player-playback-rate-menu
         key="1"
         v-if="speedMenu"
         :open="speedMenu"
         :current-speed="rate"
         @close="handleSpeedMenu"
-        @set-speed="setRate"
       />
-      <player-sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="handleSleepMenu" />
+      <player-sleep-menu
+        key="2"
+        v-if="sleepMenu"
+        :open="sleepMenu"
+        @close="handleSleepMenu"
+      />
       <!-- </v-slide-y-reverse-transition> -->
     </div>
   </div>
@@ -75,7 +99,7 @@
 <script>
 import { Howl } from "howler";
 import PlayerLists from "~/components/player/player-mobile-lists.vue";
-import PlayerPlaybackSpeedMenu from "~/components/player/player-mobile-menu-speed.vue";
+import PlayerPlaybackRateMenu from "~/components/player/player-mobile-menu-rate.vue";
 import PlayerSleepMenu from "~/components/player/player-mobile-menu-sleep.vue";
 import PlayerProgressSlider from "~/components/player/player-mobile-progress-slider.vue";
 import clamp from "math-clamp";
@@ -91,7 +115,7 @@ import "~/components/player/player.scss";
 export default {
   components: {
     PlayerLists,
-    PlayerPlaybackSpeedMenu,
+    PlayerPlaybackRateMenu,
     PlayerSleepMenu,
     PlayerProgressSlider,
     IconRewind,
@@ -109,7 +133,6 @@ export default {
        */
       _howl: null,
       playing: false,
-      rate: 1.0,
       seek: 300,
       duration: 0,
       sleepMenu: false,
@@ -182,7 +205,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["book"]),
+    ...mapState(["book", "rate"]),
     // TODO: API provides several servers. Switch servers/urls if the server is down
     sources() {
       return [
@@ -200,6 +223,9 @@ export default {
     this._cleanup();
   },
   watch: {
+    rate() {
+      this.setRate(this.rate);
+    },
     playing(playing) {
       // Update the seek
       this.seek = this.$data._howl.seek();
@@ -301,7 +327,6 @@ export default {
 
       if (resetSettings) {
         this.muted = false;
-        this.rate = 1.0;
       }
     },
     play() {

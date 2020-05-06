@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="browse"
-    :style="open ? 'top: 3.25rem' : 'top: calc(100% - 3.5rem + 1px)'"
+    :style="open ? 'top: 3.25rem' : 'top: calc(100vh - 3.5rem + 1px)'"
     :ripple="false"
   >
     <v-row

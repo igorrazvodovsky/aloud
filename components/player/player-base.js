@@ -13,15 +13,13 @@ export const PlayerBase = {
     audioFile: ""
   }),
   computed: {
-    book() {
-      return this.$store.state.book;
-    },
+    ...mapState(["book", "rate"]),
     chapters() {
       return this.$store.getters.chapters;
     },
     remainingTime() {
       return this.chapterDuration - this.currentTime
-        // Sums of next. chapters in sec.
+        // Time left in book = sec. left in current chapter + sums of next. chapters in sec.
         // TODO: 'length' is not required property in archive.org API. Either check all books or come up with a better solution (Librivox API?)
         + this.chapters.slice(this.currentChapter + 1).map(chapter => chapter.length.split(':').reduce((acc, time) => (60 * acc) + +time)).reduce((a, b) => a + b, 0);
     }
@@ -29,6 +27,11 @@ export const PlayerBase = {
   mounted: function () {
     this.changeChapter();
     this.audio.loop = false;
+    window.addEventListener('keyup', event => {
+      if (event.code === "Space" || event.code === "Enter") {
+        this.playAudio()
+      }
+    })
   },
   methods: {
     nextChapter: function () {
@@ -40,7 +43,6 @@ export const PlayerBase = {
     },
     changeChapter: function (index) {
       var wasPlaying = this.currentlyPlaying;
-      this.imageLoaded = false;
       if (index !== undefined) {
         this.stopAudio();
         this.currentChapter = index;
@@ -77,6 +79,7 @@ export const PlayerBase = {
         this.getCurrentTimeEverySecond(true);
         this.currentlyPlaying = true;
         this.audio.play();
+        this.audio.playbackRate = this.rate;
       } else {
         this.stopAudio();
       }
@@ -116,6 +119,9 @@ export const PlayerBase = {
   watch: {
     currentTime: function () {
       this.currentTime = Math.round(this.currentTime);
+    },
+    rate() {
+      this.audio.playbackRate = this.rate
     }
   },
   beforeDestroy: function () {

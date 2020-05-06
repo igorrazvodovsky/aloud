@@ -4,7 +4,7 @@ row
 <template>
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn title="Set timer" large icon v-on="on">
+      <v-btn disabled title="Set timer" large icon v-on="on">
         <icon-sleep />
       </v-btn>
     </template>

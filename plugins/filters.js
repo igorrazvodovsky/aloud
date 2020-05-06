@@ -11,3 +11,7 @@ Vue.filter("fancyTimeFormat", function (s) {
   if (hours > 0) return hours + " hr " + minutes + " min";
   else return minutes + " min";
 });
+
+Vue.filter("fixedDecimal", function (x) {
+  return Number.parseFloat(x).toFixed(1);
+})

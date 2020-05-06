@@ -1,7 +1,12 @@
 <template>
   <div class="player-desktop">
     <div class="player-desktop__progress">
-      <v-slider v-model="currentTime" min="0" :max="chapterDuration" hide-details></v-slider>
+      <v-slider
+        v-model="currentTime"
+        min="0"
+        :max="chapterDuration"
+        hide-details
+      ></v-slider>
       <div class="player-desktop__progress-labels body-2">
         <div>
           <div class="secondary--text">{{ currentTime | MMSSTimeFormat }}</div>
@@ -11,7 +16,6 @@
         <div class="secondary--text">
           <div>{{ chapterDuration | MMSSTimeFormat }}</div>
           <div>
-            <!-- 7h 26min left -->
             {{ remainingTime | fancyTimeFormat }}
           </div>
         </div>
@@ -23,7 +27,11 @@
       </div>
       <button
         @click="playAudio()"
-        :class="currentlyPlaying ? 'player-playpause playing' : 'player-playpause paused'"
+        :class="
+          currentlyPlaying
+            ? 'player-playpause playing'
+            : 'player-playpause paused'
+        "
         title="Play/pause book"
       >
         <label tabindex="1"></label>
@@ -36,7 +44,9 @@
       <div>
         <div class="overline mb-2 secondary--text">Listening to</div>
         <h1 class="display-3 serif mb-2">{{ book.metadata.title }}</h1>
-        <h2 class="display-1 serif secondary--text">by {{ book.metadata.creator }}</h2>
+        <h2 class="display-1 serif secondary--text">
+          by {{ book.metadata.creator }}
+        </h2>
       </div>
       <div>
         <v-btn title="Rewind 15 sec" large icon>
@@ -45,9 +55,7 @@
         <v-btn title="Forward 15 sec" large icon class="mr-6">
           <icon-forward />
         </v-btn>
-        <v-btn text rounded>
-          <span class="body-1 text--secondary">1.0×</span>
-        </v-btn>
+        <rate-menu />
         <sleep-menu />
         <v-btn disabled title="Opens in new" large icon>
           <icon-info />
@@ -63,6 +71,7 @@
 import { PlayerBase } from "~/components/player/player-base";
 import PlayerDesktopTocDialog from "~/components/player/player-desktop-toc-dialog";
 import SleepMenu from "~/components/player/player-desktop-menu-sleep.vue";
+import RateMenu from "~/components/player/player-desktop-menu-rate.vue";
 import "~/components/player/player-desktop.scss";
 import "~/components/player/player.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
@@ -77,7 +86,8 @@ export default {
     IconBookmark,
     IconInfo,
     PlayerDesktopTocDialog,
-    SleepMenu
+    SleepMenu,
+    RateMenu
   },
   // Inherit all parent properties
   ...PlayerBase

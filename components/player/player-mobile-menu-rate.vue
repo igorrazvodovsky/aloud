@@ -3,20 +3,18 @@
     <div class="subtitle-1 mb-4">Playback speed</div>
     <div class="mb-4">
       <v-btn
-        v-for="(item, i) in speedOptions"
+        v-for="(item, i) in rateOptions"
         :key="i"
         class="ma-2"
-        :outlined="item == currentSpeed ? false : true"
+        :outlined="item == currentRate ? false : true"
         fab
         small
         depressed
-        :color="item == currentSpeed ? 'secondary' : ''"
-        @click.stop="$emit('set-speed', item)"
+        :color="item == currentRate ? 'secondary' : ''"
+        @click.stop="setRate(item)"
       >
-        <span :class="item == currentSpeed ? 'white--text' : null">
-          {{
-          item
-          }}
+        <span :class="item == currentRate ? 'white--text' : null">
+          {{ item }}
         </span>
       </v-btn>
     </div>
@@ -27,14 +25,13 @@
 </template>
 
 <script>
+import { PlayerRateBase } from "~/components/player/player-rate";
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
 export default {
   components: {
     IconClose
   },
-  props: ["open", "currentSpeed"],
-  data: () => ({
-    speedOptions: [0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
-  })
+  props: ["open"],
+  ...PlayerRateBase
 };
 </script>

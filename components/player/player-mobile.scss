@@ -2,7 +2,7 @@
   &-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     transition: $primary-transition;
     &.disabled {
       // TODO: Check the positionibng on different screen sizes
@@ -61,4 +61,9 @@
   //   animation: btn-click 0.3s forwards;
   //   animation-timing-function: ease-in-out;
   // }
+
+  .v-tabs-items {
+    height: calc(100vh - #{$mobile-header-height});
+    overflow-y: scroll;
+  }
 }
