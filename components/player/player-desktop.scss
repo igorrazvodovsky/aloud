@@ -46,6 +46,9 @@
     }
     &__thumb {
       opacity: 0;
+      &-label {
+        transform: translateX(-100%) translateY(175%) !important;
+      }
     }
     &__track-background {
       opacity: 0;

@@ -82,15 +82,11 @@ body {
   }
 }
 
-.v-progress-circular.loading {
+.loading {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh !important;
-  width: auto !important;
-  position: absolute;
-  left: 0;
-  right: 0;
   svg {
     width: 2rem;
     height: 2rem;

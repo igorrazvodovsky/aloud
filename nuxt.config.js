@@ -73,6 +73,7 @@ export default {
   */
   vuetify: {
     treeShake: true,
+    defaultAssets: false,
     icons: {
       iconfont: 'md',
     },

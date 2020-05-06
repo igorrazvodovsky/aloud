@@ -1,5 +1,5 @@
 <template>
-  <div class="bookshelf mx-3">
+  <div class="bookshelf">
     <v-card
       v-for="book in bookshelf"
       :key="book.archiveOrgId"

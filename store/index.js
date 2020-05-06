@@ -18,6 +18,7 @@ export const state = () => ({
   playing: false,
   browser: false,
   rate: 1.0,
+  currentTime: 0,
   // TODO: Default book
   book: {
     metadata: {
@@ -80,6 +81,9 @@ export const mutations = {
   },
   setRate(state, rate) {
     state.rate = rate;
+  },
+  setCurrentTime(state, time) {
+    state.currentTime = time;
   },
   toggleBrowser(state) {
     state.browser = !state.browser;

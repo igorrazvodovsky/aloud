@@ -1,26 +1,19 @@
 <template>
-  <div class="player-desktop">
-    <div class="player-desktop__progress">
-      <v-slider
-        v-model="currentTime"
-        min="0"
-        :max="chapterDuration"
-        hide-details
-      ></v-slider>
-      <div class="player-desktop__progress-labels body-2">
-        <div>
-          <div class="secondary--text">{{ currentTime | MMSSTimeFormat }}</div>
-          {{ chapters[currentChapter].title }}
-          <!-- <span class="secondary--text">is read by Laurette</span> -->
-        </div>
-        <div class="secondary--text">
-          <div>{{ chapterDuration | MMSSTimeFormat }}</div>
-          <div>
-            {{ remainingTime | fancyTimeFormat }}
-          </div>
-        </div>
+  <div class="loading" v-if="loading">
+    <div class="text-center">
+      <v-progress-circular indeterminate></v-progress-circular>
+      <div v-if="loadingError" class="mt-6 body-2 text--secondary">
+        An errror occured while loading the book. Retrying...
       </div>
     </div>
+  </div>
+  <div v-else class="player-desktop">
+    <progress-slider
+      v-if="chapterDuration > 0"
+      :chapterDuration="chapterDuration"
+      :chapter="chapters[currentChapter].title"
+      :rewindedFor="rewindedFor"
+    />
     <div class="player-desktop__actions">
       <div class="btn--vertical">
         <player-desktop-toc-dialog />
@@ -49,10 +42,16 @@
         </h2>
       </div>
       <div>
-        <v-btn title="Rewind 15 sec" large icon>
+        <v-btn @click="handleRewind(-15)" title="Rewind 15 sec" large icon>
           <icon-rewind />
         </v-btn>
-        <v-btn title="Forward 15 sec" large icon class="mr-6">
+        <v-btn
+          @click="handleRewind(15)"
+          title="Forward 15 sec"
+          large
+          icon
+          class="mr-6"
+        >
           <icon-forward />
         </v-btn>
         <rate-menu />
@@ -70,6 +69,7 @@
 <script>
 import { PlayerBase } from "~/components/player/player-base";
 import PlayerDesktopTocDialog from "~/components/player/player-desktop-toc-dialog";
+import ProgressSlider from "~/components/player/player-desktop-progress-slider.vue";
 import SleepMenu from "~/components/player/player-desktop-menu-sleep.vue";
 import RateMenu from "~/components/player/player-desktop-menu-rate.vue";
 import "~/components/player/player-desktop.scss";
@@ -87,7 +87,8 @@ export default {
     IconInfo,
     PlayerDesktopTocDialog,
     SleepMenu,
-    RateMenu
+    RateMenu,
+    ProgressSlider
   },
   // Inherit all parent properties
   ...PlayerBase

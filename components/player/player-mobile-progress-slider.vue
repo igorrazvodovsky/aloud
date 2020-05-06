@@ -6,7 +6,6 @@
     <!-- mouseup: set a new positions -->
     <!-- thumb-color="#ff5c28" -->
     <v-slider
-      color="secondary"
       :thumb-label="rewinding ? 'always' : true"
       v-model="sliderPosition"
       min="0"

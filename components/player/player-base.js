@@ -1,27 +1,22 @@
 import { mapState } from "vuex";
 
 export const PlayerBase = {
-  // props: ["playlist", "index"],
   data: () => ({
     audio: "",
     currentlyPlaying: false,
     currentlyStopped: false,
-    currentTime: 0,
     checkingCurrentPositionInChapter: "",
     chapterDuration: 0,
     currentChapter: 0,
-    audioFile: ""
+    audioFile: "",
+    rewindedFor: 0,
+    loading: true,
+    loadingError: false
   }),
   computed: {
-    ...mapState(["book", "rate"]),
+    ...mapState(["book", "rate", "currentTime"]),
     chapters() {
       return this.$store.getters.chapters;
-    },
-    remainingTime() {
-      return this.chapterDuration - this.currentTime
-        // Time left in book = sec. left in current chapter + sums of next. chapters in sec.
-        // TODO: 'length' is not required property in archive.org API. Either check all books or come up with a better solution (Librivox API?)
-        + this.chapters.slice(this.currentChapter + 1).map(chapter => chapter.length.split(':').reduce((acc, time) => (60 * acc) + +time)).reduce((a, b) => a + b, 0);
     }
   },
   mounted: function () {
@@ -34,6 +29,21 @@ export const PlayerBase = {
     })
   },
   methods: {
+    // Rewind & forward
+    handleRewind(ammount) {
+      clearTimeout(this.rewindTimeout);
+      this.setCurrentTime(this.currentTime + ammount);
+      this.rewindedFor = this.rewindedFor + ammount;
+      this.rewindTimeout = setTimeout(
+        function () {
+          this.rewindedFor = 0;
+        }.bind(this),
+        2000
+      );
+    },
+    setCurrentTime(time) {
+      this.$store.commit("setCurrentTime", time);
+    },
     nextChapter: function () {
       if (this.currentChapter < this.chapters.length - 1)
         this.changeChapter(this.currentChapter + 1);
@@ -52,6 +62,13 @@ export const PlayerBase = {
       var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
+        localThis.loading = false;
+        localThis.loadingError = false
+      });
+      this.audio.addEventListener("error", function () {
+        // TODO: handle timeouts
+        localThis.loadingError = true;
+        localThis.playAudio();
       });
       this.audio.addEventListener("ended", this.handleEnded);
       if (wasPlaying) {
@@ -78,8 +95,9 @@ export const PlayerBase = {
       if (!this.currentlyPlaying) {
         this.getCurrentTimeEverySecond(true);
         this.currentlyPlaying = true;
-        this.audio.play();
         this.audio.playbackRate = this.rate;
+        this.audio.currentTime = this.currentTime;
+        this.audio.play();
       } else {
         this.stopAudio();
       }
@@ -106,7 +124,7 @@ export const PlayerBase = {
       var localThis = this;
       this.checkingCurrentPositionInChapter = setTimeout(
         function () {
-          localThis.currentTime = localThis.audio.currentTime;
+          localThis.setCurrentTime(Math.round(localThis.audio.currentTime));
           localThis.getCurrentTimeEverySecond(true);
         }.bind(this),
         1000
@@ -117,11 +135,11 @@ export const PlayerBase = {
     }
   },
   watch: {
-    currentTime: function () {
-      this.currentTime = Math.round(this.currentTime);
-    },
     rate() {
       this.audio.playbackRate = this.rate
+    },
+    currentTime() {
+      this.audio.currentTime = this.currentTime
     }
   },
   beforeDestroy: function () {

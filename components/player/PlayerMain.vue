@@ -3,7 +3,6 @@
     <v-layout column justify-end align-stretch player-actions-container-primary>
       <!-- Chapter progress -->
       <player-progress-slider
-        :rewinding="rewinding"
         :seek="seek"
         :duration="duration"
         :rewindedFor="rewindedFor"

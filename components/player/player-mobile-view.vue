@@ -4,8 +4,15 @@
 <!-- 3. Lists (TOC & Bookmarks) -->
 
 <template>
-  <div class="player-container" :class="{ disabled: disabled }">
-    <v-progress-circular v-if="!loaded" indeterminate class="loading"></v-progress-circular>
+  <div class="loading" v-if="!loaded">
+    <div class="text-center">
+      <v-progress-circular indeterminate></v-progress-circular>
+      <!-- <div v-if="loadingError" class="mt-6 body-2 text--secondary">
+        An errror occured while loading the book. Retrying...
+      </div> -->
+    </div>
+  </div>
+  <div v-else class="player-container" :class="{ disabled: disabled }">
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
       @click.stop="$emit('open-player')"
@@ -16,9 +23,7 @@
           <span class="overline secondary--text">Listening to</span>
           <h1 class="headline serif">{{ book.metadata.title }}</h1>
           <span class="subtitle-1 secondary--text">
-            {{
-            tab == 0 ? "Chapter 2" : ""
-            }}
+            {{ tab == 0 ? "Chapter 2" : "" }}
           </span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
@@ -47,7 +52,13 @@
             <icon-back />
           </v-btn>
         </div>
-        <v-btn key="3" v-if="tab == 1" text icon @click.stop="openLists = false">
+        <v-btn
+          key="3"
+          v-if="tab == 1"
+          text
+          icon
+          @click.stop="openLists = false"
+        >
           <icon-close />
         </v-btn>
       </v-slide-y-reverse-transition>
