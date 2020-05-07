@@ -1,5 +1,5 @@
 <template>
-  <div class="bookshelf">
+  <div class="bookshelf px-2">
     <v-card
       v-for="book in bookshelf"
       :key="book.archiveOrgId"
@@ -20,7 +20,7 @@
 <script>
 export default {
   data: () => ({
-    // TODO: How to store this better?
+    // TODO: How to store this?
     // TODO: Store the progress within each book
     // TODO: How about storing a regex for each book to format chapter names?
     bookshelf: [

@@ -11,7 +11,11 @@ export const PlayerBase = {
     audioFile: "",
     rewindedFor: 0,
     loading: true,
-    loadingError: false
+    loadingError: false,
+    //
+    openLists: false,
+    speedMenu: false,
+    sleepMenu: false
   }),
   computed: {
     ...mapState(["book", "rate", "currentTime"]),

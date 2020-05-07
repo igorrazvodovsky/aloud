@@ -2,10 +2,10 @@
   <div class="player-desktop__progress">
     <v-slider
       :thumb-label="rewindedFor !== 0 ? 'always' : true"
-      :value="currentTime"
       min="0"
       :max="chapterDuration"
       hide-details
+      :value="currentTime"
       @change="setCurrentTime($event)"
     >
       <!-- TODO: Same as mobile -->

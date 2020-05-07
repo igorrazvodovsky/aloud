@@ -2,16 +2,8 @@
 
 <template>
   <v-app class="player" v-if="bookDataLoaded">
-    <player-desktop-view
-      v-if="player && !isMobile"
-      @open-player="toggleBrowser"
-      :closed="browser"
-    />
-    <player-mobile-view
-      v-if="player && isMobile"
-      @open-player="toggleBrowser"
-      :closed="browser"
-    />
+    <player-desktop-view v-if="player && !isMobile" @open-player="toggleBrowser" :closed="browser" />
+    <player-mobile-view v-if="player && isMobile" @open-player="toggleBrowser" :closed="browser" />
     <browser v-if="browse" @open-browser="toggleBrowser" :open="browser" />
   </v-app>
 </template>
@@ -63,6 +55,11 @@ export default {
     ...mapMutations(["toggleBrowser"]),
     onResize() {
       this.isMobile = window.innerWidth < 600;
+    }
+  },
+  beforeDestroy() {
+    if (typeof window !== "undefined") {
+      window.removeEventListener("resize", this.onResize, { passive: true });
     }
   }
 };
