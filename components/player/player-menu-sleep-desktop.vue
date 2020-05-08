@@ -18,19 +18,16 @@ row
         <v-list-item-title>End of chapter</v-list-item-title>
       </v-list-item>
       <v-list-item v-for="(item, i) in sleepOptions" :key="i">
-        <v-list-item-title>{{ item }}</v-list-item-title>
+        <v-list-item-title>{{ item }} min</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
 <script>
 import IconSleep from "@/assets/Weather_iconoteka_moon__waning_crescent__red_crescent_r_s.svg";
+import PlayerMenuSleep from "~/components/player/player-menu-sleep";
 export default {
-  components: { IconSleep },
-  props: ["open"],
-  data: () => ({
-    sleepCurrent: 15,
-    sleepOptions: ["15 min", "30 min", "45 min", "60 min"]
-  })
+  extends: PlayerMenuSleep,
+  components: { IconSleep }
 };
 </script>

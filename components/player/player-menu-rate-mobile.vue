@@ -25,13 +25,11 @@
 </template>
 
 <script>
-import { PlayerRateBase } from "~/components/player/player-rate";
+import { PlayerRateBase } from "~/components/player/player-menu-rate";
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
 export default {
-  components: {
-    IconClose
-  },
-  props: ["open"],
-  ...PlayerRateBase
+  mixins: [PlayerRateBase],
+  components: { IconClose },
+  props: ["open"]
 };
 </script>

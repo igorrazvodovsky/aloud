@@ -5,7 +5,15 @@ row
   <div class="player-sleep text-center" :class="{ active: open }">
     <div class="subtitle-1 mb-4">Sleep in 7:15</div>
     <div class="mb-4">
-      <v-btn class="ma-2" depressed outlined fab small @click.stop="$emit('close')">Off</v-btn>
+      <v-btn
+        class="ma-2"
+        depressed
+        outlined
+        fab
+        small
+        @click.stop="$emit('close')"
+        >Off</v-btn
+      >
       <v-btn
         v-for="(item, i) in sleepOptions"
         :key="i"
@@ -14,7 +22,8 @@ row
         outlined
         fab
         small
-      >{{ item }}</v-btn>
+        >{{ item }}</v-btn
+      >
       <v-btn rounded outlined small class="ma-2">End of chapter</v-btn>
     </div>
     <v-btn icon @click.stop="$emit('close')">
@@ -24,14 +33,9 @@ row
 </template>
 <script>
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
+import PlayerMenuSleep from "~/components/player/player-menu-sleep";
 export default {
-  components: {
-    IconClose
-  },
-  props: ["open"],
-  data: () => ({
-    sleepCurrent: 15,
-    sleepOptions: [15, 30, 45, 60]
-  })
+  extends: PlayerMenuSleep,
+  components: { IconClose }
 };
 </script>

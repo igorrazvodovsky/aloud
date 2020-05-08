@@ -23,8 +23,8 @@ row
   </v-menu>
 </template>
 <script>
-import { PlayerRateBase } from "~/components/player/player-rate";
+import { PlayerRateBase } from "~/components/player/player-menu-rate";
 export default {
-  ...PlayerRateBase
+  mixins: [PlayerRateBase]
 };
 </script>

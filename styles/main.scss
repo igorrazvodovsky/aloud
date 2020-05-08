@@ -172,6 +172,11 @@ button:disabled {
   background: white;
 }
 
+.theme--light.v-tabs-items,
+.v-tabs-items.theme--light .v-sheet.theme--light {
+  background-color: transparent !important;
+}
+
 .v-menu__content {
   border-radius: 2rem !important;
   box-shadow: 0 1.9px 3.1px rgba(0, 0, 0, 0.035),
