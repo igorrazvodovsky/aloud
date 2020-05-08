@@ -1,5 +1,6 @@
 .player {
-  &-container {
+  $self: &;
+  &-mobile {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -10,6 +11,20 @@
       .player-actions-container-primary {
         opacity: 0.25;
         filter: blur(4px) grayscale(100%);
+      }
+    }
+    // TODO:
+    #{ $self }__progress {
+      // Sama as .flex & .xs12
+      max-width: 100%;
+      flex-basis: 100%;
+      flex-grow: 0;
+      flex: 1 1 auto;
+      &-labels {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 1rem;
+        font-size: 0.75rem; //caption
       }
     }
   }
@@ -52,15 +67,6 @@
       }
     }
   }
-
-  // &-progress {
-  //   transform: translateY(-0.5rem);
-  // }
-
-  // &-actions-primary .v-btn:active {
-  //   animation: btn-click 0.3s forwards;
-  //   animation-timing-function: ease-in-out;
-  // }
 
   .v-tabs-items {
     height: calc(100vh - #{$mobile-header-height});

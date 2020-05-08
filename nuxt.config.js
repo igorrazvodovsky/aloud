@@ -51,7 +51,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/proxy',
-    'nuxt-svg-loader'
+    '@nuxtjs/device',
+    'nuxt-svg-loader',
   ],
   /*
   ** Axios module configuration

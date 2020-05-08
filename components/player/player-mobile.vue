@@ -11,7 +11,11 @@
     </div>
   </div>
 
-  <div v-else class="player-container" :class="{ disabled: speedMenu || sleepMenu }">
+  <div
+    v-else
+    class="player player-mobile"
+    :class="{ disabled: speedMenu || sleepMenu }"
+  >
     <!-- Header -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
@@ -22,7 +26,9 @@
         <div key="1" v-if="!closed" class="ml-2">
           <span class="overline secondary--text">Listening to</span>
           <h1 class="headline serif">{{ book.metadata.title }}</h1>
-          <span class="subtitle-1 secondary--text">{{ !openLists ? "Chapter 2" : "" }}</span>
+          <span class="subtitle-1 secondary--text">{{
+            !openLists ? "Chapter 2" : ""
+          }}</span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
         <div key="2" v-if="closed" class="d-flex align-center">
@@ -50,7 +56,13 @@
             <icon-back />
           </v-btn>
         </div>
-        <v-btn key="3" v-if="openLists" text icon @click.stop="openLists = false">
+        <v-btn
+          key="3"
+          v-if="openLists"
+          text
+          icon
+          @click.stop="openLists = false"
+        >
           <icon-close />
         </v-btn>
       </v-slide-y-reverse-transition>
@@ -68,7 +80,12 @@
         :chapters="chapters"
       />-->
       <div v-if="!openLists" class="player-actions-container">
-        <v-layout column justify-end align-stretch player-actions-container-primary>
+        <v-layout
+          column
+          justify-end
+          align-stretch
+          player-actions-container-primary
+        >
           <!-- Chapter progress -->
           <progress-slider
             v-if="chapterDuration > 0"
@@ -77,14 +94,23 @@
             :rewindedFor="rewindedFor"
           />
           <!-- Book primary actions -->
-          <v-flex xs12 d-flex align-center justify-space-around player-actions-primary my-12>
+          <v-flex
+            xs12
+            d-flex
+            align-center
+            justify-space-around
+            player-actions-primary
+            my-12
+          >
             <v-btn large text icon @click="handleRewind(-15)">
               <icon-rewind />
             </v-btn>
             <button
               :class="
-            currentlyPlaying ? 'player-playpause playing' : 'player-playpause paused'
-          "
+                currentlyPlaying
+                  ? 'player-playpause playing'
+                  : 'player-playpause paused'
+              "
               @click="playAudio"
             >
               <label tabindex="1"></label>
@@ -101,7 +127,8 @@
               text
               rounded
               @click.stop="speedMenu = !speedMenu"
-            >{{ rate }}×</v-btn>
+              >{{ rate }}×</v-btn
+            >
 
             <v-btn
               class="mx-3 player-sleep-btn player-sleep-btn--on"
@@ -125,7 +152,12 @@
             :current-speed="rate"
             @close="speedMenu = false"
           />
-          <sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="sleepMenu = false" />
+          <sleep-menu
+            key="2"
+            v-if="sleepMenu"
+            :open="sleepMenu"
+            @close="sleepMenu = false"
+          />
         </div>
       </div>
     </keep-alive>
@@ -144,7 +176,7 @@ import IconPause from "@/assets/Multimedia_iconoteka_pause_circle_r_f.svg";
 import { mapState } from "vuex";
 import PlaybackRateMenu from "~/components/player/player-mobile-menu-rate.vue";
 import SleepMenu from "~/components/player/player-mobile-menu-sleep.vue";
-import ProgressSlider from "~/components/player/player-mobile-progress-slider.vue";
+import ProgressSlider from "~/components/player/player-progress-slider.vue";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";

@@ -2,15 +2,23 @@
 
 <template>
   <v-app class="player" v-if="bookDataLoaded">
-    <player-desktop-view v-if="player && !isMobile" @open-player="toggleBrowser" :closed="browser" />
-    <player-mobile-view v-if="player && isMobile" @open-player="toggleBrowser" :closed="browser" />
+    <player-desktop
+      v-if="player && $device.isDesktop"
+      @open-player="toggleBrowser"
+      :closed="browser"
+    />
+    <player-mobile
+      v-if="player && $device.isMobile"
+      @open-player="toggleBrowser"
+      :closed="browser"
+    />
     <browser v-if="browse" @open-browser="toggleBrowser" :open="browser" />
   </v-app>
 </template>
 
 <script>
-import PlayerMobileView from "~/components/player/player-mobile-view.vue";
-import PlayerDesktopView from "~/components/player/player-desktop-view.vue";
+import PlayerMobile from "~/components/player/player-mobile.vue";
+import PlayerDesktop from "~/components/player/player-desktop.vue";
 import Browser from "~/components/browse/browser.vue";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
@@ -18,14 +26,8 @@ import axios from "axios";
 export default {
   components: {
     Browser,
-    PlayerMobileView,
-    PlayerDesktopView
-  },
-
-  data() {
-    return {
-      isMobile: false
-    };
+    PlayerMobile,
+    PlayerDesktop
   },
 
   computed: {
@@ -42,9 +44,6 @@ export default {
     }
   },
   mounted() {
-    this.onResize();
-    window.addEventListener("resize", this.onResize, { passive: true });
-
     this.$store.commit("initialiseStore");
     // TODO: A better way to load a default
     // TODO: How to store the list of books?
@@ -52,15 +51,7 @@ export default {
       this.$store.dispatch("setBook", "art_of_war_librivox");
   },
   methods: {
-    ...mapMutations(["toggleBrowser"]),
-    onResize() {
-      this.isMobile = window.innerWidth < 600;
-    }
-  },
-  beforeDestroy() {
-    if (typeof window !== "undefined") {
-      window.removeEventListener("resize", this.onResize, { passive: true });
-    }
+    ...mapMutations(["toggleBrowser"])
   }
 };
 </script>

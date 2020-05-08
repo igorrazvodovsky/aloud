@@ -1,4 +1,7 @@
 .player {
+  &__progress {
+    margin-top: 1.5rem;
+  }
   &-playpause {
     &:focus {
       outline: none;
