@@ -12,7 +12,26 @@
       @open-player="toggleBrowser"
       :closed="browser"
     />
-    <browser v-if="browse" @open-browser="toggleBrowser" :open="browser" />
+    <!-- <browser v-if="browse" @open-browser="toggleBrowser" :open="browser" /> -->
+    <v-card
+      class="browse"
+      :style="browser ? 'top: 3.25rem' : 'top: calc(100vh - 3.5rem + 1px)'"
+      :ripple="false"
+    >
+      <v-row
+        justify="space-between"
+        class="pl-4 pr-2 my-3"
+        no-gutters
+        @click.stop="toggleBrowser"
+      >
+        <v-col cols="auto">
+          <h2 class="headline serif">Bookshelf</h2>
+        </v-col>
+        <v-col cols="auto"> </v-col>
+      </v-row>
+      <!-- This component is used only in layouts to display the page components. -->
+      <nuxt />
+    </v-card>
   </v-app>
 </template>
 
@@ -25,18 +44,14 @@ import axios from "axios";
 
 export default {
   components: {
-    Browser,
     PlayerMobile,
-    PlayerDesktop
+    PlayerDesktop,
+    Browser
   },
 
   computed: {
     ...mapState(["page", "book", "browser"]),
     player() {
-      return this.page == "index" || this.page == "browse";
-    },
-    // TODO: Better name
-    browse() {
       return this.page == "index" || this.page == "browse";
     },
     bookDataLoaded() {
