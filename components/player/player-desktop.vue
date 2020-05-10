@@ -70,8 +70,8 @@
 import { PlayerBase } from "~/components/player/player-base";
 import PlayerDesktopTocDialog from "~/components/player/player-toc-desktop-dialog";
 import ProgressSlider from "~/components/player/player-progress-slider.vue";
-import SleepMenu from "~/components/player/player-menu-sleep-desktop.vue";
-import RateMenu from "~/components/player/player-menu-rate-desktop.vue";
+import SleepMenu from "~/components/player/menus/player-menu-sleep-desktop.vue";
+import RateMenu from "~/components/player/menus/player-menu-rate-desktop.vue";
 import "~/components/player/player-desktop.scss";
 import "~/components/player/player.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";

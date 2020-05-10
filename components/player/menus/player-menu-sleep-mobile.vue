@@ -33,7 +33,7 @@ row
 </template>
 <script>
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
-import PlayerMenuSleep from "~/components/player/player-menu-sleep";
+import PlayerMenuSleep from "~/components/player/menus/player-menu-sleep";
 export default {
   extends: PlayerMenuSleep,
   components: { IconClose }

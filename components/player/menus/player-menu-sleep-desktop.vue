@@ -25,7 +25,7 @@ row
 </template>
 <script>
 import IconSleep from "@/assets/Weather_iconoteka_moon__waning_crescent__red_crescent_r_s.svg";
-import PlayerMenuSleep from "~/components/player/player-menu-sleep";
+import PlayerMenuSleep from "~/components/player/menus/player-menu-sleep";
 export default {
   extends: PlayerMenuSleep,
   components: { IconSleep }

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { PlayerRateBase } from "~/components/player/player-menu-rate";
+import { PlayerRateBase } from "~/components/player/menus/player-menu-rate";
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
 export default {
   mixins: [PlayerRateBase],
