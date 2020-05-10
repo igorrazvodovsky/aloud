@@ -27,7 +27,7 @@
           <span class="overline secondary--text">Listening to</span>
           <h1 class="headline serif">{{ book.metadata.title }}</h1>
           <span class="subtitle-1 secondary--text">{{
-            !openLists ? "Chapter 2" : ""
+            !openLists ? chapters[currentChapter].title : ""
           }}</span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
