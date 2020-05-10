@@ -12,7 +12,6 @@
       @open-player="toggleBrowser"
       :closed="browser"
     />
-    <!-- <browser v-if="browse" @open-browser="toggleBrowser" :open="browser" /> -->
     <v-card
       class="browse"
       :style="browser ? 'top: 3.25rem' : 'top: calc(100vh - 3.5rem + 1px)'"
@@ -38,15 +37,13 @@
 <script>
 import PlayerMobile from "~/components/player/player-mobile.vue";
 import PlayerDesktop from "~/components/player/player-desktop.vue";
-import Browser from "~/components/browse/browser.vue";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 
 export default {
   components: {
     PlayerMobile,
-    PlayerDesktop,
-    Browser
+    PlayerDesktop
   },
 
   computed: {

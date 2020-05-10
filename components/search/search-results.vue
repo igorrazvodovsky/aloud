@@ -4,7 +4,7 @@
       <!-- <h2 class="subtitle-2 ma-4">Top</h2> -->
       <div class="d-flex pa-2">
         <v-avatar tile size="56" color="grey" class="ma-2">
-          <img src="https://www.storytel.com/images/200x200/0000021260.jpg" alt="Wolf Hall" />
+          <img src="" alt="Wolf Hall" />
         </v-avatar>
         <div class="ma-2">
           <h3 class="title">Wolf Hall</h3>
@@ -17,7 +17,7 @@
 
       <div class="d-flex ma-2">
         <v-avatar tile size="56" color="grey" class="ma-2 series">
-          <img src="https://www.storytel.com/images/200x200/0001022025.jpg" alt="Wolf Hall Trilogy" />
+          <img src="" alt="Wolf Hall Trilogy" />
         </v-avatar>
         <div class="ma-2">
           <h3 class="title">The Wolf Hall Trilogy</h3>
