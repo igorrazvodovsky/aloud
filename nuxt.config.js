@@ -62,7 +62,7 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://archive.org',
+      target: 'https://archive.org',
       pathRewrite: {
         '^/api': '/'
       }
