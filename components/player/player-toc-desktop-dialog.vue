@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen hide-overlay transition="slide-x-transition">
+  <v-dialog
+    v-model="dialog"
+    fullscreen
+    hide-overlay
+    transition="slide-x-transition"
+  >
     <template v-slot:activator="{ on }">
       <v-btn text rounded color="secondary" v-on="on">Table of contents</v-btn>
     </template>
@@ -12,7 +17,9 @@
       <v-container>
         <v-row no-gutters>
           <v-col md="6" offset-md="3">
-            <h2 class="overline secondary--text mb-10 text-center">Table of contents</h2>
+            <h2 class="overline secondary--text mb-10 text-center">
+              Table of contents
+            </h2>
             <player-toc />
           </v-col>
         </v-row>
@@ -32,6 +39,12 @@ export default {
     return {
       dialog: false
     };
+  },
+  created() {
+    // Event emitted by selecting a chapter
+    this.$nuxt.$on("close-toc", () => {
+      this.dialog = false;
+    });
   }
 };
 </script>

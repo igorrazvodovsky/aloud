@@ -39,9 +39,9 @@ export default {
         currentTime: 0
       },
       {
-        archiveOrgId: "art_of_war_librivox",
-        title: "The Art of War",
-        author: "Sun Tzu",
+        archiveOrgId: "tom_sawyer_librivox",
+        title: "The Adventures of Tom Sawyer",
+        author: "Mark Twain",
         currentChapter: 0,
         currentTime: 0
       },

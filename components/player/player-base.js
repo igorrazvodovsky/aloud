@@ -1,4 +1,4 @@
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export const PlayerBase = {
   data: () => ({
@@ -7,18 +7,17 @@ export const PlayerBase = {
     currentlyStopped: false,
     checkingCurrentPositionInChapter: "",
     chapterDuration: 0,
-    currentChapter: 0,
     audioFile: "",
     rewindedFor: 0,
     loading: true,
     loadingError: false,
-    //
+    // TODO: Move mobile/desktop specific properties
     openLists: false,
     speedMenu: false,
     sleepMenu: false
   }),
   computed: {
-    ...mapState(["book", "rate", "currentTime"]),
+    ...mapState(["book", "rate", "currentTime", "currentChapter"]),
     chapters() {
       return this.$store.getters.chapters;
     }
@@ -30,9 +29,14 @@ export const PlayerBase = {
       if (event.code === "Space" || event.code === "Enter") {
         this.playAudio()
       }
-    })
+    }),
+      // Event emitted by selecting a chapter
+      this.$nuxt.$on("change-chapter", (index) => {
+        this.changeChapter(index)
+      });
   },
   methods: {
+    ...mapMutations(["setCurrentChapter"]),
     // Rewind & forward
     handleRewind(ammount) {
       clearTimeout(this.rewindTimeout);
@@ -59,8 +63,9 @@ export const PlayerBase = {
       var wasPlaying = this.currentlyPlaying;
       if (index !== undefined) {
         this.stopAudio();
-        this.currentChapter = index;
+        this.setCurrentChapter(index);
       }
+      this.setCurrentTime(0);
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
       var localThis = this;
@@ -93,7 +98,7 @@ export const PlayerBase = {
         this.currentlyStopped == true &&
         this.currentChapter + 1 == this.chapters.length
       ) {
-        this.currentChapter = 0;
+        this.setCurrentChapter(0);
         this.changeChapter();
       }
       if (!this.currentlyPlaying) {
@@ -119,7 +124,7 @@ export const PlayerBase = {
         this.currentlyStopped = true;
       } else {
         this.currentlyPlaying = false;
-        this.currentChapter++;
+        this.setCurrentChapter(this.currentChapter + 1);
         this.changeChapter();
         this.playAudio();
       }

@@ -201,6 +201,12 @@ export default {
     PlaybackRateMenu
   },
   props: ["closed"],
+  created() {
+    // Event emitted by selecting a chapter
+    this.$nuxt.$on("close-toc", () => {
+      this.openLists = false;
+    });
+  },
   ...PlayerBase
 };
 </script>

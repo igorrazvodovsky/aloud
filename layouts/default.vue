@@ -47,20 +47,17 @@ export default {
   },
 
   computed: {
-    ...mapState(["page", "book", "browser"]),
+    ...mapState(["page", "book", "browser", "currentBookID"]),
     player() {
       return this.page == "index" || this.page == "browse";
     },
     bookDataLoaded() {
-      return !this.book.metadata.title == "";
+      return Object.keys(this.book).length > 0;
     }
   },
   mounted() {
     this.$store.commit("initialiseStore");
-    // TODO: A better way to load a default
-    // TODO: How to store the list of books?
-    if (this.book.metadata.title == "")
-      this.$store.dispatch("setBook", "art_of_war_librivox");
+    this.$store.dispatch("setBook", this.currentBookID);
   },
   methods: {
     ...mapMutations(["toggleBrowser"])

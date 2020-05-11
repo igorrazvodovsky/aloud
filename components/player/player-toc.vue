@@ -1,15 +1,17 @@
 <template>
-  <v-list rounded>
+  <v-list rounded class="toc">
     <!-- TODO: Pass the current chapter: v-model="current" -->
-    <v-list-item-group>
+    <v-list-item-group value="currentChapter">
       <template v-for="(item, index) in chapters">
-        <v-list-item :key="index">
+        <v-list-item :key="index" @click="changeChapter(index)">
           <v-list-item-content>
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text>
-              <span v-if="index > 0">{{ chapterPositions[index] | fancyTimeFormat }}</span>
+              <span v-if="index > 0">{{
+                chapterPositions[index] | fancyTimeFormat
+              }}</span>
               <!-- {{item.length}} -->
             </v-list-item-action-text>
           </v-list-item-action>
@@ -23,6 +25,7 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
+    ...mapState(["chapters", "currentChapter"]),
     chapters() {
       return this.$store.getters.chapters;
     },
@@ -36,6 +39,12 @@ export default {
           )
           .reduce((a, b) => a + b, 0)
       );
+    }
+  },
+  methods: {
+    changeChapter(index) {
+      this.$nuxt.$emit("change-chapter", index);
+      this.$nuxt.$emit("close-toc");
     }
   }
 };

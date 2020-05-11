@@ -18,18 +18,10 @@ export const state = () => ({
   playing: false,
   browser: false,
   rate: 1.0,
+  currentBookID: 'alices_adventures_1003',
   currentTime: 0,
-  // TODO: Default book
-  book: {
-    metadata: {
-      title: '',
-      identifier: 'art_of_war_librivox'
-    },
-    art_of_war_librivox: [
-      { format: "128Kbps MP3", creator: "Sun Tzu", album: "The Art of War", title: "9 The Army on the March - 10 Terrain", track: "5", name: "art_of_war_09-10_sun_tzu.mp3", source: "derivative" },
-      { format: "128Kbps MP3", creator: "Sun Tzu", album: "The Art of War", title: "8 The Army on the March - 10 Terrain", track: "4", name: "art_of_war_09-10_sun_tzu.mp3", source: "derivative" }
-    ]
-  },
+  currentChapter: 0,
+  book: {},
 })
 
 export const getters = {
@@ -76,6 +68,9 @@ export const mutations = {
   updatePage(state, pageName) {
     state.page = pageName
   },
+  setCurrentBookID(state, bookId) {
+    state.CurrentBookID = bookId;
+  },
   setBook(state, book) {
     state.book = book;
   },
@@ -84,6 +79,9 @@ export const mutations = {
   },
   setCurrentTime(state, time) {
     state.currentTime = time;
+  },
+  setCurrentChapter(state, chapter) {
+    state.currentChapter = chapter;
   },
   toggleBrowser(state) {
     state.browser = !state.browser;
@@ -97,6 +95,7 @@ export const mutations = {
 
 export const actions = {
   async setBook({ commit }, bookId) {
+    commit('setCurrentBookID', bookId);
     const book = await axios.get('api/metadata/' + bookId);
     commit('setBook', book.data);
   }
