@@ -7,14 +7,14 @@
       </div>
     </div>
   </div>
-  <div v-else class="player player-desktop">
+  <div v-else class="player player--desktop">
     <progress-slider
       v-if="chapterDuration > 0"
       :chapterDuration="chapterDuration"
       :chapter="chapters[currentChapter].title"
       :rewindedFor="rewindedFor"
     />
-    <div class="player-desktop__actions">
+    <div class="player__actions">
       <div class="btn--vertical">
         <player-desktop-toc-dialog />
       </div>
@@ -22,8 +22,8 @@
         @click="playAudio"
         :class="
           currentlyPlaying
-            ? 'player-playpause playing'
-            : 'player-playpause paused'
+            ? 'player__playpause playing'
+            : 'player__playpause paused'
         "
         title="Play/pause book"
       >
@@ -33,7 +33,7 @@
         <v-btn disabled text rounded color="secondary">Bookmarks</v-btn>
       </div>
     </div>
-    <div class="player-desktop__title">
+    <div class="player__title">
       <div>
         <div class="overline mb-2 secondary--text">Listening to</div>
         <h1 class="display-3 serif mb-2">{{ book.metadata.title }}</h1>
@@ -73,7 +73,6 @@ import ProgressSlider from "~/components/player/player-progress-slider.vue";
 import SleepMenu from "~/components/player/menus/player-menu-sleep-desktop.vue";
 import RateMenu from "~/components/player/menus/player-menu-rate-desktop.vue";
 import "~/components/player/player-desktop.scss";
-import "~/components/player/player.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";

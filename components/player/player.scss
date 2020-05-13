@@ -1,15 +1,13 @@
 .player {
-  &__progress {
-    margin-top: 1.5rem;
-  }
-  &-playpause {
+  // All-purpose
+  &__playpause {
     &:focus {
       outline: none;
     }
     &:active {
       animation: btn-click 0.3s forwards;
     }
-    background-color: rgba(black, 0.9);
+    background-color: var(--v-primary-darken2);
     border-radius: 50%;
     width: 25vmin;
     height: 25vmin;

@@ -1,73 +1,80 @@
-.player-desktop {
-  height: calc(100% - 56px);
-  display: flex;
-  flex-direction: column;
-  &__title {
-    margin: 2rem;
+@import "player";
+
+.player {
+  $block: &;
+  &.player--desktop {
+    height: calc(100% - 56px);
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    & > div:last-child {
-      text-align: right;
-    }
-  }
-  &__actions {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    .btn--vertical {
-      // TODO: Alt. with text-orientation, writing-mode etc?
-      text-align: center;
-      width: 200px;
-      transform: translateX(4rem) rotate(90deg);
-      &:first-of-type {
-        transform: translateX(-4rem) rotate(-90deg);
-      }
-      .v-btn {
-        letter-spacing: 0.2em;
-      }
-    }
-  }
-  .player__progress {
-    margin-top: 0;
-    &-labels {
+    flex-direction: column;
+    #{ $block }__title {
+      margin: 2rem;
       display: flex;
       justify-content: space-between;
-      margin: -1rem 2rem 0 2rem;
-      font-size: 0.875rem; //body-2
+      align-items: flex-end;
       & > div:last-child {
         text-align: right;
       }
     }
-  }
-  // TODO:
-  .v-slider {
-    transform: translateY(-14px);
-    &__track-container {
-      height: 12px;
-    }
-    &__thumb {
-      opacity: 0;
-      &-label {
-        transform: translateX(-100%) translateY(175%) !important;
+    #{ $block }__actions {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .btn--vertical {
+        // TODO: Alt. with text-orientation, writing-mode etc?
+        text-align: center;
+        width: 200px;
+        transform: translateX(4rem) rotate(90deg);
+        &:first-of-type {
+          transform: translateX(-4rem) rotate(-90deg);
+        }
+        .v-btn {
+          letter-spacing: 0.2em;
+        }
       }
     }
-    &__track-background {
-      opacity: 0;
+    #{ $block }__progress {
+      margin-top: 0;
+      &-labels {
+        display: flex;
+        justify-content: space-between;
+        margin: -1rem 2rem 0 2rem;
+        font-size: 0.875rem; //body-2
+        & > div:last-child {
+          text-align: right;
+        }
+      }
+    }
+
+    // Vutify customizations
+    // TODO:
+    .v-slider {
+      transform: translateY(-14px);
+      &__track-container {
+        height: 12px;
+      }
+      &__thumb {
+        opacity: 0;
+        &-label {
+          transform: translateX(-100%) translateY(175%) !important;
+        }
+      }
+      &__track-background {
+        opacity: 0;
+      }
+    }
+    .v-input__slider:hover .v-slider__thumb {
+      opacity: 1;
     }
   }
-  .v-input__slider:hover .v-slider__thumb {
-    opacity: 1;
-  }
-}
 
-.v-application .player-desktop {
-  .display-1 {
-    font-weight: 300;
-  }
-  .display-3 {
-    font-weight: 200;
+  .v-application .player-desktop {
+    .display-1 {
+      font-weight: 300;
+    }
+    .display-3 {
+      font-weight: 200;
+    }
   }
 }

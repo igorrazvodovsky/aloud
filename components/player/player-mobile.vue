@@ -13,12 +13,12 @@
 
   <div
     v-else
-    class="player player-mobile"
+    class="player player--mobile"
     :class="{ disabled: speedMenu || sleepMenu }"
   >
     <!-- Header -->
     <div
-      class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player-header"
+      class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player__header"
       @click.stop="$emit('open-player')"
     >
       <v-slide-y-reverse-transition hide-on-leave leave-absolute>
@@ -79,13 +79,8 @@
         ref="player"
         :chapters="chapters"
       />-->
-      <div v-if="!openLists" class="player-actions-container">
-        <v-layout
-          column
-          justify-end
-          align-stretch
-          player-actions-container-primary
-        >
+      <div v-if="!openLists" class="player__body">
+        <v-layout column justify-end align-stretch player__main>
           <!-- Chapter progress -->
           <progress-slider
             v-if="chapterDuration > 0"
@@ -94,22 +89,15 @@
             :rewindedFor="rewindedFor"
           />
           <!-- Book primary actions -->
-          <v-flex
-            xs12
-            d-flex
-            align-center
-            justify-space-around
-            player-actions-primary
-            my-12
-          >
+          <v-flex xs12 d-flex align-center justify-space-around player__actions>
             <v-btn large text icon @click="handleRewind(-15)">
               <icon-rewind />
             </v-btn>
             <button
               :class="
                 currentlyPlaying
-                  ? 'player-playpause playing'
-                  : 'player-playpause paused'
+                  ? 'player__playpause playing'
+                  : 'player__playpause paused'
               "
               @click="playAudio"
             >
@@ -121,7 +109,7 @@
           </v-flex>
 
           <!-- Book secondary actions -->
-          <v-flex xs12 mx-auto my-8>
+          <v-flex xs12 mx-auto my-8 player__options>
             <v-btn
               class="px-0 text--secondary body-1"
               text
@@ -129,11 +117,11 @@
               @click.stop="speedMenu = !speedMenu"
               >{{ rate }}×</v-btn
             >
-
             <v-btn
-              class="mx-3 player-sleep-btn player-sleep-btn--on"
+              class="mx-3 player__sleep-btn player__sleep-btn--on"
               text
               icon
+              disabled
               @click.stop="sleepMenu = !sleepMenu"
             >
               <icon-sleep />
@@ -144,7 +132,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="player-actions-container-secondary">
+        <div class="player__secondary">
           <playback-rate-menu
             key="1"
             v-if="speedMenu"
@@ -183,7 +171,6 @@ import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";
 import IconSleep from "@/assets/Weather_iconoteka_moon__waning_crescent__red_crescent_r_s.svg";
 // TODO: Check
 import "~/components/player/player-mobile.scss";
-import "~/components/player/player.scss";
 export default {
   components: {
     PlayerLists,

@@ -1,20 +1,21 @@
+@import "player";
+
 .player {
-  $self: &;
-  &-mobile {
+  $block: &;
+  &.player--mobile {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - #{$bookshelf-bookmark-height});
     transition: $primary-transition;
     &.disabled {
       // TODO: Check the positionibng on different screen sizes
       transform: translateY(calc(-25% - #{$mobile-header-height}));
-      .player-actions-container-primary {
+      .player__actions-container--primary {
         opacity: 0.25;
         filter: blur(4px) grayscale(100%);
       }
     }
-    // TODO:
-    #{ $self }__progress {
+    #{ $block }__progress {
       // Sama as .flex & .xs12
       max-width: 100%;
       flex-basis: 100%;
@@ -27,50 +28,60 @@
         font-size: 0.75rem; //caption
       }
     }
-  }
-  &-actions-container {
-    height: 100%;
-    &-primary {
+
+    #{ $block }__body {
+      flex: 0 1 100%;
+    }
+
+    #{ $block }__main {
+      display: flex;
       height: 100%;
       will-change: transform, filter, opacity;
     }
-  }
 
-  &-header {
-    height: 84px;
-    align-items: flex-start;
-  }
+    #{ $block }__actions {
+      flex: 0 1 100%;
+    }
 
-  &-speed,
-  &-sleep {
-    padding: 0 1rem;
-    &-btn {
-      &--on {
-        .v-btn__content {
-          &::before,
-          &::after {
-            font-size: 10px;
-            font-weight: 900 !important;
-            content: "Z";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
-          &::before {
-            animation: 4s linear infinite sleep;
-          }
-          &::after {
-            animation: 4s ease-out infinite sleep;
+    #{ $block }__options {
+      flex: 1 0 auto;
+    }
+
+    #{ $block }__header {
+      align-items: flex-start;
+    }
+
+    #{ $block }__speed,
+    #{ $block }__sleep {
+      padding: 0 1rem;
+      &-btn {
+        &--on {
+          .v-btn__content {
+            &::before,
+            &::after {
+              font-size: 10px;
+              font-weight: 900 !important;
+              content: "Z";
+              display: block;
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+            &::before {
+              animation: 4s linear infinite sleep;
+            }
+            &::after {
+              animation: 4s ease-out infinite sleep;
+            }
           }
         }
       }
     }
   }
 
+  // Vuetify customizations
   .v-tabs-items {
     height: calc(100vh - #{$mobile-header-height});
     overflow-y: scroll;
   }
 }
-
