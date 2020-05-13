@@ -1,8 +1,7 @@
 import axios from 'axios'
+import bookshelf from '~/static/bookshelf.json'
 
-// TODO: Saving the entire state or only the part of it?
-// TODO: Plugin or something else?
-// BUG: Will cause a problem when I change the store structure without clearing the localStorage
+// TODO: Will cause a problem when I change the store structure without clearing the localStorage
 const saveStateLocally = store => {
   if (process.client) {
     store.subscribe((mutation, state) => {
@@ -18,10 +17,13 @@ export const state = () => ({
   playing: false,
   browser: false,
   rate: 1.0,
-  currentBookID: 'alices_adventures_1003',
-  currentTime: 0,
-  currentChapter: 0,
+  currentBook: {
+    id: 'alices_adventures_1003',
+    chapter: 0,
+    time: 0,
+  },
   book: {},
+  bookshelf: bookshelf
 })
 
 export const getters = {
@@ -35,6 +37,7 @@ export const getters = {
         })
         // 2. Sort them by "title"
         // TODO: Not sure if works. Additional tests needed. Should also check for "track" & prioratize it
+        // TODO: How about storing a regex for each book to format chapter names?
         // .sort((a, b) =>
         //   a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
         //     b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
@@ -68,8 +71,8 @@ export const mutations = {
   updatePage(state, pageName) {
     state.page = pageName
   },
-  setCurrentBookID(state, bookId) {
-    state.CurrentBookID = bookId;
+  setCurrentBook(state, bookId) {
+    state.currentBook.id = bookId;
   },
   setBook(state, book) {
     state.book = book;
@@ -78,10 +81,10 @@ export const mutations = {
     state.rate = rate;
   },
   setCurrentTime(state, time) {
-    state.currentTime = time;
+    state.currentBook.time = time;
   },
   setCurrentChapter(state, chapter) {
-    state.currentChapter = chapter;
+    state.currentBook.chapter = chapter;
   },
   toggleBrowser(state) {
     state.browser = !state.browser;
@@ -95,7 +98,7 @@ export const mutations = {
 
 export const actions = {
   async setBook({ commit }, bookId) {
-    commit('setCurrentBookID', bookId);
+    commit('setCurrentBook', bookId);
     const book = await axios.get('api/metadata/' + bookId);
     commit('setBook', book.data);
   }

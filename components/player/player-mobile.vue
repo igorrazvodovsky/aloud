@@ -27,7 +27,7 @@
           <span class="overline secondary--text">Listening to</span>
           <h1 class="headline serif">{{ book.metadata.title }}</h1>
           <span class="subtitle-1 secondary--text">{{
-            !openLists ? chapters[currentChapter].title : ""
+            !openLists ? chapters[currentBook.chapter].title : ""
           }}</span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
@@ -71,21 +71,13 @@
     <!-- 2. MAIN -->
     <!-- TODO: Transition between controls & lists -->
     <keep-alive>
-      <!-- <player-main
-        @load="loading = false"
-        @pause="playing = false"
-        @play="playing = true"
-        @disable="disabled = !disabled"
-        ref="player"
-        :chapters="chapters"
-      />-->
       <div v-if="!openLists" class="player__body">
         <v-layout column justify-end align-stretch player__main>
           <!-- Chapter progress -->
           <progress-slider
             v-if="chapterDuration > 0"
             :chapterDuration="chapterDuration"
-            :chapter="chapters[currentChapter].title"
+            :chapter="chapters[currentBook.chapter].title"
             :rewindedFor="rewindedFor"
           />
           <!-- Book primary actions -->

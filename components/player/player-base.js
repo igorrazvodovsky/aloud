@@ -17,7 +17,7 @@ export const PlayerBase = {
     sleepMenu: false
   }),
   computed: {
-    ...mapState(["book", "rate", "currentTime", "currentChapter"]),
+    ...mapState(["book", "rate", "currentBook"]),
     chapters() {
       return this.$store.getters.chapters;
     }
@@ -40,7 +40,7 @@ export const PlayerBase = {
     // Rewind & forward
     handleRewind(ammount) {
       clearTimeout(this.rewindTimeout);
-      this.setCurrentTime(this.currentTime + ammount);
+      this.setCurrentTime(this.currentBook.time + ammount);
       this.rewindedFor = this.rewindedFor + ammount;
       this.rewindTimeout = setTimeout(
         function () {
@@ -53,11 +53,11 @@ export const PlayerBase = {
       this.$store.commit("setCurrentTime", time);
     },
     nextChapter: function () {
-      if (this.currentChapter < this.chapters.length - 1)
-        this.changeChapter(this.currentChapter + 1);
+      if (this.currentBook.chapter < this.chapters.length - 1)
+        this.changeChapter(this.currentBook.chapter + 1);
     },
     prevChapter: function () {
-      if (this.currentChapter > 0) this.changeChapter(this.currentChapter - 1);
+      if (this.currentBook.chapter > 0) this.changeChapter(this.currentBook.chapter - 1);
     },
     changeChapter: function (index) {
       var wasPlaying = this.currentlyPlaying;
@@ -66,7 +66,7 @@ export const PlayerBase = {
         this.setCurrentChapter(index);
       }
       this.setCurrentTime(0);
-      this.audioFile = this.chapters[this.currentChapter].url;
+      this.audioFile = this.chapters[this.currentBook.chapter].url;
       this.audio = new Audio(this.audioFile);
       var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
@@ -85,18 +85,18 @@ export const PlayerBase = {
       }
     },
     isCurrentChapter: function (index) {
-      if (this.currentChapter == index) {
+      if (this.currentBook.chapter == index) {
         return true;
       }
       return false;
     },
-    getCurrentChapter: function (currentChapter) {
-      return this.chapters[currentChapter].url;
+    getCurrentChapter: function (currentBook) {
+      return this.chapters[currentBook.chapter].url;
     },
     playAudio: function () {
       if (
         this.currentlyStopped == true &&
-        this.currentChapter + 1 == this.chapters.length
+        this.currentBook.chapter + 1 == this.chapters.length
       ) {
         this.setCurrentChapter(0);
         this.changeChapter();
@@ -105,7 +105,7 @@ export const PlayerBase = {
         this.getCurrentTimeEverySecond(true);
         this.currentlyPlaying = true;
         this.audio.playbackRate = this.rate;
-        this.audio.currentTime = this.currentTime;
+        this.audio.currentTime = this.currentBook.time;
         this.audio.play();
       } else {
         this.stopAudio();
@@ -118,13 +118,13 @@ export const PlayerBase = {
       this.pausedMusic();
     },
     handleEnded: function () {
-      if (this.currentChapter + 1 == this.chapters.length) {
+      if (this.currentBook.chapter + 1 == this.chapters.length) {
         this.stopAudio();
         this.currentlyPlaying = false;
         this.currentlyStopped = true;
       } else {
         this.currentlyPlaying = false;
-        this.setCurrentChapter(this.currentChapter + 1);
+        this.setCurrentChapter(this.currentBook.chapter + 1);
         this.changeChapter();
         this.playAudio();
       }
@@ -147,8 +147,8 @@ export const PlayerBase = {
     rate() {
       this.audio.playbackRate = this.rate
     },
-    currentTime() {
-      this.audio.currentTime = this.currentTime
+    currentBook() {
+      this.audio.currentTime = this.currentBook.time
     }
   },
   beforeDestroy: function () {

@@ -11,7 +11,7 @@
     <progress-slider
       v-if="chapterDuration > 0"
       :chapterDuration="chapterDuration"
-      :chapter="chapters[currentChapter].title"
+      :chapter="chapters[currentBook.chapter].title"
       :rewindedFor="rewindedFor"
     />
     <div class="player__actions">

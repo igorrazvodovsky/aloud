@@ -1,7 +1,7 @@
 <template>
   <v-list rounded class="toc">
     <!-- TODO: Pass the current chapter: v-model="current" -->
-    <v-list-item-group value="currentChapter">
+    <v-list-item-group value="currentBook.chapter">
       <template v-for="(item, index) in chapters">
         <v-list-item :key="index" @click="changeChapter(index)">
           <v-list-item-content>
@@ -25,7 +25,7 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["chapters", "currentChapter"]),
+    ...mapState(["chapters", "currentBook"]),
     chapters() {
       return this.$store.getters.chapters;
     },

@@ -47,7 +47,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["page", "book", "browser", "currentBookID"]),
+    ...mapState(["page", "book", "browser", "currentBook"]),
     player() {
       return this.page == "index" || this.page == "browse";
     },
@@ -57,7 +57,7 @@ export default {
   },
   mounted() {
     this.$store.commit("initialiseStore");
-    this.$store.dispatch("setBook", this.currentBookID);
+    this.$store.dispatch("setBook", this.currentBook.id);
   },
   methods: {
     ...mapMutations(["toggleBrowser"])

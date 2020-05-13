@@ -5,7 +5,7 @@
       min="0"
       :max="chapterDuration"
       hide-details
-      :value="currentTime"
+      :value="currentBook.time"
       @change="setCurrentTime($event)"
     >
       <template v-slot:thumb-label>
@@ -17,7 +17,9 @@
     </v-slider>
     <div class="player__progress-labels">
       <div>
-        <div class="secondary--text">{{ currentTime | MMSSTimeFormat }}</div>
+        <div class="secondary--text">
+          {{ currentBook.time | MMSSTimeFormat }}
+        </div>
         <template v-if="$device.isDesktop">{{ chapter }}</template>
         <!-- <span class="secondary--text">is read by Laurette</span> -->
       </div>
@@ -37,18 +39,18 @@ import { mapState } from "vuex";
 export default {
   props: ["rewindedFor", "chapter", "chapterDuration"],
   computed: {
-    ...mapState(["rate", "currentTime"]),
+    ...mapState(["rate", "currentBook"]),
     chapters() {
       return this.$store.getters.chapters;
     },
     remainingTime() {
       return (
         this.chapterDuration -
-        this.currentTime +
+        this.currentBook.time +
         // Time left in book = sec. left in current chapter + sums of next. chapters in sec.
         // TODO: 'length' is not required property in archive.org API. Either check all books or come up with a better solution (Librivox API?)
         this.chapters
-          .slice(this.currentChapter + 1)
+          .slice(this.currentBook.chapter + 1)
           .map(chapter =>
             chapter.length.split(":").reduce((acc, time) => 60 * acc + +time)
           )
