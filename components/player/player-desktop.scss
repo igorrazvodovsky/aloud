@@ -21,6 +21,8 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+      // Optical compensation
+      transform: translateY(2.5rem);
       .btn--vertical {
         // TODO: Alt. with text-orientation, writing-mode etc?
         text-align: center;

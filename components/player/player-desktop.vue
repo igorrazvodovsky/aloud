@@ -18,6 +18,7 @@
       <div class="btn--vertical">
         <player-desktop-toc-dialog />
       </div>
+      <!--   TODO: transition, blur   -->
       <button
         @click="playAudio"
         :class="
@@ -33,6 +34,7 @@
         <v-btn disabled text rounded color="secondary">Bookmarks</v-btn>
       </div>
     </div>
+    <!-- TODO: Add transition -->
     <div class="player__title">
       <div>
         <div class="overline mb-2 secondary--text">Listening to</div>

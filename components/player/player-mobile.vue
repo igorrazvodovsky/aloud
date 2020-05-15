@@ -153,7 +153,6 @@ import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg
 import IconBack from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconPlay from "@/assets/Multimedia_iconoteka_play_circle_a_f.svg";
 import IconPause from "@/assets/Multimedia_iconoteka_pause_circle_r_f.svg";
-import { mapState } from "vuex";
 import PlaybackRateMenu from "~/components/player/menus/player-menu-rate-mobile.vue";
 import SleepMenu from "~/components/player/menus/player-menu-sleep-mobile.vue";
 import ProgressSlider from "~/components/player/player-progress-slider.vue";
