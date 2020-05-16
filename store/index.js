@@ -74,7 +74,7 @@ export const mutations = {
   },
   setCurrentBook(state, id) {
     Object.assign(this.state.currentBook, this.state.bookshelf.find(book => {
-      return book.id === this.state.currentBook.id
+      return book.id === id
     }))
   },
   setBook(state, book) {
@@ -109,11 +109,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async setBook({ commit }, id) {
-    // Save current book's status
-    commit('saveCurrentProgress');
-    // Set new book
-    commit('setCurrentBook', id);
+  async loadBook({ commit }, id) {
     commit('toggleLoading', true);
     const book = await axios.get('api/metadata/' + id);
     commit('setBook', book.data);

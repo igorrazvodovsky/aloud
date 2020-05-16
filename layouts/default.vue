@@ -1,6 +1,6 @@
 <template>
   <v-app class="player">
-    <template v-if="!loading">
+    <template v-if="bookDataLoaded">
       <player-desktop
         v-if="player && $device.isDesktop"
         @open-player="toggleBrowser"
@@ -52,7 +52,7 @@ export default {
   },
   mounted() {
     this.$store.commit("initialiseStore");
-    this.$store.dispatch("setBook", this.currentBook.id);
+    this.$store.dispatch("loadBook", this.currentBook.id);
   },
   methods: {
     ...mapMutations(["toggleBrowser"])

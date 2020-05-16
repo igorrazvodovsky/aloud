@@ -29,7 +29,11 @@ export default {
   },
   methods: {
     changeBook(id) {
-      this.$store.dispatch("setBook", id);
+      // Save current book's status
+      this.$store.commit("saveCurrentProgress");
+      // Set new book
+      this.$store.commit("setCurrentBook", id);
+      this.$store.dispatch("loadBook", id);
       this.$store.commit("toggleBrowser");
     }
   }
