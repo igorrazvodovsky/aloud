@@ -23,7 +23,8 @@ export const state = () => ({
     time: 0,
   },
   book: {},
-  bookshelf: bookshelf
+  bookshelf: bookshelf,
+  loading: true
 })
 
 export const getters = {
@@ -71,8 +72,10 @@ export const mutations = {
   updatePage(state, pageName) {
     state.page = pageName
   },
-  setCurrentBook(state, bookId) {
-    state.currentBook.id = bookId;
+  setCurrentBook(state, id) {
+    Object.assign(this.state.currentBook, this.state.bookshelf.find(book => {
+      return book.id === id
+    }))
   },
   setBook(state, book) {
     state.book = book;
@@ -86,8 +89,17 @@ export const mutations = {
   setCurrentChapter(state, chapter) {
     state.currentBook.chapter = chapter;
   },
+  saveCurrentProgress(state) {
+    Object.assign(this.state.bookshelf.find(book => {
+      return book.id === this.state.currentBook.id
+    }), this.state.currentBook)
+  },
   toggleBrowser(state) {
     state.browser = !state.browser;
+  },
+  toggleLoading(state, value) {
+    if (value) state.loading = value
+    else state.loading = !state.loading
   },
   initialiseStore(state) {
     if (localStorage.getItem('store') && process.client) {
@@ -97,10 +109,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async setBook({ commit }, bookId) {
-    commit('setCurrentBook', bookId);
-    const book = await axios.get('api/metadata/' + bookId);
+  async loadBook({ commit }, id) {
+    commit('toggleLoading', true);
+    const book = await axios.get('api/metadata/' + id);
     commit('setBook', book.data);
+    commit('toggleLoading', false);
   }
 };
 

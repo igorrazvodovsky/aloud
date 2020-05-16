@@ -1,3 +1,6 @@
+// TODO:
+// Rewinding back to the previous chapter
+
 import { mapState, mapMutations } from "vuex";
 
 export const PlayerBase = {
@@ -17,30 +20,38 @@ export const PlayerBase = {
     sleepMenu: false
   }),
   computed: {
-    ...mapState(["book", "rate", "currentBook"]),
+    ...mapState(["book", "rate"]),
+    currentTime() {
+      return this.$store.state.currentBook.time;
+    },
+    currentChapter() {
+      return this.$store.state.currentBook.chapter;
+    },
     chapters() {
       return this.$store.getters.chapters;
     }
   },
   mounted: function () {
-    this.changeChapter();
+    this.loadChapter();
+
     this.audio.loop = false;
     window.addEventListener('keyup', event => {
       if (event.code === "Space" || event.code === "Enter") {
         this.playAudio()
       }
     }),
-      // Event emitted by selecting a chapter
+      // Event emitted by selecting a chapter in TOC
       this.$nuxt.$on("change-chapter", (index) => {
         this.changeChapter(index)
       });
   },
   methods: {
-    ...mapMutations(["setCurrentChapter"]),
+    ...mapMutations(["setCurrentChapter", "setCurrentTime"]),
+
     // Rewind & forward
     handleRewind(ammount) {
       clearTimeout(this.rewindTimeout);
-      this.setCurrentTime(this.currentBook.time + ammount);
+      this.setCurrentTime(this.currentTime + ammount);
       this.rewindedFor = this.rewindedFor + ammount;
       this.rewindTimeout = setTimeout(
         function () {
@@ -49,64 +60,84 @@ export const PlayerBase = {
         2000
       );
     },
-    setCurrentTime(time) {
-      this.$store.commit("setCurrentTime", time);
-    },
+
     nextChapter: function () {
-      if (this.currentBook.chapter < this.chapters.length - 1)
-        this.changeChapter(this.currentBook.chapter + 1);
+      if (this.currentChapter < this.chapters.length - 1)
+        this.changeChapter(this.currentChapter + 1);
     },
     prevChapter: function () {
-      if (this.currentBook.chapter > 0) this.changeChapter(this.currentBook.chapter - 1);
+      if (this.currentChapter > 0) this.changeChapter(this.currentChapter - 1);
     },
-    changeChapter: function (index) {
-      var wasPlaying = this.currentlyPlaying;
-      if (index !== undefined) {
-        this.stopAudio();
-        this.setCurrentChapter(index);
-      }
-      this.setCurrentTime(0);
-      this.audioFile = this.chapters[this.currentBook.chapter].url;
+
+    loadChapter: function (index) {
+      this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
-      var localThis = this;
+      let localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.loading = false;
         localThis.loadingError = false
       });
+      // this.audio.addEventListener("canplay", function () {
+      // TODO: enable play button
+      // });
       this.audio.addEventListener("error", function () {
         // TODO: handle timeouts
         localThis.loadingError = true;
-        localThis.playAudio();
       });
       this.audio.addEventListener("ended", this.handleEnded);
+    },
+
+    changeChapter: function (index) {
+      // For resuming the playback
+      let wasPlaying = this.currentlyPlaying;
+
+      if (index !== undefined) {
+        this.stopAudio();
+        this.setCurrentChapter(index);
+      }
+      this.setCurrentTime(0);
+      this.loadChapter(index);
       if (wasPlaying) {
         this.playAudio();
       }
     },
+
     isCurrentChapter: function (index) {
-      if (this.currentBook.chapter == index) {
+      if (this.currentChapter == index) {
         return true;
       }
       return false;
     },
-    getCurrentChapter: function (currentBook) {
-      return this.chapters[currentBook.chapter].url;
+    getCurrentChapter: function (currentChapter) {
+      return this.chapters[currentChapter].url;
     },
+
     playAudio: function () {
+      // rewind to start at the end of the book
       if (
         this.currentlyStopped == true &&
-        this.currentBook.chapter + 1 == this.chapters.length
+        this.currentChapter + 1 == this.chapters.length
       ) {
         this.setCurrentChapter(0);
         this.changeChapter();
       }
+      // Play/pause
       if (!this.currentlyPlaying) {
         this.getCurrentTimeEverySecond(true);
         this.currentlyPlaying = true;
         this.audio.playbackRate = this.rate;
-        this.audio.currentTime = this.currentBook.time;
-        this.audio.play();
+        this.audio.currentTime = this.currentTime;
+        let playPromise = this.audio.play();
+        // In browsers that don’t yet support this functionality, playPromise won’t be defined.
+        if (playPromise !== undefined) {
+          playPromise.then(function () {
+            // Playback started!
+          }).catch(function (error) {
+            // Playback failed.
+            // TODO: Show feedback
+          });
+        }
       } else {
         this.stopAudio();
       }
@@ -115,22 +146,22 @@ export const PlayerBase = {
     stopAudio: function () {
       this.audio.pause();
       this.currentlyPlaying = false;
-      this.pausedMusic();
+      this.pausedBook();
     },
     handleEnded: function () {
-      if (this.currentBook.chapter + 1 == this.chapters.length) {
+      if (this.currentChapter + 1 == this.chapters.length) {
         this.stopAudio();
         this.currentlyPlaying = false;
         this.currentlyStopped = true;
       } else {
         this.currentlyPlaying = false;
-        this.setCurrentChapter(this.currentBook.chapter + 1);
+        this.setCurrentChapter(this.currentChapter + 1);
         this.changeChapter();
         this.playAudio();
       }
     },
     getCurrentTimeEverySecond: function (startStop) {
-      var localThis = this;
+      let localThis = this;
       this.checkingCurrentPositionInChapter = setTimeout(
         function () {
           localThis.setCurrentTime(Math.round(localThis.audio.currentTime));
@@ -139,7 +170,7 @@ export const PlayerBase = {
         1000
       );
     },
-    pausedMusic: function () {
+    pausedBook: function () {
       clearTimeout(this.checkingCurrentPositionInChapter);
     }
   },
@@ -147,8 +178,13 @@ export const PlayerBase = {
     rate() {
       this.audio.playbackRate = this.rate
     },
-    currentBook() {
-      this.audio.currentTime = this.currentBook.time
+    currentTime() {
+      this.audio.currentTime = this.currentTime
+    },
+    book() {
+      // TODO: Don't like it. Think again.
+      this.stopAudio();
+      this.loadChapter()
     }
   },
   beforeDestroy: function () {

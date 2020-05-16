@@ -2,12 +2,12 @@
   <div class="bookshelf px-2">
     <v-card
       v-for="book in bookshelf"
-      :key="book.archiveOrgId"
+      :key="book.id"
       outlined
       tile
       class="mb-3"
       :disabled="book.title == currentBook.title"
-      @click.stop="changeBook(book.archiveOrgId)"
+      @click.stop="changeBook(book.id)"
     >
       <v-card-text>
         <div class="overline">{{ book.author }}</div>
@@ -28,8 +28,12 @@ export default {
     }
   },
   methods: {
-    changeBook(bookId) {
-      this.$store.dispatch("setBook", bookId);
+    changeBook(id) {
+      // Save current book's status
+      this.$store.commit("saveCurrentProgress");
+      // Set new book
+      this.$store.commit("setCurrentBook", id);
+      this.$store.dispatch("loadBook", id);
       this.$store.commit("toggleBrowser");
     }
   }
