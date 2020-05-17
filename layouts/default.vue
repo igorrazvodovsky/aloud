@@ -9,7 +9,7 @@
         >An errror occured while loading the book. Retrying...</div>-->
       </div>
     </div>
-    <template v-if="bookDataLoaded">
+    <template v-else>
       <player-desktop
         v-if="player && $device.isDesktop"
         @open-player="toggleBrowser"
@@ -27,7 +27,12 @@
       :style="browser ? 'top: 3.25rem' : 'top: calc(100vh - 3.5rem + 1px)'"
       :ripple="false"
     >
-      <v-row justify="space-between" class="pl-4 pr-2 my-3" no-gutters @click.stop="toggleBrowser">
+      <v-row
+        justify="space-between"
+        class="pl-4 pr-2 my-3"
+        no-gutters
+        @click.stop="toggleBrowser"
+      >
         <v-col cols="auto">
           <h2 class="headline serif">Bookshelf</h2>
         </v-col>
@@ -59,14 +64,10 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit("initialiseStore");
     this.$store.dispatch("loadBookData", this.currentBook.id).then(res => {
       if (res === "success") this.bookDataLoaded = true;
     });
-  },
-  beforeCreate() {
-    if (process.client) {
-      this.$store.commit("initialiseStore");
-    }
   },
   methods: {
     ...mapMutations(["toggleBrowser"])
