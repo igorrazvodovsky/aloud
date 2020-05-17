@@ -1,7 +1,10 @@
+// TODO:
+// Check for changes in store structure when loading from localStorage
+// Add additional info (reader, etc.) from the librivox api
+
 import axios from 'axios'
 import bookshelf from '~/static/bookshelf.json'
 
-// TODO: Will cause a problem when I change the store structure without clearing the localStorage
 const saveStateLocally = store => {
   if (process.client) {
     store.subscribe((mutation, state) => {
@@ -18,7 +21,7 @@ export const state = () => ({
   browser: false,
   rate: 1.0,
   currentBook: {
-    id: 'alices_adventures_1003',
+    id: 'alice_wonderland_0711_librivox',
     chapter: 0,
     time: 0,
   },
@@ -29,42 +32,37 @@ export const state = () => ({
 
 export const getters = {
   chapters: state => {
-    return (
-      Array.from(state.book[state.book.metadata.identifier])
-        // 1. Filter for mp3s
-        .filter(function (el) {
-          // Only 'derivative' has 'length' property
-          return el.source == "derivative" && el.format.includes("MP3") && !el.format.includes("ZIP");
-        })
-        // 2. Sort them by "title"
-        // TODO: Not sure if works. Additional tests needed. Should also check for "track" & prioratize it
-        // TODO: How about storing a regex for each book to format chapter names?
-        // .sort((a, b) =>
-        //   a.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0] >
-        //     b.title.match(/^\d+|\d+\b|\d+(?=\w)/g)[0]
-        //     ? 1
-        //     : -1
-        // )
-        // // 3. Remove unnecesary properties
-        .map(
-          ({
-            creator,
-            album,
-            crc32,
-            md5,
-            sha1,
-            size,
-            mtime,
-            ...keepAttrs
-          }) => keepAttrs
-        )
-        // 4. Add a full URL to a file
-        .map(obj => ({
-          ...obj, url: "api/download/" +
-            state.book.metadata.identifier +
-            "/" + obj.name
-        }))
-    );
+    // Take a list of book files
+    return Array.from(state.book[state.book.metadata.identifier])
+      // 1. Filter for mp3s
+      .filter((el) => el.source == "original" && el.format.includes("MP3") && el.hasOwnProperty('track') && !el.format.includes("ZIP"))
+      // 2. Sort
+      // Track can be in a "XX" or "XX/XX" formats
+      .sort((a, b) => a.track.substring(0, (a.track.indexOf('/') !== -1) ? a.track.indexOf('/') : undefined) - b.track.substring(0, (b.track.indexOf('/') !== -1) ? b.track.indexOf('/') : undefined))
+      // 3. Remove unnecesary properties
+      .map(
+        ({
+          creator,
+          album,
+          crc32,
+          md5,
+          sha1,
+          size,
+          mtime,
+          ...keepAttrs
+        }) => keepAttrs
+      )
+      // 4. Add
+      .map(obj => ({
+        ...obj,
+        // 4.1. file URL
+        url: "api/download/" +
+          state.book.metadata.identifier +
+          "/" + obj.name,
+        // 4.2. chapter length
+        // Find the 'derivative' track with the same title and take 'length' from there
+        length: state.book[state.book.metadata.identifier].filter((el) => el.source == "derivative" && el.title == obj.title && el.format.includes("MP3"))[0].length
+      }));
   }
 }
 
@@ -98,8 +96,7 @@ export const mutations = {
     state.browser = !state.browser;
   },
   toggleLoading(state, value) {
-    if (value) state.loading = value
-    else state.loading = !state.loading
+    state.loading = value
   },
   initialiseStore(state) {
     if (localStorage.getItem('store') && process.client) {
@@ -109,11 +106,18 @@ export const mutations = {
 }
 
 export const actions = {
-  async loadBook({ commit }, id) {
+  async loadBookData({ commit }, id) {
     commit('toggleLoading', true);
-    const book = await axios.get('api/metadata/' + id);
-    commit('setBook', book.data);
-    commit('toggleLoading', false);
+    return await axios.get('api/metadata/' + id)
+      .then(function (response) {
+        commit('setBook', response.data);
+        return "success"
+      })
+      .catch(function (error) {
+        // TODO: handle error & check for the old data
+        console.log(error);
+        return "failure"
+      })
   }
 };
 

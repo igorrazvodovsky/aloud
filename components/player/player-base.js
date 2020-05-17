@@ -1,5 +1,6 @@
 // TODO:
 // Rewinding back to the previous chapter
+// File duplication when rebuilding
 
 import { mapState, mapMutations } from "vuex";
 
@@ -12,7 +13,6 @@ export const PlayerBase = {
     chapterDuration: 0,
     audioFile: "",
     rewindedFor: 0,
-    loading: true,
     loadingError: false,
     // TODO: Move mobile/desktop specific properties
     openLists: false,
@@ -20,7 +20,7 @@ export const PlayerBase = {
     sleepMenu: false
   }),
   computed: {
-    ...mapState(["book", "rate"]),
+    ...mapState(["book", "rate", "loading"]),
     currentTime() {
       return this.$store.state.currentBook.time;
     },
@@ -46,7 +46,7 @@ export const PlayerBase = {
       });
   },
   methods: {
-    ...mapMutations(["setCurrentChapter", "setCurrentTime"]),
+    ...mapMutations(["setCurrentChapter", "setCurrentTime", "toggleLoading"]),
 
     // Rewind & forward
     handleRewind(ammount) {
@@ -75,12 +75,8 @@ export const PlayerBase = {
       let localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
-        localThis.loading = false;
-        localThis.loadingError = false
+        localThis.toggleLoading(false);
       });
-      // this.audio.addEventListener("canplay", function () {
-      // TODO: enable play button
-      // });
       this.audio.addEventListener("error", function () {
         // TODO: handle timeouts
         localThis.loadingError = true;
@@ -129,7 +125,7 @@ export const PlayerBase = {
         this.audio.playbackRate = this.rate;
         this.audio.currentTime = this.currentTime;
         let playPromise = this.audio.play();
-        // In browsers that don’t yet support this functionality, playPromise won’t be defined.
+        // In browsers that don’t yet support this, playPromise won’t be defined.
         if (playPromise !== undefined) {
           playPromise.then(function () {
             // Playback started!
@@ -182,7 +178,7 @@ export const PlayerBase = {
       this.audio.currentTime = this.currentTime
     },
     book() {
-      // TODO: Don't like it. Think again.
+      // When new book data is loaded, pause the load new one
       this.stopAudio();
       this.loadChapter()
     }

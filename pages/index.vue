@@ -33,7 +33,7 @@ export default {
       this.$store.commit("saveCurrentProgress");
       // Set new book
       this.$store.commit("setCurrentBook", id);
-      this.$store.dispatch("loadBook", id);
+      this.$store.dispatch("loadBookData", id);
       this.$store.commit("toggleBrowser");
     }
   }
