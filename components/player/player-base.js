@@ -80,6 +80,7 @@ export const PlayerBase = {
       this.audio.addEventListener("error", function () {
         // TODO: handle timeouts
         localThis.loadingError = true;
+        console.log("Error " + this.audio.error.code + "; details: " + this.audio.error.message);
       });
       this.audio.addEventListener("ended", this.handleEnded);
     },
