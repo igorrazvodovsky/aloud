@@ -9,9 +9,11 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text>
-              <span v-if="index > 0">{{
+              <span v-if="index > 0">
+                {{
                 chapterPositions[index] | fancyTimeFormat
-              }}</span>
+                }}
+              </span>
               <!-- {{item.length}} -->
             </v-list-item-action-text>
           </v-list-item-action>

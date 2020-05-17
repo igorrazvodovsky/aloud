@@ -1,5 +1,14 @@
 <template>
   <v-app class="player">
+    <div class="loading" v-if="loading && !bookDataLoaded">
+      <div class="text-center">
+        <v-progress-circular indeterminate></v-progress-circular>
+        <!-- <div
+          v-if="loadingError"
+          class="mt-6 body-2 text--secondary"
+        >An errror occured while loading the book. Retrying...</div>-->
+      </div>
+    </div>
     <template v-if="bookDataLoaded">
       <player-desktop
         v-if="player && $device.isDesktop"
@@ -40,19 +49,20 @@ export default {
     PlayerMobile,
     PlayerDesktop
   },
-
+  data: () => ({
+    bookDataLoaded: false
+  }),
   computed: {
     ...mapState(["page", "book", "browser", "currentBook", "loading"]),
     player() {
       return this.page == "index" || this.page == "browse";
-    },
-    bookDataLoaded() {
-      return Object.keys(this.book).length > 0;
     }
   },
   mounted() {
     this.$store.commit("initialiseStore");
-    this.$store.dispatch("loadBook", this.currentBook.id);
+    this.$store.dispatch("loadBookData", this.currentBook.id).then(res => {
+      if (res === "success") this.bookDataLoaded = true;
+    });
   },
   methods: {
     ...mapMutations(["toggleBrowser"])

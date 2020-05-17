@@ -60,12 +60,19 @@ export default {
   */
   axios: {
     // proxy: true
+    retry: true
   },
   proxy: {
     '/api': {
       target: 'https://archive.org',
       pathRewrite: {
         '^/api': '/'
+      }
+    },
+    '/librivox': {
+      target: 'https://librivox.org/api/feed',
+      pathRewrite: {
+        '^/librivox': '/'
       }
     }
   },
