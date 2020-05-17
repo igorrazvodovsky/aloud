@@ -1,5 +1,6 @@
 // TODO:
 // Add additional info (reader, etc.) from the librivox api
+// A better compatibility check with local store copy
 
 import { version } from '~/package.json';
 import axios from 'axios'
