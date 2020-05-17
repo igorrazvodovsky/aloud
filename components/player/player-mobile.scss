@@ -10,7 +10,7 @@
     &.disabled {
       // TODO: Check the positionibng on different screen sizes
       transform: translateY(calc(-25% - #{$mobile-header-height}));
-      .player__actions-container--primary {
+      #{ $block }__main {
         opacity: 0.25;
         filter: blur(4px) grayscale(100%);
       }
