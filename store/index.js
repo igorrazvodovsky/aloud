@@ -1,7 +1,7 @@
 // TODO:
-// Check for changes in store structure when loading from localStorage
 // Add additional info (reader, etc.) from the librivox api
 
+import { version } from '~/package.json';
 import axios from 'axios'
 import bookshelf from '~/static/bookshelf.json'
 
@@ -16,6 +16,7 @@ const saveStateLocally = store => {
 export const plugins = [saveStateLocally]
 
 export const state = () => ({
+  version: '',
   page: 'index',
   playing: false,
   browser: false,
@@ -99,8 +100,18 @@ export const mutations = {
     state.loading = value
   },
   initialiseStore(state) {
-    if (localStorage.getItem('store') && process.client) {
-      Object.assign(state, JSON.parse(localStorage.getItem('store')))
+    // Check if the store exists
+    if (localStorage.getItem('store')) {
+      let store = JSON.parse(localStorage.getItem('store'));
+      // Check the version stored against current. If different, don't
+      // load the cached version
+      if (store.version == version) {
+        this.replaceState(
+          Object.assign(state, store)
+        );
+      } else {
+        state.version = version;
+      }
     }
   }
 }

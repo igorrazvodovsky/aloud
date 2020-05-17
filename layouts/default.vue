@@ -59,10 +59,14 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit("initialiseStore");
     this.$store.dispatch("loadBookData", this.currentBook.id).then(res => {
       if (res === "success") this.bookDataLoaded = true;
     });
+  },
+  beforeCreate() {
+    if (process.client) {
+      this.$store.commit("initialiseStore");
+    }
   },
   methods: {
     ...mapMutations(["toggleBrowser"])
