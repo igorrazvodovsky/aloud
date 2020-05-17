@@ -1,6 +1,6 @@
 // TODO:
 // Add additional info (reader, etc.) from the librivox api
-// A better compatibility check with local store copy
+// A better compatibility check with local store copy. Progress shouldn't be reset when the version changes
 
 import { version } from '~/package.json';
 import axios from 'axios'
