@@ -102,7 +102,8 @@ body {
   .display-3.serif,
   .display-4.serif,
   .headline.serif,
-  .title.serif {
+  .title.serif,
+  .body-1.serif {
     font-family: $serif-font-family !important;
   }
 }
@@ -187,4 +188,8 @@ button:disabled {
 .toc {
   // Fix on mobile
   margin-bottom: 7rem;
+}
+
+.bookshelf {
+  margin-bottom: 3.5rem;
 }

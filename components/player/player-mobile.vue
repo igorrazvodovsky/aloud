@@ -15,7 +15,7 @@
     <!-- Header -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player__header"
-      @click.stop="$emit('open-player')"
+      @click.stop="$emit('open:player')"
     >
       <v-slide-y-reverse-transition hide-on-leave leave-absolute>
         <!-- Book: what's playing -->

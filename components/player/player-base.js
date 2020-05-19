@@ -72,7 +72,7 @@ export const PlayerBase = {
     loadChapter: function (index) {
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
-      let localThis = this;
+      var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.toggleLoading(false);
@@ -158,7 +158,7 @@ export const PlayerBase = {
       }
     },
     getCurrentTimeEverySecond: function (startStop) {
-      let localThis = this;
+      var localThis = this;
       this.checkingCurrentPositionInChapter = setTimeout(
         function () {
           localThis.setCurrentTime(Math.round(localThis.audio.currentTime));
