@@ -52,8 +52,12 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/proxy',
     '@nuxtjs/device',
+    '@nuxtjs/toast',
     'nuxt-svg-loader',
   ],
+  toast: {
+    position: 'top-left',
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

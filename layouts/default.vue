@@ -12,12 +12,12 @@
     <template v-else>
       <player-desktop
         v-if="player && $device.isDesktop"
-        @open-player="toggleBrowser"
+        @open:player="toggleBrowser"
         :closed="browser"
       />
       <player-mobile
         v-if="player && $device.isMobile"
-        @open-player="toggleBrowser"
+        @open:player="toggleBrowser"
         :closed="browser"
       />
     </template>

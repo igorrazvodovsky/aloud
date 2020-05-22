@@ -13,7 +13,6 @@ export const PlayerBase = {
     chapterDuration: 0,
     audioFile: "",
     rewindedFor: 0,
-    loadingError: false,
     // TODO: Move mobile/desktop specific properties
     openLists: false,
     speedMenu: false,
@@ -72,14 +71,21 @@ export const PlayerBase = {
     loadChapter: function (index) {
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
-      let localThis = this;
+      var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.toggleLoading(false);
       });
       this.audio.addEventListener("error", function () {
         // TODO: handle timeouts
-        localThis.loadingError = true;
+        this.$toast.error('😔 Error while loading the chapter', {
+          action: {
+            text: 'OK',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        })
         console.log("Error " + this.audio.error.code + "; details: " + this.audio.error.message);
       });
       this.audio.addEventListener("ended", this.handleEnded);
@@ -158,7 +164,7 @@ export const PlayerBase = {
       }
     },
     getCurrentTimeEverySecond: function (startStop) {
-      let localThis = this;
+      var localThis = this;
       this.checkingCurrentPositionInChapter = setTimeout(
         function () {
           localThis.setCurrentTime(Math.round(localThis.audio.currentTime));
