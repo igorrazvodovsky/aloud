@@ -17,13 +17,17 @@
     </v-slider>
     <div class="player__progress-labels">
       <div>
-        <div class="secondary--text">{{ currentBook.time | MMSSTimeFormat }}</div>
+        <div class="secondary--text">
+          {{ currentBook.time | MMSSTimeFormat }}
+        </div>
         <template v-if="$device.isDesktop">{{ chapter }}</template>
         <!-- <span class="secondary--text">is read by Laurette</span> -->
       </div>
       <div class="secondary--text text-right">
         <div>{{ chapterDuration | MMSSTimeFormat }}</div>
-        <div v-if="$device.isDesktop">{{ remainingTime | fancyTimeFormat }} left</div>
+        <div v-if="$device.isDesktop">
+          {{ remainingTime | fancyTimeFormat }} left
+        </div>
       </div>
     </div>
   </div>
@@ -59,7 +63,6 @@ export default {
   },
   methods: {
     setCurrentTime(time) {
-      console.log("TEST");
       this.$store.commit("setCurrentTime", time);
     }
   }

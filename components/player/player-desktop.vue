@@ -2,9 +2,6 @@
   <div class="loading" v-if="loading">
     <div class="text-center">
       <v-progress-circular indeterminate></v-progress-circular>
-      <div v-if="loadingError" class="mt-6 body-2 text--secondary">
-        An errror occured while loading the book. Retrying...
-      </div>
     </div>
   </div>
   <div v-else class="player player--desktop">

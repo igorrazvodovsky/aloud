@@ -193,3 +193,30 @@ button:disabled {
 .bookshelf {
   margin-bottom: 3.5rem;
 }
+
+.toasted {
+  // TODO: Replace with custom toast
+  &-container.top-left {
+    left: 2rem !important;
+    top: 4rem !important;
+  }
+  &-container &#{&}-primary {
+    color: var(--v-secondary-base);
+    background: white;
+    border-radius: 2rem;
+    font-family: $body-font-family !important;
+    font-weight: 400;
+    font-size: 0.875rem; //body-2
+    box-shadow: none;
+    &.error {
+      background: white;
+      color: var(--v-error-base);
+    }
+    & .action {
+      color: var(--v-secondary-base);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

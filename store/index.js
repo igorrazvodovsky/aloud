@@ -126,7 +126,15 @@ export const actions = {
         return "success"
       })
       .catch(function (error) {
-        // TODO: handle error & check for the old data
+        this.$toast.error('😔 Error while getting the book data', {
+          action: {
+            text: 'OK',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        })
+        // TODO: if failed, check for the old data
         console.log(error);
         return "failure"
       })

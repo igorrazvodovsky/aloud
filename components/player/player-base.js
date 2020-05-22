@@ -13,7 +13,6 @@ export const PlayerBase = {
     chapterDuration: 0,
     audioFile: "",
     rewindedFor: 0,
-    loadingError: false,
     // TODO: Move mobile/desktop specific properties
     openLists: false,
     speedMenu: false,
@@ -79,7 +78,14 @@ export const PlayerBase = {
       });
       this.audio.addEventListener("error", function () {
         // TODO: handle timeouts
-        localThis.loadingError = true;
+        this.$toast.error('😔 Error while loading the chapter', {
+          action: {
+            text: 'OK',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        })
         console.log("Error " + this.audio.error.code + "; details: " + this.audio.error.message);
       });
       this.audio.addEventListener("ended", this.handleEnded);
