@@ -10,6 +10,7 @@
       :chapterDuration="chapterDuration"
       :chapter="chapters[currentChapter].title"
       :rewindedFor="rewindedFor"
+      @handle-rewind="handleRewind"
     />
     <div class="player__actions">
       <div class="btn--vertical">
@@ -54,13 +55,13 @@
           <icon-forward />
         </v-btn>
         <rate-menu />
-        <sleep-menu />
-        <v-btn disabled title="Opens in new" large icon>
+        <!-- <sleep-menu /> -->
+        <!-- <v-btn disabled title="Opens in new" large icon>
           <icon-info />
-        </v-btn>
-        <v-btn disabled title="Add bookmark" large icon>
+        </v-btn> -->
+        <!-- <v-btn disabled title="Add bookmark" large icon>
           <icon-bookmark />
-        </v-btn>
+        </v-btn> -->
         <about-dialog class="d-inline" />
       </div>
     </div>

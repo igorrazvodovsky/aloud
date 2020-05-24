@@ -1,12 +1,15 @@
 <template>
   <div class="player__progress">
     <v-slider
-      :thumb-label="rewindedFor !== 0 ? 'always' : true"
+      :thumb-label="rewinding ? 'always' : undefined"
       min="0"
       :max="chapterDuration"
       hide-details
-      :value="currentBook.time"
-      @change="setCurrentTime($event)"
+      :value="sliderPosition"
+      @start="handleStart"
+      @end="handleEnd"
+      @change="handleEnd"
+      :class="rewinding ? 'show-thumb-label' : undefined"
     >
       <template v-slot:thumb-label>
         <span class="font-weight-bold">
@@ -21,6 +24,7 @@
           {{ currentBook.time | MMSSTimeFormat }}
         </div>
         <template v-if="$device.isDesktop">{{ chapter }}</template>
+        <!-- TODO: Add the narrator from the Librivox API -->
         <!-- <span class="secondary--text">is read by Laurette</span> -->
       </div>
       <div class="secondary--text text-right">
@@ -38,10 +42,27 @@ import { mapState } from "vuex";
 
 export default {
   props: ["rewindedFor", "chapter", "chapterDuration"],
+  data: () => ({
+    sliderPosition: 0,
+    manipulatingWith: false
+  }),
+  watch: {
+    // TODO: What's better, deep watching the entire currentBook or simply mapping currentBook.time and currentBook.chapter separately and watch the time directly?
+    currentBook: {
+      handler: function() {
+        // Don't update the slider position while the slider is manipulated with
+        if (!this.manipulatingWith) this.sliderPosition = this.currentBook.time;
+      },
+      deep: true
+    }
+  },
   computed: {
     ...mapState(["rate", "currentBook"]),
     chapters() {
       return this.$store.getters.chapters;
+    },
+    rewinding() {
+      return !!this.rewindedFor;
     },
     remainingTime() {
       return (
@@ -62,9 +83,18 @@ export default {
     }
   },
   methods: {
-    setCurrentTime(time) {
-      this.$store.commit("setCurrentTime", time);
+    handleStart(value) {
+      this.manipulatingWith = true;
+    },
+    handleEnd(value) {
+      this.manipulatingWith = false;
+      let rewindedFor = value - this.currentBook.time;
+      console.log(rewindedFor);
+      this.$emit("handle-rewind", rewindedFor);
     }
+  },
+  mounted() {
+    this.sliderPosition = this.currentBook.time;
   }
 };
 </script>

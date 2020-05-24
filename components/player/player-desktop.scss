@@ -13,6 +13,7 @@
       align-items: flex-end;
       & > div:last-child {
         text-align: right;
+        flex: 1 0 auto;
       }
     }
     #{ $block }__actions {
