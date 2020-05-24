@@ -55,3 +55,12 @@
     transform: rotate(0) !important;
   }
 }
+
+// Fix for slider's thumb staying on even if the prop was set to 'false'
+.v-slider__thumb-label-container {
+  // TODO: Add transition
+  display: none !important;
+  @at-root.show-thumb-label & {
+    display: block !important;
+  }
+}

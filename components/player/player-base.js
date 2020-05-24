@@ -52,6 +52,15 @@ export const PlayerBase = {
       clearTimeout(this.rewindTimeout);
       this.setCurrentTime(this.currentTime + ammount);
       this.rewindedFor = this.rewindedFor + ammount;
+      // Handle chapter change
+      // Back
+      if (this.currentTime < 0 && this.currentChapter > 0) {
+        let time = this.lengthToSec(this.chapters[this.currentChapter - 1].length) + this.currentTime;
+        this.changeChapter(this.currentChapter - 1, time)
+      }
+      // Forth
+      else if (this.currentTime > this.chapterDuration && this.currentChapter < this.chapters.length - 1) this.changeChapter(this.currentChapter + 1, this.currentTime - this.chapterDuration)
+      // Restart the feedback timer
       this.rewindTimeout = setTimeout(
         function () {
           this.rewindedFor = 0;
@@ -59,7 +68,9 @@ export const PlayerBase = {
         2000
       );
     },
-
+    lengthToSec: function (time) {
+      return time.split(':').reverse().reduce((sum, x, i) => Number(sum) + Number(x) * (60 * i));
+    },
     nextChapter: function () {
       if (this.currentChapter < this.chapters.length - 1)
         this.changeChapter(this.currentChapter + 1);
@@ -77,7 +88,7 @@ export const PlayerBase = {
         localThis.toggleLoading(false);
       });
       this.audio.addEventListener("error", function () {
-        // TODO: handle timeouts
+        console.log(error);
         this.$toast.error('😔 Error while loading the chapter', {
           action: {
             text: 'OK',
@@ -91,15 +102,14 @@ export const PlayerBase = {
       this.audio.addEventListener("ended", this.handleEnded);
     },
 
-    changeChapter: function (index) {
+    changeChapter: function (index, time) {
       // For resuming the playback
       let wasPlaying = this.currentlyPlaying;
-
       if (index !== undefined) {
         this.stopAudio();
         this.setCurrentChapter(index);
       }
-      this.setCurrentTime(0);
+      this.setCurrentTime(time ? time : 0);
       this.loadChapter(index);
       if (wasPlaying) {
         this.playAudio();
@@ -131,16 +141,7 @@ export const PlayerBase = {
         this.currentlyPlaying = true;
         this.audio.playbackRate = this.rate;
         this.audio.currentTime = this.currentTime;
-        let playPromise = this.audio.play();
-        // In browsers that don’t yet support this, playPromise won’t be defined.
-        if (playPromise !== undefined) {
-          playPromise.then(function () {
-            // Playback started!
-          }).catch(function (error) {
-            // Playback failed.
-            // TODO: Show feedback
-          });
-        }
+        this.audio.play();
       } else {
         this.stopAudio();
       }
