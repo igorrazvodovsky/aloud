@@ -3,7 +3,7 @@
 .player {
   $block: &;
   &.player--desktop {
-    height: calc(100% - 56px);
+    height: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
     #{ $block }__title {
@@ -37,8 +37,10 @@
         }
       }
     }
+    #{ $block }__header {
+      height: 3.5rem;
+    }
     #{ $block }__progress {
-      margin-top: 0;
       &-labels {
         display: flex;
         justify-content: space-between;

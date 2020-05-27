@@ -1,33 +1,38 @@
 <template>
-  <div class="loading" v-if="loading">
-    <div class="text-center">
-      <v-progress-circular indeterminate></v-progress-circular>
+  <div class="player player--desktop">
+    <div class="player__header">
+      <v-slide-y-transition hide-on-leave leave-absolute>
+        <v-progress-linear
+          v-if="chapterDuration == 0"
+          indeterminate
+        ></v-progress-linear>
+        <progress-slider
+          v-else
+          :chapterDuration="chapterDuration"
+          :chapter="chapters[currentChapter].title"
+          :rewindedFor="rewindedFor"
+          @handle-rewind="handleRewind"
+        />
+      </v-slide-y-transition>
     </div>
-  </div>
-  <div v-else class="player player--desktop">
-    <progress-slider
-      v-if="chapterDuration > 0"
-      :chapterDuration="chapterDuration"
-      :chapter="chapters[currentChapter].title"
-      :rewindedFor="rewindedFor"
-      @handle-rewind="handleRewind"
-    />
     <div class="player__actions">
       <div class="btn--vertical">
         <toc-dialog />
       </div>
       <!--   TODO: transition, blur   -->
-      <button
-        @click="playAudio"
-        :class="
-          currentlyPlaying
-            ? 'player__playpause playing'
-            : 'player__playpause paused'
-        "
-        title="Play/pause book"
-      >
-        <label tabindex="1"></label>
-      </button>
+      <div class="player__playpause">
+        <button @click="playAudio" :title="currentlyPlaying ? 'Pause' : 'Play'">
+          <v-slide-y-transition hide-on-leave leave-absolute>
+            <v-progress-circular
+              v-if="!canPlayFile"
+              indeterminate
+              color="white"
+            ></v-progress-circular>
+            <icon-play id="icon-play" v-if="!currentlyPlaying && canPlayFile" />
+            <icon-pause v-if="currentlyPlaying && canPlayFile" />
+          </v-slide-y-transition>
+        </button>
+      </div>
       <div class="btn--vertical">
         <v-btn disabled text rounded color="secondary">Bookmarks</v-btn>
       </div>
@@ -77,6 +82,8 @@ import RateMenu from "~/components/player/menus/player-menu-rate-desktop.vue";
 import "~/components/player/player-desktop.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
+import IconPlay from "@/assets/play.svg";
+import IconPause from "@/assets/Multimedia_iconoteka_pause_r_a.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";
 import IconInfo from "@/assets/Text_iconoteka_info_sans_serif__more__details__information__about_r_s.svg";
 
@@ -86,6 +93,8 @@ export default {
     IconForward,
     IconBookmark,
     IconInfo,
+    IconPlay,
+    IconPause,
     TocDialog,
     AboutDialog,
     SleepMenu,

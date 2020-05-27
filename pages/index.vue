@@ -35,6 +35,19 @@ export default {
       this.$store.commit("setCurrentBook", id);
       this.$store.dispatch("loadBookData", id);
       this.$store.commit("toggleBrowser");
+
+      if (this.$device.isDesktop) {
+        document.documentElement.style.setProperty("--scroll-snap", "none");
+        this.$scrollTo("#app", {
+          container: "body",
+          onDone: function() {
+            document.documentElement.style.setProperty(
+              "--scroll-snap",
+              "y mandatory"
+            );
+          }
+        });
+      }
     }
   }
 };

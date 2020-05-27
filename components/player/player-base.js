@@ -12,6 +12,7 @@ export const PlayerBase = {
     checkingCurrentPositionInChapter: "",
     chapterDuration: 0,
     audioFile: "",
+    canPlayFile: false,
     rewindedFor: 0,
     // TODO: Move mobile/desktop specific properties
     openLists: false,
@@ -35,14 +36,18 @@ export const PlayerBase = {
 
     this.audio.loop = false;
     window.addEventListener('keyup', event => {
-      if (event.code === "Space" || event.code === "Enter") {
-        this.playAudio()
+      if (event.code === "Space" || event.code === "Enter") this.playAudio();
+    })
+    // Disable page scrolling with 'space'
+    window.addEventListener('keydown', event => {
+      if (event.code === "Space") {
+        event.preventDefault();
       }
-    }),
-      // Event emitted by selecting a chapter in TOC
-      this.$nuxt.$on("change-chapter", (index) => {
-        this.changeChapter(index)
-      });
+    })
+    // Event emitted by selecting a chapter in TOC
+    this.$nuxt.$on("change-chapter", (index) => {
+      this.changeChapter(index)
+    });
   },
   methods: {
     ...mapMutations(["setCurrentChapter", "setCurrentTime", "toggleLoading"]),
@@ -82,14 +87,42 @@ export const PlayerBase = {
     loadChapter: function (index) {
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
+      this.canPlayFile = false;
       var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.toggleLoading(false);
       });
-      this.audio.addEventListener("error", function () {
-        console.log(error);
-        this.$toast.error('😔 Error while loading the chapter', {
+      this.audio.addEventListener("canplaythrough", function () {
+        localThis.canPlayFile = true
+      });
+      // TODO: readyState is always 1. WHY?
+      // this.audio.addEventListener("waiting", function () {
+      //   console.log(localThis.audio.readyState);
+      //   if (localThis.audio.readyState >= 2) localThis.canPlayFile = true
+      //   else localThis.canPlayFile = false
+      // });
+
+      this.audio.addEventListener("error", function (e) {
+        // TODO: Try again or switch source
+        // if no response has come back after N milliseconds, show the feedback and
+        // either start the next attempt or, if this was the third attempt, show "Try later" feedback.
+        let msg = ""
+        switch (e.target.error.code) {
+          case e.target.error.MEDIA_ERR_NETWORK:
+            msg = 'A network error caused the audio download to fail.';
+            break;
+          case e.target.error.MEDIA_ERR_DECODE:
+            msg = 'The audio playback was aborted due to a corruption problem or because the audio used features your browser did not support.'
+            break;
+          case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            msg = 'The audio not be loaded, either because the server or network failed or because the format is not supported.'
+            break;
+          default:
+            msg = 'An unknown error occurred.'
+            break;
+        }
+        localThis.$toast.error('😔 ' + msg, {
           action: {
             text: 'OK',
             onClick: (e, toastObject) => {
@@ -97,7 +130,6 @@ export const PlayerBase = {
             }
           }
         })
-        console.log("Error " + this.audio.error.code + "; details: " + this.audio.error.message);
       });
       this.audio.addEventListener("ended", this.handleEnded);
     },
@@ -127,7 +159,7 @@ export const PlayerBase = {
     },
 
     playAudio: function () {
-      // rewind to start at the end of the book
+      // Rewind to start at the end of the book
       if (
         this.currentlyStopped == true &&
         this.currentChapter + 1 == this.chapters.length
