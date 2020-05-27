@@ -2,45 +2,45 @@
   scroll-snap-align: start;
   // All-purpose
   &__playpause {
-    background-color: var(--v-primary-darken2);
-    border-radius: 50%;
-    width: 25vmin;
-    height: 25vmin;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05),
-      0 100px 80px rgba(0, 0, 0, 0.07);
-    &:focus {
-      outline: none;
-    }
-    &:active {
-      animation: btn-click 0.3s forwards;
-    }
-    label {
-      display: block;
-      box-sizing: border-box;
-      width: 0;
-      height: 40px;
-      border-color: transparent transparent transparent var(--color-bg);
-      transition: all 200ms ease-in-out;
-      cursor: pointer;
-      border-style: double;
-      border-width: 0px 0 0px 36px;
+    & > button {
+      background-color: var(--v-primary-darken2);
+      border-radius: 50%;
+      min-width: 25vmin;
+      min-height: 25vmin;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      // TODO: not .loading
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
       &:focus {
         outline: none;
       }
-    }
-    &.paused {
-      label {
-        margin-left: 10px;
-        border-style: solid;
-        border-width: 24px 0 24px 36px;
+      &:active {
+        animation: btn-click 0.3s forwards;
+      }
+      & > svg {
+        color: var(--color-bg);
+        fill: var(--color-bg);
+        width: 10vmin;
+        height: 10vmin;
+      }
+      &[title="Play"] > svg {
+        width: 25vmin;
+        height: 25vmin;
       }
     }
+    transform: scale(0);
+    animation: play-scale 0.4s ease-in-out forwards;
+  }
+}
+
+@keyframes play-scale {
+  100% {
+    transform: scale(1);
   }
 }
 

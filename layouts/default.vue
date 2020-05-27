@@ -1,6 +1,6 @@
 <template>
   <v-app class="player">
-    <div class="loading" v-if="loading && !bookDataLoaded">
+    <div class="player--loading" v-if="loading && !bookDataLoaded">
       <div class="text-center">
         <v-progress-circular indeterminate></v-progress-circular>
         <!-- <div

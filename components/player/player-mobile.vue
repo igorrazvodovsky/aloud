@@ -1,17 +1,10 @@
 <!-- 3. Lists (TOC & Bookmarks) -->
 
 <template>
-  <!-- Loading -->
-  <div class="loading" v-if="loading">
-    <div class="text-center">
-      <v-progress-circular indeterminate></v-progress-circular>
-      <!-- <div v-if="loadingError" class="mt-6 body-2 text--secondary">
-        An errror occured while loading the book. Retrying...
-      </div>-->
-    </div>
-  </div>
-
-  <div v-else class="player player--mobile" :class="{ disabled: speedMenu || sleepMenu }">
+  <div
+    class="player player--mobile"
+    :class="{ disabled: speedMenu || sleepMenu }"
+  >
     <!-- Header -->
     <div
       class="mx-2 my-2 d-flex flex-no-wrap justify-space-between player__header"
@@ -23,9 +16,7 @@
           <span class="overline secondary--text">Listening to</span>
           <h1 class="headline serif">{{ book.metadata.title }}</h1>
           <span class="subtitle-1 secondary--text">
-            {{
-            !openLists ? chapters[currentChapter].title : ""
-            }}
+            {{ !openLists ? chapters[currentChapter].title : "" }}
           </span>
         </div>
         <!-- MOBILE: Book collapsed: play/pause -->
@@ -54,7 +45,13 @@
             <icon-back />
           </v-btn>
         </div>
-        <v-btn key="3" v-if="openLists" text icon @click.stop="openLists = false">
+        <v-btn
+          key="3"
+          v-if="openLists"
+          text
+          icon
+          @click.stop="openLists = false"
+        >
           <icon-close />
         </v-btn>
       </v-slide-y-reverse-transition>
@@ -71,22 +68,29 @@
             :chapterDuration="chapterDuration"
             :chapter="chapters[currentChapter].title"
             :rewindedFor="rewindedFor"
+            @handle-rewind="handleRewind"
           />
           <!-- Book primary actions -->
           <v-flex xs12 d-flex align-center justify-space-around player__actions>
             <v-btn large text icon @click="handleRewind(-15)">
               <icon-rewind />
             </v-btn>
-            <button
-              :class="
-                currentlyPlaying
-                  ? 'player__playpause playing'
-                  : 'player__playpause paused'
-              "
-              @click="playAudio"
-            >
-              <label tabindex="1"></label>
-            </button>
+            <div class="player__playpause">
+              <button
+                @click="playAudio"
+                :title="currentlyPlaying ? 'Pause' : 'Play'"
+              >
+                <v-slide-y-transition hide-on-leave leave-absolute>
+                  <v-progress-circular
+                    v-if="!canPlayFile"
+                    indeterminate
+                    color="white"
+                  ></v-progress-circular>
+                  <icon-play v-if="!currentlyPlaying && canPlayFile" />
+                  <icon-pause v-if="currentlyPlaying && canPlayFile" />
+                </v-slide-y-transition>
+              </button>
+            </div>
             <v-btn large text icon @click="handleRewind(15)">
               <icon-forward />
             </v-btn>
@@ -99,7 +103,8 @@
               text
               rounded
               @click.stop="speedMenu = !speedMenu"
-            >{{ rate }}×</v-btn>
+              >{{ rate }}×</v-btn
+            >
             <v-btn
               class="mx-3 player__sleep-btn player__sleep-btn--on"
               text
@@ -123,7 +128,12 @@
             :current-speed="rate"
             @close="speedMenu = false"
           />
-          <sleep-menu key="2" v-if="sleepMenu" :open="sleepMenu" @close="sleepMenu = false" />
+          <sleep-menu
+            key="2"
+            v-if="sleepMenu"
+            :open="sleepMenu"
+            @close="sleepMenu = false"
+          />
         </div>
       </div>
     </keep-alive>
@@ -137,8 +147,8 @@ import PlayerLists from "~/components/player/player-mobile-lists.vue";
 import IconList from "@/assets/UI_iconoteka_list__playlist_queue_r_a.svg";
 import IconClose from "@/assets/UI_iconoteka_close__delete__cross__clear_r_a.svg";
 import IconBack from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
-import IconPlay from "@/assets/Multimedia_iconoteka_play_circle_a_f.svg";
-import IconPause from "@/assets/Multimedia_iconoteka_pause_circle_r_f.svg";
+import IconPlay from "@/assets/play.svg";
+import IconPause from "@/assets/Multimedia_iconoteka_pause_r_a.svg";
 import PlaybackRateMenu from "~/components/player/menus/player-menu-rate-mobile.vue";
 import SleepMenu from "~/components/player/menus/player-menu-sleep-mobile.vue";
 import ProgressSlider from "~/components/player/player-progress-slider.vue";

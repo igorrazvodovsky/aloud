@@ -9,10 +9,11 @@
 }
 
 body {
+  background: var(--color-bg);
   max-height: 100vh;
   scroll-snap-type: var(--scroll-snap);
   overflow-y: scroll;
-  @media (max-width: 960) {
+  @media (max-width: 960px) {
     overflow-y: hidden;
   }
   &::-webkit-scrollbar {
@@ -34,7 +35,7 @@ body {
   }
   &.browse {
     scroll-snap-align: start;
-    @media (max-width: 960) {
+    @media (max-width: 960px) {
       &.open {
         top: 3.25rem;
       }
@@ -42,7 +43,7 @@ body {
         top: calc(100vh - 3.5rem + 1px);
       }
     }
-    @media (min-width: 960) {
+    @media (min-width: 960px) {
       max-height: 100vh;
       border-radius: 0 !important;
       box-shadow: none !important;
@@ -108,7 +109,7 @@ body {
   }
 }
 
-.loading {
+.player--loading {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -246,5 +247,12 @@ button:disabled {
         text-decoration: none;
       }
     }
+  }
+}
+
+.v-progress-linear {
+  height: 0.5rem !important;
+  &__background {
+    opacity: 0 !important;
   }
 }

@@ -89,7 +89,6 @@ export default {
     handleEnd(value) {
       this.manipulatingWith = false;
       let rewindedFor = value - this.currentBook.time;
-      console.log(rewindedFor);
       this.$emit("handle-rewind", rewindedFor);
     }
   },

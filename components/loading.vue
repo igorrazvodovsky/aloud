@@ -1,6 +1,6 @@
 <template lang="html">
-    <div class="loading" v-if="loading">
-      <v-progress-circular indeterminate></v-progress-circular>
+  <div class="app--loading" v-if="loading">
+    <v-progress-circular indeterminate></v-progress-circular>
   </div>
 </template>
 

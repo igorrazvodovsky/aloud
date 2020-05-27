@@ -12,6 +12,7 @@ export const PlayerBase = {
     checkingCurrentPositionInChapter: "",
     chapterDuration: 0,
     audioFile: "",
+    canPlayFile: false,
     rewindedFor: 0,
     // TODO: Move mobile/desktop specific properties
     openLists: false,
@@ -35,14 +36,18 @@ export const PlayerBase = {
 
     this.audio.loop = false;
     window.addEventListener('keyup', event => {
-      if (event.code === "Space" || event.code === "Enter") {
-        this.playAudio()
+      if (event.code === "Space" || event.code === "Enter") this.playAudio();
+    })
+    // Disable page scrolling with 'space'
+    window.addEventListener('keydown', event => {
+      if (event.code === "Space") {
+        event.preventDefault();
       }
-    }),
-      // Event emitted by selecting a chapter in TOC
-      this.$nuxt.$on("change-chapter", (index) => {
-        this.changeChapter(index)
-      });
+    })
+    // Event emitted by selecting a chapter in TOC
+    this.$nuxt.$on("change-chapter", (index) => {
+      this.changeChapter(index)
+    });
   },
   methods: {
     ...mapMutations(["setCurrentChapter", "setCurrentTime", "toggleLoading"]),
@@ -82,11 +87,22 @@ export const PlayerBase = {
     loadChapter: function (index) {
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
+      this.canPlayFile = false;
       var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.toggleLoading(false);
       });
+      this.audio.addEventListener("canplaythrough", function () {
+        localThis.canPlayFile = true
+      });
+      // TODO: readyState is always 1. WHY?
+      // this.audio.addEventListener("waiting", function () {
+      //   console.log(localThis.audio.readyState);
+      //   if (localThis.audio.readyState >= 2) localThis.canPlayFile = true
+      //   else localThis.canPlayFile = false
+      // });
+
       this.audio.addEventListener("error", function (e) {
         // TODO: Try again or switch source
         // if no response has come back after N milliseconds, show the feedback and
