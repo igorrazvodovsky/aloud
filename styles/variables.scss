@@ -42,8 +42,8 @@ $material-light: (
   "background": var(--color-bg)
 );
 
-$ripple-animation-transition-in: opacity 0.1s ease-in-out;
-$ripple-animation-transition-out: opacity 0.3s ease-in-out;
+$ripple-animation-transition-in: none;
+$ripple-animation-transition-out: none;
 $ripple-animation-visible-opacity: 0;
 
 $tabs-item-letter-spacing: normal;

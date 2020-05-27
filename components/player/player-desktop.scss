@@ -3,7 +3,7 @@
 .player {
   $block: &;
   &.player--desktop {
-    height: calc(100% - 56px);
+    height: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
     #{ $block }__title {

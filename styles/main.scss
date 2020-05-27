@@ -5,10 +5,16 @@
 :root {
   --color-bg: #f4f3ef;
   --color-medium-emphasis: rgba(0, 0, 0, 0.54);
+  --scroll-snap: y mandatory;
 }
 
 body {
-  overflow-y: hidden;
+  max-height: 100vh;
+  scroll-snap-type: var(--scroll-snap);
+  overflow-y: scroll;
+  @media (max-width: 960) {
+    overflow-y: hidden;
+  }
   &::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -27,13 +33,33 @@ body {
     }
   }
   &.browse {
+    scroll-snap-align: start;
+    @media (max-width: 960) {
+      &.open {
+        top: 3.25rem;
+      }
+      &.closed {
+        top: calc(100vh - 3.5rem + 1px);
+      }
+    }
+    @media (min-width: 960) {
+      max-height: 100vh;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      .headline {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
     display: flex;
     flex-direction: column;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     overflow-x: hidden;
+    @media (max-width: 960px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
     // TODO: Something better
     & .row:first-of-type {
       cursor: pointer;
@@ -47,13 +73,13 @@ body {
     }
 
     // Flipping books on desktop
-    @media (min-width: 900px) {
+    @media (min-width: 960px) {
       .bookshelf {
         display: flex;
         overflow-y: hidden;
         overflow-x: scroll;
+        height: 100vh;
         .v-card {
-          height: calc(100% - 4rem);
           transform-origin: left top;
           transition: $primary-transition;
           margin: 0.5rem;
@@ -83,7 +109,7 @@ body {
 }
 
 .loading {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -191,7 +217,9 @@ button:disabled {
 }
 
 .bookshelf {
-  margin-bottom: 3.5rem;
+  @media (max-width: 960px) {
+    margin-bottom: 3.5rem;
+  }
 }
 
 .toasted {

@@ -87,9 +87,26 @@ export const PlayerBase = {
         localThis.chapterDuration = Math.round(this.duration);
         localThis.toggleLoading(false);
       });
-      this.audio.addEventListener("error", function () {
-        console.log(error);
-        this.$toast.error('😔 Error while loading the chapter', {
+      this.audio.addEventListener("error", function (e) {
+        // TODO: Try again or switch source
+        // if no response has come back after N milliseconds, show the feedback and
+        // either start the next attempt or, if this was the third attempt, show "Try later" feedback.
+        let msg = ""
+        switch (e.target.error.code) {
+          case e.target.error.MEDIA_ERR_NETWORK:
+            msg = 'A network error caused the audio download to fail.';
+            break;
+          case e.target.error.MEDIA_ERR_DECODE:
+            msg = 'The audio playback was aborted due to a corruption problem or because the audio used features your browser did not support.'
+            break;
+          case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            msg = 'The audio not be loaded, either because the server or network failed or because the format is not supported.'
+            break;
+          default:
+            msg = 'An unknown error occurred.'
+            break;
+        }
+        localThis.$toast.error('😔 ' + msg, {
           action: {
             text: 'OK',
             onClick: (e, toastObject) => {
@@ -97,7 +114,6 @@ export const PlayerBase = {
             }
           }
         })
-        console.log("Error " + this.audio.error.code + "; details: " + this.audio.error.message);
       });
       this.audio.addEventListener("ended", this.handleEnded);
     },
@@ -127,7 +143,7 @@ export const PlayerBase = {
     },
 
     playAudio: function () {
-      // rewind to start at the end of the book
+      // Rewind to start at the end of the book
       if (
         this.currentlyStopped == true &&
         this.currentChapter + 1 == this.chapters.length

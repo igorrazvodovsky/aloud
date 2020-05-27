@@ -35,13 +35,6 @@
     "time": 0
   },
   {
-    "id": "count_monte_cristo_0711_librivox",
-    "title": "The Count of Monte Cristo",
-    "author": "Alexandre Dumas",
-    "chapter": 0,
-    "time": 0
-  },
-  {
     "id": "odyssey_butler_librivox",
     "title": "The Odyssey",
     "author": "Homer",
@@ -73,6 +66,34 @@
     "id": "dubliners_0906_librivox",
     "title": "Dubliners",
     "author": "James Joyce",
+    "chapter": 0,
+    "time": 0
+  },
+  {
+    "id": "walden_librivox",
+    "title": "Walden",
+    "author": "Henry David Thoreau",
+    "chapter": 0,
+    "time": 0
+  },
+  {
+    "id": "siddhartha_ap_librivox",
+    "title": "Siddhartha",
+    "author": "Hermann Hesse",
+    "chapter": 0,
+    "time": 0
+  },
+  {
+    "id": "romeo_and_juliet_librivox",
+    "title": "Romeo and Juliet",
+    "author": "William Shakespeare",
+    "chapter": 0,
+    "time": 0
+  },
+  {
+    "id": "childrenofodin_etk_librivox",
+    "title": "The Children of Odin",
+    "author": "Padraic Colum",
     "chapter": 0,
     "time": 0
   }

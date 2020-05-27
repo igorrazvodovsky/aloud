@@ -95,7 +95,10 @@ export const mutations = {
     }), this.state.currentBook)
   },
   toggleBrowser(state) {
-    state.browser = !state.browser;
+    // TODO: Meh...
+    if (this.$device.isMobile) {
+      state.browser = !state.browser;
+    }
   },
   toggleLoading(state, value) {
     state.loading = value

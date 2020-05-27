@@ -1,4 +1,5 @@
 .player {
+  scroll-snap-align: start;
   // All-purpose
   &__playpause {
     background-color: var(--v-primary-darken2);

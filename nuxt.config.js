@@ -54,6 +54,7 @@ export default {
     '@nuxtjs/device',
     '@nuxtjs/toast',
     'nuxt-svg-loader',
+    'vue-scrollto/nuxt',
   ],
   toast: {
     position: 'top-left',

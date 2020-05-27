@@ -22,9 +22,10 @@
       />
     </template>
     <v-card
+      id="browse"
       v-if="bookDataLoaded"
       class="browse"
-      :style="browser ? 'top: 3.25rem' : 'top: calc(100vh - 3.5rem + 1px)'"
+      :class="browser ? 'open' : 'closed'"
       :ripple="false"
     >
       <v-row
@@ -65,12 +66,31 @@ export default {
   },
   mounted() {
     this.$store.commit("initialiseStore");
-    this.$store.dispatch("loadBookData", this.currentBook.id).then(res => {
-      if (res === "success") this.bookDataLoaded = true;
-    });
+    this.$store
+      .dispatch("loadBookData", this.currentBook.id)
+      .then(res => {
+        if (res === "success") this.bookDataLoaded = true;
+      })
+      .catch(reason => {
+        console.log("Caught failure while loading the book data.ç " + reason);
+      });
   },
   methods: {
-    ...mapMutations(["toggleBrowser"])
+    toggleBrowser() {
+      if (this.$device.isMobile) this.$store.commit("toggleBrowser");
+      else {
+        document.documentElement.style.setProperty("--scroll-snap", "none");
+        this.$scrollTo("#browse", {
+          container: "body",
+          onDone: function() {
+            document.documentElement.style.setProperty(
+              "--scroll-snap",
+              "y mandatory"
+            );
+          }
+        });
+      }
+    }
   }
 };
 </script>
