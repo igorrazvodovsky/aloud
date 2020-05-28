@@ -87,6 +87,7 @@ export const PlayerBase = {
     loadChapter: function (index) {
       this.audioFile = this.chapters[this.currentChapter].url;
       this.audio = new Audio(this.audioFile);
+      this.audio.preload = "auto";
       this.canPlayFile = false;
       var localThis = this;
       this.audio.addEventListener("loadedmetadata", function () {
@@ -97,12 +98,11 @@ export const PlayerBase = {
         localThis.canPlayFile = true
       });
       // TODO: readyState is always 1. WHY?
-      // this.audio.addEventListener("waiting", function () {
-      //   console.log(localThis.audio.readyState);
-      //   if (localThis.audio.readyState >= 2) localThis.canPlayFile = true
-      //   else localThis.canPlayFile = false
-      // });
-
+      this.audio.addEventListener("waiting", function () {
+        console.log(localThis.audio.readyState);
+        // if (localThis.audio.readyState >= 2) localThis.canPlayFile = true
+        // else localThis.canPlayFile = false
+      });
       this.audio.addEventListener("error", function (e) {
         // TODO: Try again or switch source
         // if no response has come back after N milliseconds, show the feedback and

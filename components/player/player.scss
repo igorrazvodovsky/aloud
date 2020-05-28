@@ -3,6 +3,7 @@
   // All-purpose
   &__playpause {
     & > button {
+      transform: scale(0);
       background-color: var(--v-primary-darken2);
       border-radius: 50%;
       min-width: 25vmin;
@@ -15,9 +16,15 @@
         0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035),
         0 22.3px 17.9px rgba(0, 0, 0, 0.042),
         0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
-      transition: box-shadow 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out, background-color 1s ease-in-out;
+      &.playing,
+      &.paused {
+        transform: scale(1);
+      }
       &.loading {
         box-shadow: none;
+        transform: scale(0.75);
+        background-color: var(--v-primary-base);
       }
       &:focus {
         outline: none;
@@ -32,8 +39,8 @@
         height: 25vmin;
       }
     }
-    transform: scale(0);
-    animation: play-scale 0.4s ease-in-out forwards;
+    // transform: scale(0);
+    // animation: play-scale 0.4s ease-in-out forwards;
   }
 }
 
