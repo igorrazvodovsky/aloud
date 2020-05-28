@@ -19,9 +19,14 @@
       <div class="btn--vertical">
         <toc-dialog />
       </div>
-      <!--   TODO: transition, blur   -->
       <div class="player__playpause">
-        <button @click="playAudio" :title="currentlyPlaying ? 'Pause' : 'Play'">
+        <button
+          @click="playAudio"
+          :title="currentlyPlaying ? 'Pause' : 'Play'"
+          :class="
+            !canPlayFile ? 'loading' : currentlyPlaying ? 'playing' : 'paused'
+          "
+        >
           <v-slide-y-transition hide-on-leave leave-absolute>
             <v-progress-circular
               v-if="!canPlayFile"
@@ -83,7 +88,7 @@ import "~/components/player/player-desktop.scss";
 import IconRewind from "@/assets/Arrows_iconoteka_rotate_ccw_r_a.svg";
 import IconForward from "@/assets/Arrows_iconoteka_rotate_cw_r_a.svg";
 import IconPlay from "@/assets/play.svg";
-import IconPause from "@/assets/Multimedia_iconoteka_pause_r_a.svg";
+import IconPause from "@/assets/pause.svg";
 import IconBookmark from "@/assets/Files_iconoteka_bookmark_r_s.svg";
 import IconInfo from "@/assets/Text_iconoteka_info_sans_serif__more__details__information__about_r_s.svg";
 
