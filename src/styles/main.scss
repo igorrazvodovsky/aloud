@@ -1,0 +1,258 @@
+@import "source-sans-pro.css";
+@import "source-serif-pro.css";
+@import "animations";
+
+:root {
+  --color-bg: #f4f3ef;
+  --color-medium-emphasis: rgba(0, 0, 0, 0.54);
+  --scroll-snap: y mandatory;
+}
+
+body {
+  background: var(--color-bg);
+  max-height: 100vh;
+  scroll-snap-type: var(--scroll-snap);
+  overflow-y: scroll;
+  @media (max-width: 960px) {
+    overflow-y: hidden;
+  }
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
+// Bottom sheets
+.v-card {
+  &.browse,
+  &.search-results {
+    transition: all 0.2s ease-in-out;
+    border-radius: 1rem 1rem 0 0 !important;
+    height: 100%;
+    &:focus:before {
+      opacity: 0 !important;
+    }
+  }
+  &.browse {
+    scroll-snap-align: start;
+    @media (max-width: 960px) {
+      &.open {
+        top: 3.25rem;
+      }
+      &.closed {
+        top: calc(100vh - 3.5rem + 1px);
+      }
+    }
+    @media (min-width: 960px) {
+      max-height: 100vh;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      .headline {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    @media (max-width: 960px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    // TODO: Something better
+    & .row:first-of-type {
+      cursor: pointer;
+    }
+    .bookshelf {
+      overflow-y: scroll;
+      // &::-webkit-scrollbar {
+      //   width: 0px;
+      //   background: transparent;
+      // }
+    }
+
+    // Flipping books on desktop
+    @media (min-width: 960px) {
+      .bookshelf {
+        display: flex;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        height: 100vh;
+        .v-card {
+          transform-origin: left top;
+          transition: $primary-transition;
+          margin: 0.5rem;
+          // Selected is disabled
+          &--disabled {
+            transform: rotate(-2deg) translateX(-1rem);
+          }
+        }
+        .v-card__text {
+          min-width: 6rem;
+          display: flex;
+          flex-direction: row-reverse;
+          height: 100%;
+          align-items: center;
+          justify-content: space-between;
+          writing-mode: vertical-rl;
+          text-orientation: mixed;
+        }
+      }
+    }
+  }
+}
+.theme--light.v-card {
+  &.browse {
+    background-color: white;
+  }
+}
+
+.player--loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.3;
+  }
+}
+
+// Typography
+
+.v-application {
+  .display-1.serif,
+  .display-2.serif,
+  .display-3.serif,
+  .display-4.serif,
+  .headline.serif,
+  .title.serif,
+  .body-1.serif {
+    font-family: $serif-font-family !important;
+  }
+}
+
+// Icon buttons
+
+button {
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+button:disabled {
+  svg {
+    fill: var(--v-secondary-lighten2);
+  }
+}
+
+// Dialog close button
+.dialog {
+  &__close {
+    display: block !important;
+    margin-left: auto;
+  }
+}
+
+//
+// VUETIFY CUSTOMIZATIONS
+//
+
+// Vuetify default style sets only 'color'
+.theme--light.v-btn.v-btn--icon {
+  fill: var(--color-medium-emphasis);
+}
+
+.v-btn--outlined {
+  border: thin solid rgba(black, 0.2) !important;
+  background-clip: padding-box;
+}
+
+// Making slider span the whole screen
+.v-slider--horizontal {
+  margin: 0 !important;
+}
+
+.v-tab {
+  text-transform: none !important;
+}
+
+.theme--light.v-tabs {
+  border-bottom: 1px solid white;
+  .v-tabs-slider-wrapper {
+    display: none !important;
+  }
+  .v-tab,
+  .v-tab--active {
+    &:focus::before,
+    &:hover::before,
+    .v-ripple__container {
+      opacity: 0 !important;
+    }
+  }
+}
+
+.v-dialog .theme--light.v-card {
+  background: white;
+}
+
+.theme--light.v-tabs-items,
+.v-tabs-items.theme--light .v-sheet.theme--light {
+  background-color: transparent !important;
+}
+
+.v-menu__content {
+  border-radius: 2rem !important;
+  box-shadow: 0 1.9px 3.1px rgba(0, 0, 0, 0.035),
+    0 15px 25px rgba(0, 0, 0, 0.07) !important;
+}
+
+// TODO:
+.toc {
+  // Fix on mobile
+  margin-bottom: 7rem;
+}
+
+.bookshelf {
+  @media (max-width: 960px) {
+    margin-bottom: 3.5rem;
+  }
+}
+
+.toasted {
+  // TODO: Replace with custom toast
+  &-container.top-left {
+    left: 2rem !important;
+    top: 4rem !important;
+  }
+  &-container &#{&}-primary {
+    color: var(--v-secondary-base);
+    background: white;
+    border-radius: 2rem;
+    font-family: $body-font-family !important;
+    font-weight: 400;
+    font-size: 0.875rem; //body-2
+    box-shadow: none;
+    &.error {
+      background: white;
+      color: var(--v-error-base);
+    }
+    & .action {
+      color: var(--v-secondary-base);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.v-progress-linear {
+  height: 0.5rem !important;
+  &__background {
+    opacity: 0 !important;
+  }
+}
