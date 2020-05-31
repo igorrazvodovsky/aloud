@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     changeChapter(index) {
-      this.$nuxt.$emit("change-chapter", index);
-      this.$nuxt.$emit("close-toc");
+      this.$root.$emit("change-chapter", index);
+      this.$root.$emit("close-toc");
     }
   }
 };

@@ -42,7 +42,7 @@ export default {
   },
   created() {
     // Event emitted by selecting a chapter
-    this.$nuxt.$on("close-toc", () => {
+    this.$root.$on("close-toc", () => {
       this.dialog = false;
     });
   }
