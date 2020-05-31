@@ -24,7 +24,7 @@
           </p>
           <p>
             The app is made with
-            <a href="https://nuxtjs.org/">NuxtJS</a>. Text is set in
+            <a href="https://vuejs.org/">Vue.js</a>. Text is set in
             <a
               rel="external"
               href="https://github.com/adobe-fonts/source-serif-pro"

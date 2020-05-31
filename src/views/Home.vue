@@ -6,7 +6,7 @@
       outlined
       tile
       class="mb-3"
-      :disabled="book.title == currentBook.title"
+      :disabled="book.id == currentBook.id"
       @click.stop="changeBook(book.id)"
     >
       <v-card-text>
@@ -18,14 +18,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   computed: {
-    currentBook() {
-      return this.$store.state.book.metadata;
-    },
-    bookshelf() {
-      return this.$store.state.bookshelf;
-    }
+    ...mapState(["currentBook", "bookshelf", "isMobile"])
   },
   methods: {
     changeBook(id) {
@@ -33,10 +30,10 @@ export default {
       this.$store.commit("saveCurrentProgress");
       // Set new book
       this.$store.commit("setCurrentBook", id);
-      this.$store.dispatch("loadBookData", id);
+      this.$store.dispatch("fetchBookData", id);
       this.$store.commit("toggleBrowser");
-
-      if (this.$device.isDesktop) {
+      // TODO: Move to seprate function both mobile and desktop behaviour
+      if (!this.isMobile) {
         document.documentElement.style.setProperty("--scroll-snap", "none");
         this.$scrollTo("#app", {
           container: "body",

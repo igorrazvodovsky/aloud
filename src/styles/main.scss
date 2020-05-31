@@ -61,8 +61,7 @@ body {
       left: 0;
       right: 0;
     }
-    // TODO: Something better
-    & .row:first-of-type {
+    &__header {
       cursor: pointer;
     }
     .bookshelf {

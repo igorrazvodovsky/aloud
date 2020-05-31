@@ -32,7 +32,7 @@
       >
         <v-row
           justify="space-between"
-          class="pl-4 pr-2 my-3"
+          class="browse__header pl-4 pr-2 my-3"
           no-gutters
           @click.stop="toggleBrowser"
         >

@@ -34,13 +34,15 @@ export const PlayerBase = {
   mounted: function() {
     this.loadChapter();
     this.audio.loop = false;
-    window.addEventListener("keyup", event => {
-      if (event.code === "Space" || event.code === "Enter") this.playAudio();
+    window.addEventListener("keyup", e => {
+      if (e.code === "Space" || e.code === "Enter") this.playAudio();
+      if (e.code === "ArrowLeft") this.handleRewind(-15);
+      if (e.code === "ArrowRight") this.handleRewind(15);
     });
     // Disable page scrolling with 'space'
-    window.addEventListener("keydown", event => {
-      if (event.code === "Space") {
-        event.preventDefault();
+    window.addEventListener("keydown", e => {
+      if (e.code === "Space") {
+        e.preventDefault();
       }
     });
     // Event emitted by selecting a chapter in TOC
