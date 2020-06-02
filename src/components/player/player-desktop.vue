@@ -31,7 +31,6 @@
             <v-progress-circular
               v-if="!canPlayFile"
               indeterminate
-              color="white"
             ></v-progress-circular>
             <icon-play v-if="!currentlyPlaying && canPlayFile" />
             <icon-pause v-if="currentlyPlaying && canPlayFile" />
