@@ -4,8 +4,12 @@
 
 :root {
   --color-bg: #f4f3ef;
-  --color-medium-emphasis: rgba(0, 0, 0, 0.54);
+  --color-medium-emphasis: rgba(0, 0, 0, 0.6);
   --scroll-snap: y mandatory;
+  @media (prefers-color-scheme: dark) {
+    --color-bg: rgba(255, 255, 255, 0.9);
+    --color-medium-emphasis: rgba(255, 255, 255, 0.6);
+  }
 }
 
 body {
@@ -145,7 +149,7 @@ button {
 
 button:disabled {
   svg {
-    fill: var(--v-secondary-lighten2);
+    opacity: 0.3
   }
 }
 
@@ -162,8 +166,12 @@ button:disabled {
 //
 
 // Vuetify default style sets only 'color'
-.theme--light.v-btn.v-btn--icon {
+.v-btn.v-btn--icon, .v-btn.v-btn--icon svg {
   fill: var(--color-medium-emphasis);
+}
+
+.v-progress-circular svg .v-progress-circular__overlay {
+  stroke: var(--color-medium-emphasis);
 }
 
 .v-btn--outlined {

@@ -3,6 +3,12 @@
   // All-purpose
   &__playpause {
     & > button {
+      --color-bg: #f4f3ef;
+      --color-medium-emphasis: rgba(255, 255, 255, 0.6);
+      @media (prefers-color-scheme: dark) {
+        --color-bg: rgba(0, 0, 0, 0.9);
+        --color-medium-emphasis: rgba(0, 0, 0, 0.6);
+      }
       transform: scale(0);
       background-color: var(--v-primary-darken2);
       border-radius: 50%;
@@ -24,7 +30,7 @@
       &.loading {
         box-shadow: none;
         transform: scale(0.75);
-        background-color: var(--v-primary-base);
+        // background-color: var(--v-primary-base);
       }
       &:focus {
         outline: none;
@@ -33,7 +39,6 @@
         animation: btn-click 0.3s forwards;
       }
       & > svg {
-        color: var(--color-bg);
         fill: var(--color-bg);
         width: 25vmin;
         height: 25vmin;
