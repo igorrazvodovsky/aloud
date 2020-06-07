@@ -5,10 +5,7 @@
       min="0"
       :max="chapterDuration"
       hide-details
-      :value="sliderPosition"
-      @start="handleStart"
-      @end="handleEnd"
-      @change="handleEnd"
+      v-model="sliderPosition"
       :class="rewinding ? 'show-thumb-label' : undefined"
     >
       <template v-slot:thumb-label>
@@ -40,22 +37,16 @@ import { mapState } from "vuex";
 
 export default {
   props: ["rewindedFor", "chapter", "chapterDuration"],
-  data: () => ({
-    sliderPosition: 0,
-    manipulatingWith: false
-  }),
-  watch: {
-    // TODO: What's better, deep watching the entire currentBook or simply mapping currentBook.time and currentBook.chapter separately and watch the time directly?
-    currentBook: {
-      handler: function() {
-        // Don't update the slider position while the slider is manipulated with
-        if (!this.manipulatingWith) this.sliderPosition = this.currentBook.time;
-      },
-      deep: true
-    }
-  },
   computed: {
     ...mapState(["rate", "currentBook", "isMobile"]),
+    sliderPosition: {
+      get() {
+        return this.currentBook.time;
+      },
+      set(value) {
+        this.handleEnd(value);
+      }
+    },
     chapters() {
       return this.$store.getters.chapters;
     },
@@ -81,11 +72,8 @@ export default {
     }
   },
   methods: {
-    handleStart() {
-      this.manipulatingWith = true;
-    },
     handleEnd(value) {
-      this.manipulatingWith = false;
+      this.isManipulatedWith = false;
       let rewindedFor = value - this.currentBook.time;
       this.$emit("handle-rewind", rewindedFor);
     }
