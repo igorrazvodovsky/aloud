@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- <v-app-bar app color="primary" dark>
-    </v-app-bar> -->
+    </v-app-bar>-->
     <v-content class="player">
       <div class="player--loading" v-if="loading">
         <div class="text-center">
@@ -9,7 +9,7 @@
           <!-- <div
           v-if="loadingError"
           class="mt-6 body-2 text--secondary"
-        >An errror occured while loading the book. Retrying...</div>-->
+          >An errror occured while loading the book. Retrying...</div>-->
         </div>
       </div>
       <template v-if="!loading && error == null">
@@ -102,7 +102,7 @@ export default {
       }
     },
     onResize() {
-      this.$store.commit("isMobile", window.innerWidth < 960);
+      this.$store.commit("setMobile", window.innerWidth < 960);
     }
   },
   beforeDestroy() {

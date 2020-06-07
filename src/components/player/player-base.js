@@ -1,7 +1,6 @@
 // TODO:
 // Rewinding back to the previous chapter
 // File duplication when rebuilding
-
 import { mapState, mapMutations } from "vuex";
 
 export const PlayerBase = {
@@ -51,7 +50,7 @@ export const PlayerBase = {
     });
   },
   methods: {
-    ...mapMutations(["setCurrentChapter", "setCurrentTime", "setLoading"]),
+    ...mapMutations(["setChapter", "setTime", "setLoading"]),
 
     // Rewind & forward
     handleRewind(ammount) {
@@ -61,7 +60,7 @@ export const PlayerBase = {
       if (newTime > 0 && newTime < this.chapterDuration) {
         // TODO: Fix
         this.audio.currentTime = this.currentTime + ammount;
-        this.setCurrentTime(this.currentTime + ammount);
+        this.setTime(this.currentTime + ammount);
       }
       // Handle chapter change
       // Back
@@ -159,9 +158,9 @@ export const PlayerBase = {
       let wasPlaying = this.currentlyPlaying;
       if (index !== undefined) {
         this.stopAudio();
-        this.setCurrentChapter(index);
+        this.setChapter(index);
       }
-      this.setCurrentTime(time ? time : 0);
+      this.setTime(time ? time : 0);
       this.loadChapter(index);
       if (wasPlaying) {
         this.playAudio();
@@ -184,7 +183,7 @@ export const PlayerBase = {
         this.currentlyStopped == true &&
         this.currentChapter + 1 == this.chapters.length
       ) {
-        this.setCurrentChapter(0);
+        this.setChapter(0);
         this.changeChapter();
       }
       // Play/pause
@@ -210,7 +209,7 @@ export const PlayerBase = {
         this.currentlyStopped = true;
       } else {
         this.currentlyPlaying = false;
-        this.setCurrentChapter(this.currentChapter + 1);
+        this.setChapter(this.currentChapter + 1);
         this.changeChapter();
         this.playAudio();
       }
@@ -219,7 +218,7 @@ export const PlayerBase = {
       var localThis = this;
       this.checkingCurrentPositionInChapter = setTimeout(
         function() {
-          localThis.setCurrentTime(Math.round(localThis.audio.currentTime));
+          localThis.setTime(Math.round(localThis.audio.currentTime));
           localThis.getCurrentTimeEverySecond(true);
         }.bind(this),
         1000
@@ -230,19 +229,12 @@ export const PlayerBase = {
     }
   },
   watch: {
-    rate() {
+    rate: function() {
       this.audio.playbackRate = this.rate;
-    },
-    // currentTime() {
-    //   this.audio.currentTime = this.currentTime;
-    // },
-    book() {
-      // When new book data is loaded, pause current and load new one
-      this.stopAudio();
-      this.loadChapter();
     }
   },
   beforeDestroy: function() {
+    this.stopAudio();
     this.audio.removeEventListener("ended", this.handleEnded);
     this.audio.removeEventListener("loadedmetadata", this.handleEnded);
     this.audio.removeEventListener("canplaythrough", this.handleEnded);
