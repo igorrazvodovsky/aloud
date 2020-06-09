@@ -149,7 +149,7 @@ button {
 
 button:disabled {
   svg {
-    opacity: 0.3
+    opacity: 0.3;
   }
 }
 
@@ -165,8 +165,14 @@ button:disabled {
 // VUETIFY CUSTOMIZATIONS
 //
 
+//TODO: Check for variable
+#app.theme--dark.v-application {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 // Vuetify default style sets only 'color'
-.v-btn.v-btn--icon, .v-btn.v-btn--icon svg {
+.v-btn.v-btn--icon,
+.v-btn.v-btn--icon svg {
   fill: var(--color-medium-emphasis);
 }
 

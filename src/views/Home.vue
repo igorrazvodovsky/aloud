@@ -18,20 +18,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   computed: {
     ...mapState(["currentBook", "bookshelf", "isMobile"])
   },
   methods: {
+    ...mapMutations(["saveBookProgress", "setNewBook", "toggleBrowser"]),
     changeBook(id) {
       // Save current book's status
-      this.$store.commit("saveCurrentProgress");
+      this.saveBookProgress();
       // Set new book
-      this.$store.commit("setCurrentBook", id);
+      this.setNewBook(id);
       this.$store.dispatch("fetchBookData", id);
-      this.$store.commit("toggleBrowser");
+      this.toggleBrowser(false);
       // TODO: Move to seprate function both mobile and desktop behaviour
       if (!this.isMobile) {
         document.documentElement.style.setProperty("--scroll-snap", "none");
