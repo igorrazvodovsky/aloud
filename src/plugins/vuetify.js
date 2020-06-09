@@ -2,9 +2,9 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import colors from "vuetify/es5/util/colors";
 
-const mq = window.matchMedia("(prefers-color-scheme: dark)");
-
 Vue.use(Vuetify);
+
+const mq = window.matchMedia("(prefers-color-scheme: dark)");
 
 export const vuetify = new Vuetify({
   treeShake: true,
@@ -31,6 +31,18 @@ export const vuetify = new Vuetify({
   }
 });
 
-mq.addEventListener("change", e => {
-  vuetify.framework.theme.dark = e.matches;
-});
+try {
+  // Chrome & Firefox
+  mq.addEventListener("change", _e => {
+    vuetify.framework.theme.dark = _e.matches;
+  });
+} catch (e1) {
+  try {
+    // Safari
+    mq.addListener(_e => {
+      vuetify.framework.theme.dark = _e.matches;
+    });
+  } catch (e2) {
+    console.error(e2);
+  }
+}
