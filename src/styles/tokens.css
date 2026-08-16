@@ -1,0 +1,94 @@
+/* Design tokens.
+ *
+ * Both themes are defined here as raw light/dark pairs, then combined with
+ * `light-dark()`. A `prefers-color-scheme` block provides the same values for
+ * browsers without `light-dark()` support, so no colour is ever defined only
+ * inside a media query.
+ */
+
+@font-face {
+  font-family: "Source Serif";
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("@/assets/fonts/source-serif-pro/WOFF2/VAR/SourceSerifVariable-Roman.otf.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Source Sans";
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("@/assets/fonts/source-sans-pro/WOFF2/VAR/SourceSansVariable-Roman.otf.woff2")
+    format("woff2");
+}
+
+:root {
+  /* Raw palette. The navy is the app's original brand colour. */
+  --paper-light: #f4f3ef;
+  --paper-dark: #121212;
+  --raised-light: #ffffff;
+  --raised-dark: #1c1c1c;
+  --ink-light: rgba(0, 0, 0, 0.87);
+  --ink-dark: rgba(255, 255, 255, 0.92);
+  --ink-muted-light: rgba(0, 0, 0, 0.55);
+  --ink-muted-dark: rgba(255, 255, 255, 0.58);
+  --rule-light: rgba(0, 0, 0, 0.12);
+  --rule-dark: rgba(255, 255, 255, 0.14);
+  --brand-light: #2a3663;
+  --brand-dark: #c6c6c6;
+  --on-brand-light: #f4f3ef;
+  --on-brand-dark: #121212;
+  --danger-light: #8c2f2a;
+  --danger-dark: #e39a94;
+
+  /* Fallback for browsers without light-dark(): same values, media-switched. */
+  --paper: var(--paper-light);
+  --raised: var(--raised-light);
+  --ink: var(--ink-light);
+  --ink-muted: var(--ink-muted-light);
+  --rule: var(--rule-light);
+  --brand: var(--brand-light);
+  --on-brand: var(--on-brand-light);
+  --danger: var(--danger-light);
+
+  @media (prefers-color-scheme: dark) {
+    --paper: var(--paper-dark);
+    --raised: var(--raised-dark);
+    --ink: var(--ink-dark);
+    --ink-muted: var(--ink-muted-dark);
+    --rule: var(--rule-dark);
+    --brand: var(--brand-dark);
+    --on-brand: var(--on-brand-dark);
+    --danger: var(--danger-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --paper: light-dark(var(--paper-light), var(--paper-dark));
+    --raised: light-dark(var(--raised-light), var(--raised-dark));
+    --ink: light-dark(var(--ink-light), var(--ink-dark));
+    --ink-muted: light-dark(var(--ink-muted-light), var(--ink-muted-dark));
+    --rule: light-dark(var(--rule-light), var(--rule-dark));
+    --brand: light-dark(var(--brand-light), var(--brand-dark));
+    --on-brand: light-dark(var(--on-brand-light), var(--on-brand-dark));
+    --danger: light-dark(var(--danger-light), var(--danger-dark));
+  }
+
+  /* Let the browser theme scrollbars, form controls and the canvas for us. */
+  color-scheme: light dark;
+  accent-color: var(--brand);
+
+  --serif: "Source Serif", "New York", Georgia, serif;
+  --sans:
+    "Source Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --sheet-peek: 3.5rem;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: 2rem;
+  --step-4: clamp(2.25rem, 5vw, 4rem);
+}
