@@ -106,7 +106,7 @@ const chaptersOpen = ref(false);
   flex-direction: column;
   flex: 1;
   min-block-size: 0;
-  padding-inline: 1rem;
+  padding-inline: var(--gutter);
 }
 
 .mobile__mini {

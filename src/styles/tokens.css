@@ -97,6 +97,13 @@
     sans-serif;
 
   --sheet-peek: 3.5rem;
+
+  /* Shared text inset: the player's title, its readouts and the bookshelf
+     heading all hang off this, so they cannot drift out of alignment. */
+  --gutter: 1rem;
+  @media (min-width: 60rem) {
+    --gutter: 2rem;
+  }
   --step--1: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.125rem;

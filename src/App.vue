@@ -141,7 +141,7 @@ void library.load(library.currentBookId);
 
 .app__shelf-heading {
   font-size: var(--step-2);
-  padding: 0.75rem 1rem;
+  padding: 0.75rem var(--gutter);
 }
 
 .app__shelf-toggle {

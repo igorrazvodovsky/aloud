@@ -99,7 +99,7 @@ const aboutOpen = ref(false);
   /* The progress track runs edge to edge; everything else is inset, so the
      padding lives on the sections rather than the container. */
   padding: 0 0 2rem;
-  --scrubber-label-inset: 2rem;
+  --scrubber-label-inset: var(--gutter);
 }
 
 .desktop__stage {
@@ -139,7 +139,7 @@ const aboutOpen = ref(false);
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
-  padding-inline: 2rem;
+  padding-inline: var(--gutter);
 }
 
 .desktop__titles {
