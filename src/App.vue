@@ -202,11 +202,13 @@ void library.load(library.currentBookId);
     block-size: calc(100dvh - var(--sheet-peek));
   }
 
+  /* A definite height, not a minimum: the spines size themselves with
+     `height: 100%`, which only resolves against a definite containing block. */
   .app__shelf {
-    min-block-size: 100dvh;
+    block-size: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    overflow: hidden;
   }
 }
 
