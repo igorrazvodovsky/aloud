@@ -24,26 +24,25 @@ const chaptersOpen = ref(false);
 
 <template>
   <section class="mobile" aria-label="Player">
-    <!-- Collapsed: the mini player that peeks above the bookshelf sheet. -->
-    <button v-if="collapsed" type="button" class="mobile__mini" @click="emit('expand')">
-      <span
+    <!-- Collapsed: the mini player that peeks above the bookshelf sheet.
+         Two sibling buttons rather than one nested in the other, which would
+         be invalid markup and unusable from the keyboard. -->
+    <div v-if="collapsed" class="mobile__mini">
+      <button
+        type="button"
         class="mobile__mini-toggle"
-        role="button"
-        tabindex="0"
         :aria-label="player.playing.value ? 'Pause' : 'Play'"
-        @click.stop="player.toggle()"
-        @keydown.enter.stop.prevent="player.toggle()"
-        @keydown.space.stop.prevent="player.toggle()"
+        @click="player.toggle()"
       >
         <IconPauseCircle v-if="player.playing.value" />
         <IconPlayCircle v-else />
-      </span>
-      <span class="mobile__mini-text">
+      </button>
+      <button type="button" class="mobile__mini-text" @click="emit('expand')">
         {{ library.title }}
         <span aria-hidden="true">•</span>
         Ch. {{ library.chapterIndex + 1 }}
-      </span>
-    </button>
+      </button>
+    </div>
 
     <template v-else>
       <header class="mobile__header">
@@ -135,7 +134,10 @@ const chaptersOpen = ref(false);
 }
 
 .mobile__mini-text {
+  flex: 1;
+  min-inline-size: 0;
   font-size: 0.875rem;
+  text-align: start;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

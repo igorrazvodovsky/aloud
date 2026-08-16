@@ -18,6 +18,15 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
   const buffered = ref(0);
   const audioError = ref<string | null>(null);
 
+  /**
+   * Carries "keep playing" across a chapter boundary.
+   *
+   * The element fires `pause` *before* `ended`, so by the time `onEnded` runs
+   * `playing` has already been cleared — the intent has to be explicit rather
+   * than inferred from the flag.
+   */
+  let resumeOnLoad = false;
+
   /** Non-null while the listener is dragging the scrubber. */
   const scrubbing = ref<number | null>(null);
   /** Net seconds skipped in the current burst, for the transient readout. */
@@ -73,8 +82,8 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
 
   function onEnded() {
     if (hasNext.value) {
+      resumeOnLoad = true;
       library.setChapter(library.chapterIndex + 1);
-      // `playing` stays true so the watcher on the source auto-starts the next chapter.
     } else {
       playing.value = false;
       library.setTime(0);
@@ -178,7 +187,8 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
     (url) => {
       const audio = el.value;
       if (!audio || !url) return;
-      const wasPlaying = playing.value;
+      const wasPlaying = playing.value || resumeOnLoad;
+      resumeOnLoad = false;
       canPlay.value = false;
       duration.value = 0;
       buffered.value = 0;

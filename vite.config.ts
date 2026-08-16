@@ -18,7 +18,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      registerType: "prompt",
+      registerType: "autoUpdate",
       includeAssets: ["img/icons/favicon.ico", "img/icons/apple-touch-icon.png"],
       manifest: {
         name: "Aloud",

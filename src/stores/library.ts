@@ -137,6 +137,7 @@ export const useLibrary = defineStore("library", () => {
 
     status.value = "loading";
     error.value = null;
+    item.value = null;
 
     try {
       const fetched = await fetchItem(id, controller.signal);
