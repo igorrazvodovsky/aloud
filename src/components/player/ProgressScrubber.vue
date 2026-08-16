@@ -120,7 +120,8 @@ function onChange() {
   border-radius: 50%;
   border: 0;
   background: var(--brand);
-  transition: transform 0.15s ease;
+  opacity: 0;
+  transition: opacity 0.15s ease;
 }
 
 .scrubber__input::-moz-range-thumb {
@@ -129,17 +130,22 @@ function onChange() {
   border-radius: 50%;
   border: 0;
   background: var(--brand);
-  transition: transform 0.15s ease;
+  opacity: 0;
+  transition: opacity 0.15s ease;
 }
 
+/* The filled track carries the position; the handle appears on approach.
+   Keyboard focus reveals it too, so it is never invisible when it has focus. */
 .scrubber__input:hover::-webkit-slider-thumb,
-.scrubber__input:active::-webkit-slider-thumb {
-  transform: scale(1.3);
+.scrubber__input:active::-webkit-slider-thumb,
+.scrubber__input:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
 }
 
 .scrubber__input:hover::-moz-range-thumb,
-.scrubber__input:active::-moz-range-thumb {
-  transform: scale(1.3);
+.scrubber__input:active::-moz-range-thumb,
+.scrubber__input:focus-visible::-moz-range-thumb {
+  opacity: 1;
 }
 
 /* Below the track, not above: the scrubber sits at the top of both layouts,
@@ -164,6 +170,8 @@ function onChange() {
   justify-content: space-between;
   gap: 1rem;
   font-size: var(--step--1);
+  /* Wide layouts run the track edge to edge but inset the readouts. */
+  padding-inline: var(--scrubber-label-inset, 0);
 }
 
 .scrubber__labels-end {

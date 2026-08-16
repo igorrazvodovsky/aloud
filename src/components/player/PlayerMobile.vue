@@ -81,7 +81,7 @@ const chaptersOpen = ref(false);
           >
             <IconRewind />
           </button>
-          <PlayPauseButton size="5.5rem" />
+          <PlayPauseButton />
           <button
             type="button"
             class="icon-button"
@@ -165,7 +165,7 @@ const chaptersOpen = ref(false);
 }
 
 .mobile__chapter {
-  font-size: var(--step-1);
+  font-size: var(--step-0);
 }
 
 .mobile__chapters {

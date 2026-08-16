@@ -37,9 +37,15 @@
   --rule-light: rgba(0, 0, 0, 0.12);
   --rule-dark: rgba(255, 255, 255, 0.14);
   --brand-light: #2a3663;
-  --brand-dark: #c6c6c6;
+  --brand-dark: #bcbbb6;
   --on-brand-light: #f4f3ef;
   --on-brand-dark: #121212;
+  /* The play button is a deeper shade than the accent — sampled from the
+     original, where it was Vuetify's primary.darken2. */
+  --play-light: #000a34;
+  --play-dark: #bcbbb6;
+  --on-play-light: #f4f3ef;
+  --on-play-dark: #121212;
   --danger-light: #8c2f2a;
   --danger-dark: #e39a94;
 
@@ -51,6 +57,8 @@
   --rule: var(--rule-light);
   --brand: var(--brand-light);
   --on-brand: var(--on-brand-light);
+  --play: var(--play-light);
+  --on-play: var(--on-play-light);
   --danger: var(--danger-light);
 
   @media (prefers-color-scheme: dark) {
@@ -61,6 +69,8 @@
     --rule: var(--rule-dark);
     --brand: var(--brand-dark);
     --on-brand: var(--on-brand-dark);
+    --play: var(--play-dark);
+    --on-play: var(--on-play-dark);
     --danger: var(--danger-dark);
   }
 
@@ -72,6 +82,8 @@
     --rule: light-dark(var(--rule-light), var(--rule-dark));
     --brand: light-dark(var(--brand-light), var(--brand-dark));
     --on-brand: light-dark(var(--on-brand-light), var(--on-brand-dark));
+    --play: light-dark(var(--play-light), var(--play-dark));
+    --on-play: light-dark(var(--on-play-light), var(--on-play-dark));
     --danger: light-dark(var(--danger-light), var(--danger-dark));
   }
 
@@ -85,10 +97,11 @@
     sans-serif;
 
   --sheet-peek: 3.5rem;
-  --step--1: 0.8125rem;
+  --step--1: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.125rem;
   --step-2: 1.5rem;
   --step-3: 2rem;
-  --step-4: clamp(2.25rem, 5vw, 4rem);
+  --step-4: 2.125rem;
+  --step-5: 3.75rem;
 }

@@ -26,13 +26,19 @@ const aboutOpen = ref(false);
     </header>
 
     <div class="desktop__stage">
-      <button type="button" class="desktop__rail" @click="chaptersOpen = true">
+      <button
+        type="button"
+        class="desktop__rail desktop__rail--start"
+        @click="chaptersOpen = true"
+      >
         Table of contents
       </button>
 
-      <PlayPauseButton size="7.5rem" />
+      <PlayPauseButton />
 
-      <button type="button" class="desktop__rail" disabled>Bookmarks</button>
+      <button type="button" class="desktop__rail desktop__rail--end" disabled>
+        Bookmarks
+      </button>
     </div>
 
     <footer class="desktop__footer">
@@ -89,8 +95,11 @@ const aboutOpen = ref(false);
   block-size: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  padding: 1.5rem 2.5rem 2.5rem;
   gap: 1rem;
+  /* The progress track runs edge to edge; everything else is inset, so the
+     padding lives on the sections rather than the container. */
+  padding: 0 0 2rem;
+  --scrubber-label-inset: 2rem;
 }
 
 .desktop__stage {
@@ -98,18 +107,26 @@ const aboutOpen = ref(false);
   grid-template-columns: auto 1fr auto;
   align-items: center;
   justify-items: center;
+  padding-inline: 1.5rem;
+  /* Optical compensation, as in the original: the stage reads as sitting too
+     high when it is centred geometrically between the track and the title. */
+  translate: 0 1.5rem;
 }
 
-/* The vertical labels flanking the play button. */
+/* The vertical labels flanking the play button. Each reads outward from the
+   play button: up the left edge, down the right. */
 .desktop__rail {
   writing-mode: vertical-rl;
-  rotate: 180deg;
   font-size: var(--step--1);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-muted);
   padding: 1rem 0.5rem;
   transition: color 0.2s ease;
+}
+
+.desktop__rail--start {
+  rotate: 180deg;
 }
 
 .desktop__rail:hover:not(:disabled) {
@@ -122,6 +139,7 @@ const aboutOpen = ref(false);
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
+  padding-inline: 2rem;
 }
 
 .desktop__titles {
@@ -132,13 +150,13 @@ const aboutOpen = ref(false);
 }
 
 .desktop__title {
-  font-size: var(--step-4);
+  font-size: var(--step-5);
   line-height: 1.05;
   text-wrap: balance;
 }
 
 .desktop__author {
-  font-size: clamp(1.25rem, 2vw, 2rem);
+  font-size: var(--step-4);
   font-weight: 400;
 }
 
