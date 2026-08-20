@@ -6,6 +6,7 @@ import ProgressScrubber from "@/components/player/ProgressScrubber.vue";
 import PlayPauseButton from "@/components/player/PlayPauseButton.vue";
 import ChapterList from "@/components/player/ChapterList.vue";
 import RateMenu from "@/components/player/RateMenu.vue";
+import SleepMenu from "@/components/player/SleepMenu.vue";
 import IconRewind from "@/components/icons/IconRewind.vue";
 import IconForward from "@/components/icons/IconForward.vue";
 import IconList from "@/components/icons/IconList.vue";
@@ -94,6 +95,7 @@ const chaptersOpen = ref(false);
 
         <div class="mobile__options">
           <RateMenu />
+          <SleepMenu />
         </div>
       </div>
     </template>
@@ -191,7 +193,9 @@ const chaptersOpen = ref(false);
 
 .mobile__options {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding-block-end: 1.5rem;
 }
 </style>

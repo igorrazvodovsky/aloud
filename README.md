@@ -35,7 +35,7 @@ src/
     useMediaSession.ts    Lock screen and OS media controls
     useMediaQuery.ts      Reactive matchMedia
     useKeyboardShortcuts.ts
-  components/player/      Scrubber, transport, chapter list, speed menu
+  components/player/      Scrubber, transport, chapter list, speed and sleep menus
   styles/tokens.css       Colour, type and spacing tokens
 ```
 

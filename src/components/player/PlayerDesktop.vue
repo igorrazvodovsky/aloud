@@ -6,6 +6,7 @@ import ProgressScrubber from "@/components/player/ProgressScrubber.vue";
 import PlayPauseButton from "@/components/player/PlayPauseButton.vue";
 import ChapterList from "@/components/player/ChapterList.vue";
 import RateMenu from "@/components/player/RateMenu.vue";
+import SleepMenu from "@/components/player/SleepMenu.vue";
 import AppDialog from "@/components/AppDialog.vue";
 import AboutPanel from "@/components/AboutPanel.vue";
 import IconRewind from "@/components/icons/IconRewind.vue";
@@ -66,6 +67,7 @@ const aboutOpen = ref(false);
           <IconForward />
         </button>
         <RateMenu />
+        <SleepMenu />
         <button
           type="button"
           class="icon-button"

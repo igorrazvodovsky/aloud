@@ -1,7 +1,13 @@
-import { computed, ref, watch, type InjectionKey, type Ref } from "vue";
+import { computed, onScopeDispose, ref, watch, type InjectionKey, type Ref } from "vue";
 import { useLibrary } from "@/stores/library";
 
 export const SKIP_SECONDS = 15;
+
+/** The fixed durations the sleep menu offers, in minutes. */
+export const SLEEP_MINUTES = [15, 30, 45, 60] as const;
+
+/** A number of minutes, "chapter" for the end of the current chapter, or null for off. */
+export type SleepMode = number | "chapter" | null;
 
 /**
  * Drives a real `<audio>` element from the library store.
@@ -26,6 +32,17 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
    * than inferred from the flag.
    */
   let resumeOnLoad = false;
+
+  /**
+   * Sleep timer. Deliberately not part of the persisted store: a timer set last
+   * night must not still be armed tomorrow morning.
+   */
+  const sleepMode = ref<SleepMode>(null);
+  /** Milliseconds left on a duration timer; frozen while playback is paused. */
+  const sleepRemainingMs = ref(0);
+  /** Wall-clock instant the timer is due, while it is running. */
+  let sleepDeadline = 0;
+  let sleepTicker: ReturnType<typeof setInterval> | null = null;
 
   /** Non-null while the listener is dragging the scrubber. */
   const scrubbing = ref<number | null>(null);
@@ -70,7 +87,12 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
 
   function onTimeUpdate() {
     const audio = el.value;
-    if (!audio || scrubbing.value !== null) return;
+    if (!audio) return;
+    // Above the scrubbing guard: the media pipeline keeps firing `timeupdate`
+    // when a backgrounded tab's timers are throttled, so this — not the
+    // interval — is what makes the sleep timer land on time with the screen off.
+    checkSleepDeadline();
+    if (scrubbing.value !== null) return;
     library.setTime(audio.currentTime);
   }
 
@@ -81,6 +103,17 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
   }
 
   function onEnded() {
+    // Sleeping at the end of the chapter still advances, it just doesn't resume:
+    // stopping *at* the boundary would leave the position at the very end, where
+    // pressing play replays the whole chapter.
+    if (sleepMode.value === "chapter") {
+      sleepMode.value = null;
+      playing.value = false;
+      if (hasNext.value) library.setChapter(library.chapterIndex + 1);
+      else library.setTime(0);
+      return;
+    }
+
     if (hasNext.value) {
       resumeOnLoad = true;
       library.setChapter(library.chapterIndex + 1);
@@ -118,6 +151,76 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
     if (playing.value) pause();
     else void play();
   }
+
+  function stopTicking() {
+    if (!sleepTicker) return;
+    clearInterval(sleepTicker);
+    sleepTicker = null;
+  }
+
+  /**
+   * Stop playback if the timer is due, and refresh the readout.
+   *
+   * Nothing counts ticks: a sleep timer runs mostly in a backgrounded tab, where
+   * intervals are throttled to seconds or minutes, so a tick count would drift
+   * arbitrarily far. Every call recomputes against the wall clock instead, which
+   * makes it safe to call from anything that happens often enough — the interval
+   * below, and `timeupdate`.
+   *
+   * The `sleepTicker` guard makes this inert unless a duration timer is running:
+   * there is no ticker in chapter mode, nor while a countdown is frozen.
+   */
+  function checkSleepDeadline() {
+    if (!sleepTicker) return;
+    const left = sleepDeadline - Date.now();
+    sleepRemainingMs.value = Math.max(left, 0);
+    if (left > 0) return;
+    stopTicking();
+    sleepMode.value = null;
+    pause();
+  }
+
+  function startTicking() {
+    stopTicking();
+    sleepDeadline = Date.now() + sleepRemainingMs.value;
+    sleepTicker = setInterval(checkSleepDeadline, 1000);
+  }
+
+  /** Freeze the countdown: time spent paused shouldn't burn the timer down. */
+  function holdTicking() {
+    if (!sleepTicker) return;
+    sleepRemainingMs.value = Math.max(sleepDeadline - Date.now(), 0);
+    stopTicking();
+  }
+
+  function setSleep(mode: SleepMode) {
+    stopTicking();
+    sleepMode.value = mode;
+    sleepRemainingMs.value = typeof mode === "number" ? mode * 60_000 : 0;
+    if (typeof mode === "number" && playing.value) startTicking();
+  }
+
+  /**
+   * Seconds until playback stops, for the readout — the countdown for a
+   * duration timer, what is left of the chapter for the other mode.
+   */
+  const sleepRemaining = computed(() => {
+    if (sleepMode.value === "chapter") {
+      return Math.max(chapterDuration.value - library.time, 0);
+    }
+    if (typeof sleepMode.value === "number") return Math.ceil(sleepRemainingMs.value / 1000);
+    return 0;
+  });
+
+  // Whatever moved playback — a button, the lock screen, a chapter ending —
+  // the timer follows the element rather than any single call site.
+  watch(playing, (isPlaying) => {
+    if (typeof sleepMode.value !== "number") return;
+    if (isPlaying) startTicking();
+    else holdTicking();
+  });
+
+  onScopeDispose(stopTicking);
 
   /** Move to an absolute position within the current chapter. */
   function seek(seconds: number) {
@@ -222,6 +325,9 @@ export function usePlayer(el: Ref<HTMLAudioElement | null>) {
     displayTime,
     skipped,
     scrubbing,
+    sleepMode,
+    sleepRemaining,
+    setSleep,
     hasNext,
     hasPrevious,
     play,
