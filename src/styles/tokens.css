@@ -96,13 +96,20 @@
     "Source Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
 
+  /* The bookshelf's grab strip, and the device's own bottom inset kept apart
+     from it: the strip has to sit *above* the home indicator at full height,
+     not have the indicator eat into it. `viewport-fit=cover` in index.html is
+     what makes these insets non-zero; elsewhere they resolve to 0px. */
   --sheet-peek: 3.5rem;
+  --safe-block-end: env(safe-area-inset-bottom, 0px);
 
   /* Shared text inset: the player's title, its readouts and the bookshelf
-     heading all hang off this, so they cannot drift out of alignment. */
-  --gutter: 1rem;
+     heading all hang off this, so they cannot drift out of alignment. In
+     landscape the display cutout claims one inline edge, so the gutter grows
+     past it rather than letting text slide under. */
+  --gutter: max(1rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   @media (min-width: 60rem) {
-    --gutter: 2rem;
+    --gutter: max(2rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   }
   --step--1: 0.875rem;
   --step-0: 1rem;

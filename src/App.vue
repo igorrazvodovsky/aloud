@@ -148,7 +148,6 @@ void library.load(library.currentBookId);
   font: inherit;
 }
 
-/* Compact: the shelf is a bottom sheet that slides over the player. */
 @media (max-width: 59.99rem) {
   .app {
     block-size: 100dvh;
@@ -156,13 +155,14 @@ void library.load(library.currentBookId);
   }
 
   .app__player {
-    block-size: calc(100dvh - var(--sheet-peek));
+    block-size: calc(100dvh - var(--sheet-peek) - var(--safe-block-end));
   }
 
   .app__shelf {
     position: fixed;
     inset-inline: 0;
-    inset-block: calc(100dvh - var(--sheet-peek)) 0;
+    inset-block: calc(100dvh - var(--sheet-peek) - var(--safe-block-end)) 0;
+    padding-block-end: var(--safe-block-end);
     border-start-start-radius: 1rem;
     border-start-end-radius: 1rem;
     box-shadow: 0 -0.5rem 1.5rem color-mix(in srgb, black 12%, transparent);
@@ -214,7 +214,7 @@ void library.load(library.currentBookId);
 
 .app__toast {
   position: fixed;
-  inset-block-end: 1rem;
+  inset-block-end: calc(1rem + var(--safe-block-end));
   inset-inline: 0;
   display: flex;
   justify-content: center;
